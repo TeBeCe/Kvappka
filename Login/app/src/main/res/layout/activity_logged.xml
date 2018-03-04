@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="name"
+        android:text="@string/name"
         android:id="@+id/nameSurnameText"
         android:layout_gravity="center_horizontal"/>
 
@@ -27,18 +27,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:text="email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:id="@+id/nameEmailText"
-        android:layout_below="@+id/nameSurnameText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <Button
-        android:text="Post"
+        android:text="@string/post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="233dp"
@@ -50,17 +40,17 @@
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/postButton"
+        android:id="@+id/txtvw"
+        android:layout_above="@+id/button2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="121dp"
-        android:id="@+id/txtvw" />
+        android:layout_marginBottom="56dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:hint="User Name"
+        android:hint="@string/user_name"
         android:layout_above="@+id/postButton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="46dp"
@@ -69,14 +59,57 @@
         />
 
     <Button
-        android:text="LogOut"
+        android:text="@string/log_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sign_out_button"
         android:elevation="2dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="17dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/postButton"
-        android:layout_alignStart="@+id/postButton" />
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="@string/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:id="@+id/nameEmailText"
+        android:layout_below="@+id/nameSurnameText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sign_out_button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/button" />
+
+    <Button
+        android:id="@+id/btnsk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sk"
+        android:layout_above="@+id/nametxt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="58dp" />
+
+    <Button
+        android:id="@+id/btnen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnsk"
+        android:layout_centerHorizontal="true"
+        android:text="en" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtvw"
+        android:layout_alignStart="@+id/txtvw"
+        android:layout_below="@+id/nameSurnameText"
+        android:text="Debug Screen" />
 
 </RelativeLayout>

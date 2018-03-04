@@ -1,13 +1,47 @@
 <resources>
-    <string name="app_name">Login</string>
-    <string name="signed_in_fmt">Signed in as: %s</string>
-    <string name="signing_in">Signing in…</string>
-    <string name="signed_out">Signed out</string>
-    <string name="signed_in_err">"Error: please check logs."</string>
-    <string name="login_name">"Prihlasovacie meno"</string>
-    <string name="login_password">"Heslo"</string>
+
+    <string name="app_name">Kvappka</string>
+    <string name="signed_in_fmt" translatable="false">Signed in as: %s</string>
+    <string name="signing_in" translatable="false">Signing in…</string>
+    <string name="signed_out" translatable="false">Signed out</string>
+    <string name="signed_in_err" translatable="false">"Error: please check logs."</string>
+    <string name="login_name">Prihlasovacie meno</string>
+    <string name="login_password">Heslo</string>
+    <string name="user_name">Prihlasovacie meno</string>
+    <string name="login">Login</string>
+    <string name="log_out">Odhlásiť sa</string>
+    <string name="next">Ďaľšie</string>
+    <string name="button">Button</string>
+
+    <string name="name">Meno</string>
+    <string name="surname">Priezvisko</string>
+    <string name="email">E-mail</string>
+    <string name="post">Odošli</string>
+
+    <string name="menu_profile">Profil</string>
+    <string name="menu_posts">Príspevky</string>
+    <string name="menu_statistics">Štatistiky</string>
+    <string name="menu_settings">Nastavenia</string>
+    <string name="menu_friends">Priatelia</string>
+    <string name="menu_donorplaces">Donor Places</string>
+
+    <string name="action_settings">Nastavenia</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="title_activity_test_drawer" translatable="false">TestDrawer</string>
+    <string name="title_activity_settings">Nastavenia</string>
+    <string name="title_activity_profile">Profil</string>
+    <string name="title_activity_friends">Priatelia</string>
 
 
-    <string name="action_settings">Settings</string>
+    <string name="facebook_app_id" translatable="false">130882630837030</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb130882630837030</string>
+    <string name="title_activity_places">DonorPlaces</string>
+
 
 </resources>

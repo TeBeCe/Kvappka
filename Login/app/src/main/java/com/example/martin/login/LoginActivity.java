@@ -16,9 +16,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -38,17 +46,85 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private TextView mStatusTextView;
     private GoogleSignInAccount account;
     Animation shake;
+    AccessTokenTracker accessTokenTracker;
+
+    LoginButton loginButton;
+    TextView textViewFb;
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
-        if (android.os.Build.VERSION.SDK_INT > 9) {
+        if (android.os.Build.VERSION.SDK_INT > 15) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+
+
+        if(AccessToken.getCurrentAccessToken()!=null){
+          Intent intent = new Intent(  LoginActivity.this,LoggedActivity.class);
+            intent.putExtra("loginType","Facebook");
+            startActivity(intent);
+        }
+
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+
+        loginButton = (LoginButton) findViewById(R.id.fb_login_id) ;
+        loginButton.setReadPermissions("email");
+        loginButton.setReadPermissions("public_profile");
+        loginButton.setReadPermissions("user_friends");
+
+        callbackManager = CallbackManager.Factory.create();
+
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(
+                    AccessToken oldAccessToken,
+                    AccessToken currentAccessToken) {
+                // Set the access token using
+                // currentAccessToken when it's loaded or set.
+            }
+        };
+        // If the access token is available already assign it.
+        //accessToken = AccessToken.getCurrentAccessToken();
+
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                System.out.println("loggedWithFb "+loginResult.getAccessToken().getUserId());
+                String accessToken= loginResult.getAccessToken().getToken();
+               loginResult.getAccessToken().getToken();
+                Log.e("onSuccess", "--------" + loginResult.getAccessToken());
+                //Log.e("Token", "--------" + loginResult.getAccessToken().getToken());
+               // Log.e("Permision", "--------" + loginResult.getRecentlyGrantedPermissions());
+                Profile profile = Profile.getCurrentProfile();
+               // Log.e("ProfileDataNameF", "--" + profile.getFirstName());
+               // Log.e("ProfileDataNameL", "--" + profile.getLastName());
+
+                //Log.e("Image URI", "--" + profile.getLinkUri());
+
+
+                Nextacc();
+
+
+            }
+
+            @Override
+            public void onCancel() {
+                System.out.println("cancelledLogginWithFb");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                System.out.println("errorWithFb");
+            }
+        });
+
+
+
+
         // [START customize_button]
         // Set the dimensions of the sign-in button.
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
@@ -74,20 +150,34 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LoginManager.getInstance().logOut();
                 if (usr.getText().toString().equals("Admin") && psd.getText().toString().equals("password")) {
-                    Toast.makeText(getApplicationContext(), "Login Successfull", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "Login Successfull", Toast.LENGTH_SHORT).show();
                     Intent myintent = new Intent(LoginActivity.this,
                             LoggedActivity.class);
+                    myintent.putExtra("loginType","sss");
                     startActivity(myintent);
-                }
-                else   {
+
+
+                } else {
                     findViewById(R.id.usr).startAnimation(shake);
                     findViewById(R.id.psd).startAnimation(shake);
                 }
             }
         });
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        accessTokenTracker.stopTracking();
+        //LoginManager.getInstance().logOut();
+    }
+    public void Nextacc(){
+        Intent myintent = new Intent(this,
+                LoggedActivity.class);
+        myintent.putExtra("loginType","Facebook");
+        startActivity(myintent);
+    }
     // [START signIn]
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -114,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);

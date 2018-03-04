@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Login</string>
+    <string name="title_activity_profile">Profil</string>
+    <string name="action_settings">Nastavenia</string>
+    <string name="email">E-mail</string>
+    <string name="login">Login</string>
+    <string name="login_name">Prihlasovacie meno</string>
+    <string name="login_password">Heslo</string>
+    <string name="name">Meno</string>
+    <string name="post">Odošli</string>
+    <string name="surname">Priezvisko</string>
+    <string name="user_name">Prihlasovacie meno</string>
+    <string name="drawer_close">Zatvor navigacny panel</string>
+    <string name="navigation_drawer_close">Zatvor navigacny panel</string>
+    <string name="drawer_open">Otvor navigacny panel</string>
+    <string name="navigation_drawer_open">Otvor navigacny panel</string>
+    <string name="log_out">Odhlásiť sa</string>
+    <string name="next">Ďaľšie</string>
+    <string name="menu_profile">Profil</string>
+    <string name="menu_settings">Nastavenia</string>
+    <string name="menu_statistics">Štatistiky</string>
+    <string name="menu_posts">Príspevky</string>
+    <string name="button">Do Aplikacie</string>
+    <string name="title_activity_settings">Nastavenia</string>
+    <string name="menu_friends">Priatelia</string>
+    <string name="title_activity_friends">Priatelia</string>
+    <string name="menu_donorplaces">Odberne miesta</string>
+
+
+</resources>
