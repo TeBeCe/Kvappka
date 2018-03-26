@@ -1,20 +1,39 @@
 package com.example.martin.login;
 
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.ViewDebug;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
-public class PlacesActivity extends FragmentActivity implements OnMapReadyCallback {
+public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+    LocationManager locationManager;
+    TextView dayOfWeek,name,address,mail,webLink;
     private GoogleMap mMap;
+    private int day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +43,21 @@ public class PlacesActivity extends FragmentActivity implements OnMapReadyCallba
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Calendar calendar = Calendar.getInstance();
+        day = calendar.get(Calendar.DAY_OF_WEEK);
+        dayOfWeek = (TextView) findViewById(getResources().getIdentifier("openedTimeTableDay" + String.valueOf(day - 1), "id", getPackageName()));
+        dayOfWeek.setTextColor(getResources().getColor(R.color.mainRed));
+
+        name = (TextView) findViewById(R.id.placesTxtName);
+        address = (TextView) findViewById(R.id.placesTxtAddress);
+        mail = (TextView) findViewById(R.id.placesTxtEmail);
+        webLink = (TextView) findViewById(R.id.placesTxtWebSite);
     }
 
+
+    //Color.parseColor("#bdbdbd");
 
     /**
      * Manipulates the map once available.
@@ -39,32 +71,157 @@ public class PlacesActivity extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        locationManager = (LocationManager) getSystemService((LOCATION_SERVICE));
+        System.out.println("loc");
+        mMap.setOnMarkerClickListener(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            System.out.println("vvvvvv");
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+
+                    double latitude = location.getLatitude();
+
+                    double longitude = location.getLongitude();
+                    System.out.println("xxxx");
+                    LatLng latlng = new LatLng(latitude, longitude);
+                    //instatnce geocoder
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+
+                    try {
+                        List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+                        String str = addressList.get(0).getLocality() + ",";
+                        str += addressList.get(0).getCountryName();
+                        System.out.println("vvvvvvv");
+                        System.out.println(str);
+                        mMap.addMarker(new MarkerOptions().position(latlng).title(str));
+                        // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng,11f));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String s) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String s) {
+
+                }
+            });
+        } else if (locationManager.isProviderEnabled((LocationManager.GPS_PROVIDER))) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    System.out.println("vvvv");
+                    double latitude = location.getLatitude();
+
+                    double longitude = location.getLongitude();
+
+                    LatLng latlng = new LatLng(latitude, longitude);
+
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+
+                    try {
+                        List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+                        String str = addressList.get(0).getLocality() + ",";
+                        str += addressList.get(0).getCountryName();
+                        mMap.addMarker(new MarkerOptions().position(latlng).title(str));
+                        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng,11f));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
+                        System.out.println(str);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String s) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String s) {
+
+                }
+            });
+
+        }
         ArrayList<LatLng> markers = new ArrayList<>();
         // Add a marker in ba and move the camera
 
-        LatLng ba = new LatLng(48.167364,17.091355);
+        LatLng ba = new LatLng(48.167364, 17.091355);
 
-        LatLng tt = new LatLng(48.367908 ,17.590564);
+        LatLng tt = new LatLng(48.367908, 17.590564);
         markers.add(tt);
-        LatLng bb = new LatLng(48.744545 ,19.116564);
+        LatLng bb = new LatLng(48.744545, 19.116564);
         markers.add(bb);
-        LatLng nz = new LatLng(47.988541 ,18.155937);
+        LatLng nz = new LatLng(47.988541, 18.155937);
         markers.add(nz);
-        LatLng ma = new LatLng(49.057437 ,18.918192);
+        LatLng ma = new LatLng(49.057437, 18.918192);
         markers.add(ma);
-        LatLng nr = new LatLng(48.300996,18.08516);
+        LatLng nr = new LatLng(48.300996, 18.08516);
         markers.add(nr);
-        LatLng za = new LatLng(49.21874,18.74573);
+        LatLng za = new LatLng(49.21874, 18.74573);
         markers.add(za);
-        LatLng ke = new LatLng(48.722368,21.237848);
+        LatLng ke = new LatLng(48.722368, 21.237848);
         markers.add(ke);
-        for (LatLng marker: markers) {
+        for (LatLng marker : markers) {
             mMap.addMarker(new MarkerOptions().position(marker));
         }
+        mMap.setMyLocationEnabled(true);
 
 
         mMap.addMarker(new MarkerOptions().position(ba).title("Marker in Bratislava"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(ba));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ba,11f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.744545, 19.116564), 7.0f));
+
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        switch (marker.getId()) {
+            case "m7": {
+                name.setText("Bratislava - Kramare");
+                address.setText("Limbová 3, 833 14 Bratislava");
+                mail.setText("kramarents@ntssr.sk");
+
+                break;
+            }
+            case "m0": {
+
+                name.setText("Trnava - Nemocnica");
+                address.setText("Andreja Žarnova 11, 917 02 Trnava");
+                mail.setText(" trnavants@ntssr.sk");
+
+                break;
+            }
+            default:
+                break;
+        }
+        return true;
     }
 }

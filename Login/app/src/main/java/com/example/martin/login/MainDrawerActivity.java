@@ -49,12 +49,13 @@ public class MainDrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+       //drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
-        HashMap<String, String> personList1 = (HashMap<String, String>) getIntent().getExtras().get("user");
+        /*HashMap<String, String> personList1 = (HashMap<String, String>) getIntent().getExtras().get("user");
 
         nameView = (TextView) findViewById(R.id.textViewName);
         emailView = (TextView) findViewById(R.id.textViewMail);
@@ -63,7 +64,7 @@ public class MainDrawerActivity extends AppCompatActivity
         personList1.get("first_name");
         nameView.setText(personList1.get("first_name"));
         emailView.setText(personList1.get("email"));
-        idView.setText(personList1.get("id"));
+        idView.setText(personList1.get("id"));*/
     }
 
     @Override

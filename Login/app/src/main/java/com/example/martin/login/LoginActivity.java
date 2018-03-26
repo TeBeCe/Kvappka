@@ -105,10 +105,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                 //Log.e("Image URI", "--" + profile.getLinkUri());
 
-
                 Nextacc();
-
-
             }
 
             @Override
@@ -122,25 +119,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-
-
-
         // [START customize_button]
         // Set the dimensions of the sign-in button.
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_WIDE);
-        // [END customize_button]
-
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-//        findViewById(R.id.sign_out_button).setOnClickListener(this);
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
 
 // basic login begin
         usr = (EditText) findViewById(R.id.usr);
@@ -255,7 +235,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_in_button:
+           /* case R.id.sign_in_button:
                 signIn();
                 break;
             /*case R.id.disconnect_button:

@@ -259,12 +259,6 @@ public class SettingsActivity extends AppCompatActivity
                     String last_name = c.getString("last_name");
                     String email = c.getString("email");
 
-                    // Phone node is JSON Object
-                   /* JSONObject phone = c.getJSONObject("phone");
-                    String mobile = phone.getString("mobile");
-                    String home = phone.getString("home");
-                    String office = phone.getString("office");*/
-
                     // tmp hash map for single contact
                     HashMap<String, String> contact = new HashMap<>();
 
@@ -327,6 +321,10 @@ public class SettingsActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        }else if (id == R.id.nav_places){
+            Intent myintent = new Intent(this,
+                    PlacesActivity.class);
+            startActivity(myintent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

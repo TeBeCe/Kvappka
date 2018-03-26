@@ -26,6 +26,15 @@
     <string name="menu_friends">Priatelia</string>
     <string name="title_activity_friends">Priatelia</string>
     <string name="menu_donorplaces">Odberne miesta</string>
+    <string name="opening_hours" >Otvaracie Hodiny </string>
+    <string name="friday">Piatok</string>
+    <string name="thursday">Stvrtok</string>
+    <string name="wednesday">Streda</string>
+    <string name="tuesday">Utorok</string>
+    <string name="monday">Pondelok</string>
+    <string name="to" >Od</string>
+    <string name="from" >Do</string>
+    <string name="day" >Den</string>
 
 
 </resources>

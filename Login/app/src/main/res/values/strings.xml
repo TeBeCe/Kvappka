@@ -42,6 +42,16 @@
     <string name="facebook_app_id" translatable="false">130882630837030</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb130882630837030</string>
     <string name="title_activity_places">DonorPlaces</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="opening_hours">Opening Hours</string>
+    <string name="monday">monday</string>
+    <string name="tuesday">tuesday</string>
+    <string name="wednesday">wednesday</string>
+    <string name="thursday">thursday</string>
+    <string name="friday">friday</string>
+    <string name="to" >to</string>
+    <string name="from" >from</string>
+    <string name="day" >day</string>
 
 
 </resources>
