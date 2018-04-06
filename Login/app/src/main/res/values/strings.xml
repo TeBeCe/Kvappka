@@ -5,24 +5,24 @@
     <string name="signing_in" translatable="false">Signing in…</string>
     <string name="signed_out" translatable="false">Signed out</string>
     <string name="signed_in_err" translatable="false">"Error: please check logs."</string>
-    <string name="login_name">Prihlasovacie meno</string>
-    <string name="login_password">Heslo</string>
-    <string name="user_name">Prihlasovacie meno</string>
+    <string name="login_name">Login name</string>
+    <string name="login_password">Password</string>
+    <string name="user_name">User Name</string>
     <string name="login">Login</string>
-    <string name="log_out">Odhlásiť sa</string>
-    <string name="next">Ďaľšie</string>
-    <string name="button">Button</string>
+    <string name="log_out">Log Out</string>
+    <string name="next">Next</string>
+    <string name="button">To app</string>
 
-    <string name="name">Meno</string>
-    <string name="surname">Priezvisko</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
     <string name="email">E-mail</string>
-    <string name="post">Odošli</string>
+    <string name="post">Post</string>
 
-    <string name="menu_profile">Profil</string>
-    <string name="menu_posts">Príspevky</string>
-    <string name="menu_statistics">Štatistiky</string>
-    <string name="menu_settings">Nastavenia</string>
-    <string name="menu_friends">Priatelia</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_posts">Posts</string>
+    <string name="menu_donations">Donations</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_friends">Friends</string>
     <string name="menu_donorplaces">Donor Places</string>
 
     <string name="action_settings">Nastavenia</string>
@@ -34,24 +34,36 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="title_activity_test_drawer" translatable="false">TestDrawer</string>
-    <string name="title_activity_settings">Nastavenia</string>
-    <string name="title_activity_profile">Profil</string>
-    <string name="title_activity_friends">Priatelia</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_friends">Friends</string>
 
 
     <string name="facebook_app_id" translatable="false">130882630837030</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb130882630837030</string>
-    <string name="title_activity_places">DonorPlaces</string>
-    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="title_activity_places">Donor Places</string>
+    <string name="title_activity_drawer">Drawer Activity</string>
     <string name="opening_hours">Opening Hours</string>
     <string name="monday">monday</string>
     <string name="tuesday">tuesday</string>
     <string name="wednesday">wednesday</string>
     <string name="thursday">thursday</string>
     <string name="friday">friday</string>
-    <string name="to" >to</string>
-    <string name="from" >from</string>
-    <string name="day" >day</string>
+    <string name="to">to</string>
+    <string name="from">from</string>
+    <string name="day">day</string>
+    <string name="applicationLanguageSettingListTitle">Choose Language</string>
+    <string name="notificationSettingCheckBoxDesc">Stay in touch with news</string>
+    <string name="notificationSettingCheckBox">Notification</string>
+    <string name="title_activity_donations">Donations</string>
 
+    <string-array name="pref_lang_list_array_entries">
+        <item>Slovensky</item>
+        <item>English</item>
+    </string-array>
 
+    <string-array name="pref_lang_list_array_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 </resources>

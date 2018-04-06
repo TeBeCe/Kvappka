@@ -1,19 +1,27 @@
 package com.example.martin.login;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.ViewDebug;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,28 +36,49 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     LocationManager locationManager;
     TextView dayOfWeek,name,address,mail,webLink;
     private GoogleMap mMap;
     private int day;
+    TextFieldsClass textFieldsClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        Context context = getApplicationContext();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView
+                .setNavigationItemSelectedListener(this);
+
+        View header = navigationView
+                .getHeaderView(0);
+
+        textFieldsClass = new TextFieldsClass();
+        textFieldsClass.setNames(header,context,5,navigationView);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         Calendar calendar = Calendar.getInstance();
         day = calendar.get(Calendar.DAY_OF_WEEK);
-        dayOfWeek = (TextView) findViewById(getResources().getIdentifier("openedTimeTableDay" + String.valueOf(day - 1), "id", getPackageName()));
-        dayOfWeek.setTextColor(getResources().getColor(R.color.mainRed));
-
+        if (day<5) {
+            dayOfWeek = (TextView) findViewById(getResources().getIdentifier("openedTimeTableDay" + String.valueOf(day - 1), "id", getPackageName()));
+            dayOfWeek.setTextColor(getResources().getColor(R.color.mainRed));
+        }
         name = (TextView) findViewById(R.id.placesTxtName);
         address = (TextView) findViewById(R.id.placesTxtAddress);
         mail = (TextView) findViewById(R.id.placesTxtEmail);
@@ -76,7 +105,8 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         mMap.setOnMarkerClickListener(this);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
-            System.out.println("vvvvvv");
+            Toast toast = Toast.makeText(getApplicationContext(), "Perm", Toast.LENGTH_SHORT);
+            toast.show();
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -86,6 +116,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
             return;
         }
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
@@ -93,7 +124,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                     double latitude = location.getLatitude();
 
                     double longitude = location.getLongitude();
-                    System.out.println("xxxx");
+
                     LatLng latlng = new LatLng(latitude, longitude);
                     //instatnce geocoder
                     Geocoder geocoder = new Geocoder(getApplicationContext());
@@ -102,7 +133,6 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                         List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
                         String str = addressList.get(0).getLocality() + ",";
                         str += addressList.get(0).getCountryName();
-                        System.out.println("vvvvvvv");
                         System.out.println(str);
                         mMap.addMarker(new MarkerOptions().position(latlng).title(str));
                         // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng,11f));
@@ -127,11 +157,18 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
 
                 }
             });
-        } else if (locationManager.isProviderEnabled((LocationManager.GPS_PROVIDER))) {
+        }  if (locationManager.isProviderEnabled((LocationManager.GPS_PROVIDER))) {
+           /* Toast toast = Toast.makeText(getApplicationContext(), "GPS2", Toast.LENGTH_SHORT);
+            toast.show();*/
+
+            Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(location1.getLatitude()), Toast.LENGTH_SHORT);
+            toast.show();
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    System.out.println("vvvv");
+
                     double latitude = location.getLatitude();
 
                     double longitude = location.getLongitude();
@@ -223,5 +260,60 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                 break;
         }
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.settings, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_profile) {
+            // Handle the profile action
+            Intent myintent = new Intent(this,
+                    ProfileActivity.class);
+            startActivity(myintent);
+
+        }
+        else if (id == R.id.nav_posts) {
+
+        }
+        else if (id == R.id.nav_friends) {
+            // Handle the profile action
+            Intent myintent = new Intent(this,
+                    FriendsActivity.class);
+            startActivity(myintent);
+
+        }
+        else if (id == R.id.nav_donations) {
+            Intent myintent = new Intent(this,DonationsActivity.class);
+            startActivity(myintent);
+        }
+        else if (id == R.id.nav_settings) {
+            Intent myintent = new Intent(this,
+                    SettingsActivity.class);
+            startActivity(myintent);
+        }
+        else if (id == R.id.nav_share) {
+
+        }
+        else if (id == R.id.nav_send) {
+
+        }
+        else if (id == R.id.nav_places){
+            System.out.println("places");
+            Intent myintent = new Intent(this,PlacesActivity.class);
+            startActivity(myintent);
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+
     }
 }

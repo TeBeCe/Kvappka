@@ -1,9 +1,14 @@
 package com.example.martin.login;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -36,6 +41,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.preference.PreferenceActivity;
+
 public class SettingsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
     TextView nameView, emailView;
@@ -65,6 +72,16 @@ public class SettingsActivity extends AppCompatActivity
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Fragment fragment = new SettingsScreen();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        if (savedInstanceState==null){
+            fragmentTransaction.add(R.id.setting_activity_content,fragment,"settings_fragment");
+            fragmentTransaction.commit();
+
+        }
+        else
+            fragment = getFragmentManager().findFragmentByTag("settings_fragment");
         //list = (ListView) findViewById(R.id.listView);
 
 
@@ -86,11 +103,18 @@ public class SettingsActivity extends AppCompatActivity
         View header=navigationView
                 .getHeaderView(0);
 
-        findViewById(R.id.button4).setOnClickListener(this);
+       // findViewById(R.id.button4).setOnClickListener(this);
        personList = new ArrayList<HashMap<String,String>>();
         getData();
     }
+    public static class SettingsScreen extends PreferenceFragment {
 
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.settings_screen);
+        }
+    }
     protected void showList(){
         try {
             JSONObject jsonObj = new JSONObject(myJSON);
@@ -311,8 +335,10 @@ public class SettingsActivity extends AppCompatActivity
                     FriendsActivity.class);
             startActivity(myintent);
 
-        } else if (id == R.id.nav_statistic) {
-
+        } else if (id == R.id.nav_donations) {
+            Intent myintent = new Intent(this,
+                    DonationsActivity.class);
+            startActivity(myintent);
         } else if (id == R.id.nav_settings) {
             Intent myintent = new Intent(this,
                     SettingsActivity.class);
@@ -335,9 +361,9 @@ public class SettingsActivity extends AppCompatActivity
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.button4:
+            /*case R.id.button4:
             Intent intent = new Intent(this,ServiceActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
         }
     }
 }

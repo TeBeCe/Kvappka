@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="General">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="allowNotifyPref"
+            android:summary="@string/notificationSettingCheckBoxDesc"
+            android:title="@string/notificationSettingCheckBox" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:dialogTitle="@string/applicationLanguageSettingListTitle"
+            android:entries="@array/pref_lang_list_array_entries"
+            android:entryValues="@array/pref_upload_quality_values"
+            android:key="languagePref"
+            android:summary="%s"
+            android:title="@string/applicationLanguageSettingListTitle" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

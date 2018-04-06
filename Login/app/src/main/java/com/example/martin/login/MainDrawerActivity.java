@@ -12,26 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.ByteArrayBuffer;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class MainDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -80,7 +60,7 @@ public class MainDrawerActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.test_drawer, menu);
+        getMenuInflater().inflate(R.menu.add_donation_day, menu);
         return true;
     }
 
@@ -119,7 +99,7 @@ public class MainDrawerActivity extends AppCompatActivity
                     FriendsActivity.class);
             startActivity(myintent);
 
-        } else if (id == R.id.nav_statistic) {
+        } else if (id == R.id.nav_donations) {
 
         } else if (id == R.id.nav_settings) {
             Intent myintent = new Intent(this,

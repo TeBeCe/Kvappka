@@ -2,10 +2,13 @@ package com.example.martin.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -54,14 +58,26 @@ import java.net.URL;
 
 public class LoggedActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
+    private static final int SIGN_IN_CODE = 9001;
     String text,nameSurname,email,id;
-    private GoogleSignInAccount account;
     TextView txtvw;
     EditText addNameTxt;
     GoogleApiClient mGoogleApiClient;
-    private static final int SIGN_IN_CODE = 9001;
     CallbackManager callbackManager;
     String picUrlString;
+    private GoogleSignInAccount account;
+
+    public void changeLang(Context context, String lang) {
+        Locale myLocale;
+        Toast toast = Toast.makeText(context, lang, Toast.LENGTH_SHORT);
+        toast.show();
+        myLocale = new Locale(lang);
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +154,9 @@ public class LoggedActivity extends AppCompatActivity implements GoogleApiClient
             setCredentials();
         }
 
+
     }
+
     public void setCredentials(){
 
         TextView displayName = (TextView) findViewById(R.id.nameSurnameText);
@@ -148,10 +166,12 @@ public class LoggedActivity extends AppCompatActivity implements GoogleApiClient
         TextView displayId = (TextView) findViewById(R.id.nameIdText);
         displayId.setText("" + id);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
     // [START signOut]
     private void signOut() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
@@ -211,32 +231,6 @@ public class LoggedActivity extends AppCompatActivity implements GoogleApiClient
 
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask() {
-
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            createImageFromBitmap(result);
-        }
-    }
-
     public String createImageFromBitmap(Bitmap bitmap) {
         String fileName = "myProfile";//no .png or .jpg needed
         try {
@@ -251,14 +245,6 @@ public class LoggedActivity extends AppCompatActivity implements GoogleApiClient
             fileName = null;
         }
         return fileName;
-    }
-
-    public static void changeLang(Context context, String lang) {
-        Locale myLocale = new Locale(lang);
-        Locale.setDefault(myLocale);
-        android.content.res.Configuration config = new android.content.res.Configuration();
-        config.locale = myLocale;
-        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
 
     @Override
@@ -303,5 +289,31 @@ public class LoggedActivity extends AppCompatActivity implements GoogleApiClient
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask() {
+
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            createImageFromBitmap(result);
+        }
     }
 }

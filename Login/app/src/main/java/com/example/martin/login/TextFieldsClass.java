@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,141 +35,43 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+/**
+ * Created by Martin on 6. 4. 2018.
+ */
 
-    private ArrayList<HashMap<String, String>> contactList;
-    String Json;
+public class TextFieldsClass extends AppCompatActivity {
 
     private TextView nameView, emailView, profileName, profileBornView, profileBloodView, profileEmailView;
     private ImageView headerImg;
+    private ArrayList<HashMap<String, String>> contactList;
+    String Json;
+    Context context;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_drawer);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView
-                .setNavigationItemSelectedListener(this);
-        navigationView.getMenu()
-                .getItem(0)
-                .setChecked(true);
-        View header = navigationView
-                .getHeaderView(0);
+    public void setNames(View header,Context context, int idMenu, NavigationView navigationView){
 
         contactList = new ArrayList<>();
         Json = postData("");
         contactList = decodeJson(Json);
+
+        navigationView.getMenu()
+                .getItem(idMenu)
+                .setChecked(true);
+
+
         nameView = (TextView) header.findViewById(R.id.nameDrawer1);
         emailView = (TextView) header.findViewById(R.id.emailDrawer1);
         headerImg = (ImageView) header.findViewById(R.id.circularImage);
 
         nameView.setText(contactList.get(0).get("first_name") + " " + contactList.get(0).get("last_name"));
         emailView.setText(contactList.get(0).get("email"));
-        Intent intent = getIntent();
 
-        profileName = (TextView) findViewById(R.id.profileFullName);
-        profileName.setText(contactList.get(0).get("first_name") + " " + contactList.get(0).get("last_name"));
-
-        profileEmailView = (TextView) findViewById(R.id.profileEmail);
-        profileBornView = (TextView) findViewById(R.id.profileBornDate);
-        profileBloodView = (TextView) findViewById(R.id.profileBloodType);
-
-        profileEmailView.setText(contactList.get(0).get("email"));
-        profileBornView.setText(contactList.get(0).get("birth_day"));
-        profileBloodView.setText(contactList.get(0).get("blood_group"));
-
-        Context context = getApplicationContext();
         try {
             Bitmap bitmap = BitmapFactory.decodeStream(context.openFileInput("myProfile"));
             headerImg.setImageBitmap(bitmap);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.settings, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_profile) {
-            // Handle the profile action
-            Intent myintent = new Intent(this,
-                    ProfileActivity.class);
-            startActivity(myintent);
-
-        } else if (id == R.id.nav_posts) {
-
-        } else if (id == R.id.nav_friends) {
-            // Handle the profile action
-            Intent myintent = new Intent(this,
-                    FriendsActivity.class);
-            startActivity(myintent);
-
-        } else if (id == R.id.nav_donations) {
-            Intent myintent = new Intent(this,
-                    DonationsActivity.class);
-            startActivity(myintent);
-        } else if (id == R.id.nav_settings) {
-            Intent myintent = new Intent(this,
-                    SettingsActivity.class);
-            startActivity(myintent);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }else if (id == R.id.nav_places){
-            System.out.println("places");
-            Intent myintent = new Intent(this,PlacesActivity.class);
-            startActivity(myintent);
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
     public String postData(String nameTxt) {
         // Create a new HttpClient and Post Header
         //noinspection deprecation
@@ -216,7 +115,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         return Json;
     }
-
     public ArrayList<HashMap<String, String>> decodeJson(String Json) {
         if (Json != null) {
             try {
@@ -272,22 +170,5 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         return contactList;
     }
 
-    @Override
-    public void onClick(View v) {
-
-       /* switch (v.getId()) {
-
-                Intent myintent = new Intent(this,
-                        MainDrawerActivity.class);
-                Json = postData(name.getText().toString());
-               // contactList = decodeJson(Json);
-                //myintent.putExtra("displayname",contactList.get(0).get("first_name").toString()+" "+contactList.get(0).get("last_name").toString() );
-                //myintent.putExtra("displaymail",contactList.get(0).get("email").toString() );
-
-                startActivity(myintent);
-        }*/
-
-
-    }
 
 }

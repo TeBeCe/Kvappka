@@ -98,6 +98,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                loginResult.getAccessToken().getToken();
                 Log.e("onSuccess", "--------" + loginResult.getAccessToken());
                 //Log.e("Token", "--------" + loginResult.getAccessToken().getToken());
+
                // Log.e("Permision", "--------" + loginResult.getRecentlyGrantedPermissions());
                 Profile profile = Profile.getCurrentProfile();
                // Log.e("ProfileDataNameF", "--" + profile.getFirstName());

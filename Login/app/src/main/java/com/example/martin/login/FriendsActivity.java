@@ -73,7 +73,7 @@ public class FriendsActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -308,7 +308,7 @@ public class FriendsActivity extends AppCompatActivity
                     FriendsActivity.class);
             startActivity(myintent);
 
-        } else if (id == R.id.nav_statistic) {
+        } else if (id == R.id.nav_donations) {
 
         } else if (id == R.id.nav_settings) {
             Intent myintent = new Intent(this,

@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
-
-
+    android:layout_marginStart="16dp"
+    android:layout_marginLeft="16dp">
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/circularImage"
@@ -19,15 +18,14 @@
         app:civ_shadow_radius="5"
         app:civ_shadow_color="#8BC34A"
 
-
         android:layout_alignParentTop="true"
 
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="12dp"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="70dp"
         android:orientation="vertical"
         android:layout_marginStart="60dp"
         android:layout_marginLeft="60dp">
@@ -38,23 +36,25 @@
             android:layout_height="wrap_content"
             android:paddingBottom="2dip"
             android:paddingTop="6dip"
+            android:text="text1"
             android:textStyle="bold" />
-
 
         <TextView
             android:id="@+id/name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="2dip"
+            android:text="text2"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/address"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="2dip"
             android:layout_marginBottom="2dp"
+            android:paddingBottom="2dip"
 
+            android:text="text3"
             android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>
