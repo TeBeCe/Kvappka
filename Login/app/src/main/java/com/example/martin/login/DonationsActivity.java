@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.graphics.Color;
@@ -60,7 +61,7 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
-
+        calendarList.add(Calendar.getInstance());
         // adding item touch helper
         // only ItemTouchHelper.LEFT added to detect Right to Left swipe
         // if you want both Right -> Left and Left -> Right
@@ -77,8 +78,12 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                 monthOfYear=monthOfYear+1;
-
+                Calendar calendarik = new GregorianCalendar();
+                calendarik.set(Calendar.YEAR,year);
+                calendarik.set(Calendar.MONTH,monthOfYear);
+                calendarik.set(Calendar.DAY_OF_MONTH,dayOfMonth);
                 btn.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
+                mAdapter.addItem(calendarik);
             }
         },year,month,day);
 
@@ -126,8 +131,9 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds cartList to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.settings, menu);
         return true;
+
     }
 }
 

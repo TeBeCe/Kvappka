@@ -22,6 +22,7 @@ public class DonationsListAdapter extends RecyclerView.Adapter<DonationsListAdap
     private List<Calendar> calendarList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        public ImageView thumbnail;
         public TextView name;
 
         public RelativeLayout viewBackground, viewForeground;
@@ -29,6 +30,8 @@ public class DonationsListAdapter extends RecyclerView.Adapter<DonationsListAdap
         public MyViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.name);
+
+            thumbnail = view.findViewById(R.id.thumbnail);
             viewBackground = view.findViewById(R.id.view_background);
             viewForeground = view.findViewById(R.id.view_foreground);
         }
@@ -57,6 +60,10 @@ public class DonationsListAdapter extends RecyclerView.Adapter<DonationsListAdap
     @Override
     public int getItemCount() {
         return calendarList.size();
+    }
+
+    public  void addItem(Calendar calendar ) {
+        calendarList.add(calendar);
     }
 
     public void removeItem(int position) {

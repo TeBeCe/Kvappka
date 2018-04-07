@@ -32,7 +32,7 @@
             android:layout_toStartOf="@+id/delete_icon"
             android:text="@string/delete"
             android:textColor="#fff"
-            android:textSize="13sp" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
@@ -50,10 +50,12 @@
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_add_don"/>
+            android:src="@drawable/ic_add_don"
+            android:tint="@color/colorPrimaryDark"/>
 
         <TextView
             android:id="@+id/name"
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/thumbnail"
@@ -61,7 +63,8 @@
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="17sp" android:layout_toEndOf="@id/thumbnail"
+            android:textSize="17sp"
+            android:layout_toEndOf="@id/thumbnail"
             tools:targetApi="jelly_bean" />
 
     </RelativeLayout>
