@@ -275,19 +275,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
 
-       /* switch (v.getId()) {
-
-                Intent myintent = new Intent(this,
-                        MainDrawerActivity.class);
-                Json = postData(name.getText().toString());
-               // contactList = decodeJson(Json);
-                //myintent.putExtra("displayname",contactList.get(0).get("first_name").toString()+" "+contactList.get(0).get("last_name").toString() );
-                //myintent.putExtra("displaymail",contactList.get(0).get("email").toString() );
-
-                startActivity(myintent);
-        }*/
-
-
     }
 
 }

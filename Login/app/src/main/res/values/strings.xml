@@ -56,6 +56,9 @@
     <string name="notificationSettingCheckBoxDesc">Stay in touch with news</string>
     <string name="notificationSettingCheckBox">Notification</string>
     <string name="title_activity_donations">Donations</string>
+    <string name="exactTimeNotife">Notife time</string>
+    <string name="notifyTimeExactSummary">Notify Sumary</string>
+    <string name="delete">Delete</string>
 
     <string-array name="pref_lang_list_array_entries">
         <item>Slovensky</item>

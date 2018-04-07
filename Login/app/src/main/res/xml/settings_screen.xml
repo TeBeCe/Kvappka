@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="General">
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="allowNotifyPref"
             android:summary="@string/notificationSettingCheckBoxDesc"
             android:title="@string/notificationSettingCheckBox" />
+
+        <EditTextPreference
+            android:title="@string/exactTimeNotife"
+            android:defaultValue="08:00"
+            android:key="notifyPreferedTime"
+            android:dependency="allowNotifyPref"
+            android:summary="@string/notifyTimeExactSummary"/>
+
+    </PreferenceCategory>
 
         <ListPreference
             android:defaultValue="1"
@@ -16,5 +26,4 @@
             android:summary="%s"
             android:title="@string/applicationLanguageSettingListTitle" />
 
-    </PreferenceCategory>
 </PreferenceScreen>
