@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -64,6 +65,8 @@ public class DonationsListAdapter extends RecyclerView.Adapter<DonationsListAdap
 
     public  void addItem(Calendar calendar ) {
         calendarList.add(calendar);
+        Collections.sort(calendarList,Collections.reverseOrder());
+        notifyDataSetChanged();
     }
 
     public void removeItem(int position) {
@@ -72,11 +75,17 @@ public class DonationsListAdapter extends RecyclerView.Adapter<DonationsListAdap
         // to perform recycler view delete animations
         // NOTE: don't call notifyDataSetChanged()
         notifyItemRemoved(position);
+
     }
 
     public void restoreItem(Calendar item, int position) {
         calendarList.add(position, item);
         // notify item added by position
         notifyItemInserted(position);
+    }
+    public List<Calendar> returnList(){
+
+        return calendarList;
+
     }
 }

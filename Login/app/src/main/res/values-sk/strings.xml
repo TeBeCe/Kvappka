@@ -36,12 +36,12 @@
     <string name="from" >Do</string>
     <string name="day" >Den</string>
 
-    <string-array name="pref_upload_quality_entries">
-        <item>SK</item>
-        <item>ENG</item>
+    <string-array name="pref_lang_list_array_entries">
+        <item>Slovencina</item>
+        <item>English</item>
 
     </string-array>
-    <string-array name="pref_upload_quality_values">
+    <string-array name="pref_lang_list_array_values">
         <item>0</item>
         <item>1</item>
 
@@ -51,7 +51,13 @@
     <string name="notificationSettingCheckBoxDesc">Dostavajte upozornenia</string>
     <string name="notificationSettingCheckBox">Notifikacie</string>
     <string name="title_activity_drawer">Drawer Activity</string>
-    <string name="menu_donations">Odbery</string>
-    <string name="title_activity_donations">Odbery</string>
+    <string name="menu_donations">Zoznam odberov</string>
+    <string name="title_activity_donations">Zoznam odberov</string>
+    <string name="exactTimeNotife">Notife time</string>
+    <string name="notifyTimeExactSummary">Notify Sumary</string>
+    <string name="delete">Delete</string>
+    <string name="donationsListRemoved">removed from list!</string>
+    <string name="title_activity_post">title_activity_post</string>
+    <string name="emptyListTextView">Register your donations for notifications and your own statistics by tapping on +</string>
 
 </resources>

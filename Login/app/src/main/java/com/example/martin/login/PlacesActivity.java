@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -17,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +41,7 @@ import java.util.List;
 public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     LocationManager locationManager;
-    TextView dayOfWeek,name,address,mail,webLink;
+    TextView dayOfWeek, name, address, mail, webLink;
     private GoogleMap mMap;
     private int day;
     TextFieldsClass textFieldsClass;
@@ -66,7 +68,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                 .getHeaderView(0);
 
         textFieldsClass = new TextFieldsClass();
-        textFieldsClass.setNames(header,context,5,navigationView);
+        textFieldsClass.setNames(header, context, 5, navigationView);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -75,7 +77,8 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
 
         Calendar calendar = Calendar.getInstance();
         day = calendar.get(Calendar.DAY_OF_WEEK);
-        if (day<5) {
+        System.out.println("dayis" + day);
+        if (day < 6 && day > 1) {
             dayOfWeek = (TextView) findViewById(getResources().getIdentifier("openedTimeTableDay" + String.valueOf(day - 1), "id", getPackageName()));
             dayOfWeek.setTextColor(getResources().getColor(R.color.mainRed));
         }
@@ -85,8 +88,11 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         webLink = (TextView) findViewById(R.id.placesTxtWebSite);
     }
 
-
-    //Color.parseColor("#bdbdbd");
+    @Override
+    protected void onStop() {
+    super.onStop();
+    }
+        //Color.parseColor("#bdbdbd");
 
     /**
      * Manipulates the map once available.
@@ -103,6 +109,35 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         locationManager = (LocationManager) getSystemService((LOCATION_SERVICE));
         System.out.println("loc");
         mMap.setOnMarkerClickListener(this);
+
+        ArrayList<LatLng> markers = new ArrayList<>();
+        // Add a marker in ba and move the camera
+
+        LatLng ba = new LatLng(48.167364, 17.091355);
+
+        LatLng tt = new LatLng(48.367908, 17.590564);
+        markers.add(tt);
+        LatLng bb = new LatLng(48.744545, 19.116564);
+        markers.add(bb);
+        LatLng nz = new LatLng(47.988541, 18.155937);
+        markers.add(nz);
+        LatLng ma = new LatLng(49.057437, 18.918192);
+        markers.add(ma);
+        LatLng nr = new LatLng(48.300996, 18.08516);
+        markers.add(nr);
+        LatLng za = new LatLng(49.21874, 18.74573);
+        markers.add(za);
+        LatLng ke = new LatLng(48.722368, 21.237848);
+        markers.add(ke);
+        for (LatLng marker : markers) {
+            mMap.addMarker(new MarkerOptions().position(marker));
+        }
+
+
+
+        mMap.addMarker(new MarkerOptions().position(ba).title("Marker in Bratislava"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.744545, 19.116564), 7.0f));
+
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             Toast toast = Toast.makeText(getApplicationContext(), "Perm", Toast.LENGTH_SHORT);
@@ -113,6 +148,12 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            String[] permissions = new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION};
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                requestPermissions(permissions,123);
+            }
+
+          
             return;
         }
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
@@ -157,15 +198,14 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
 
                 }
             });
-        }  if (locationManager.isProviderEnabled((LocationManager.GPS_PROVIDER))) {
+        }
+        if (locationManager.isProviderEnabled((LocationManager.GPS_PROVIDER))) {
            /* Toast toast = Toast.makeText(getApplicationContext(), "GPS2", Toast.LENGTH_SHORT);
             toast.show();*/
 
             Location location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-            Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(location1.getLatitude()), Toast.LENGTH_SHORT);
-            toast.show();
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 10, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
 
@@ -175,19 +215,19 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
 
                     LatLng latlng = new LatLng(latitude, longitude);
 
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    //Geocoder geocoder = new Geocoder(getApplicationContext());
 
-                    try {
-                        List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+                  //  try {
+                       /* List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
                         String str = addressList.get(0).getLocality() + ",";
                         str += addressList.get(0).getCountryName();
-                        mMap.addMarker(new MarkerOptions().position(latlng).title(str));
+                        mMap.addMarker(new MarkerOptions().position(latlng).title(str));*/
                         //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng,11f));
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
-                        System.out.println(str);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                       // System.out.println(str);
+                //    } catch (IOException e) {
+                //        e.printStackTrace();
+                //    }
                 }
 
                 @Override
@@ -207,34 +247,17 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
             });
 
         }
-        ArrayList<LatLng> markers = new ArrayList<>();
-        // Add a marker in ba and move the camera
-
-        LatLng ba = new LatLng(48.167364, 17.091355);
-
-        LatLng tt = new LatLng(48.367908, 17.590564);
-        markers.add(tt);
-        LatLng bb = new LatLng(48.744545, 19.116564);
-        markers.add(bb);
-        LatLng nz = new LatLng(47.988541, 18.155937);
-        markers.add(nz);
-        LatLng ma = new LatLng(49.057437, 18.918192);
-        markers.add(ma);
-        LatLng nr = new LatLng(48.300996, 18.08516);
-        markers.add(nr);
-        LatLng za = new LatLng(49.21874, 18.74573);
-        markers.add(za);
-        LatLng ke = new LatLng(48.722368, 21.237848);
-        markers.add(ke);
-        for (LatLng marker : markers) {
-            mMap.addMarker(new MarkerOptions().position(marker));
-        }
         mMap.setMyLocationEnabled(true);
 
+    }
 
-        mMap.addMarker(new MarkerOptions().position(ba).title("Marker in Bratislava"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.744545, 19.116564), 7.0f));
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode==123)
+            for (int res:grantResults){
 
+
+            }
     }
 
     @Override
@@ -245,16 +268,15 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                 name.setText("Bratislava - Kramare");
                 address.setText("Limbová 3, 833 14 Bratislava");
                 mail.setText("kramarents@ntssr.sk");
-
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.167364, 17.091355), 8.0f));
                 break;
             }
             case "m0": {
 
                 name.setText("Trnava - Nemocnica");
                 address.setText("Andreja Žarnova 11, 917 02 Trnava");
-                mail.setText(" trnavants@ntssr.sk");
-
-                break;
+                mail.setText("trnavants@ntssr.sk");
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.367908, 17.590564), 8.0f));                break;
             }
             default:
                 break;
@@ -263,9 +285,15 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.settings, menu);
+        //getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 
@@ -279,35 +307,28 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                     ProfileActivity.class);
             startActivity(myintent);
 
-        }
-        else if (id == R.id.nav_posts) {
+        } else if (id == R.id.nav_posts) {
 
-        }
-        else if (id == R.id.nav_friends) {
+        } else if (id == R.id.nav_friends) {
             // Handle the profile action
             Intent myintent = new Intent(this,
                     FriendsActivity.class);
             startActivity(myintent);
 
-        }
-        else if (id == R.id.nav_donations) {
-            Intent myintent = new Intent(this,DonationsActivity.class);
+        } else if (id == R.id.nav_donations) {
+            Intent myintent = new Intent(this, DonationsActivity.class);
             startActivity(myintent);
-        }
-        else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
             Intent myintent = new Intent(this,
                     SettingsActivity.class);
             startActivity(myintent);
-        }
-        else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share) {
 
-        }
-        else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_send) {
 
-        }
-        else if (id == R.id.nav_places){
+        } else if (id == R.id.nav_places) {
             System.out.println("places");
-            Intent myintent = new Intent(this,PlacesActivity.class);
+            Intent myintent = new Intent(this, PlacesActivity.class);
             startActivity(myintent);
         }
 

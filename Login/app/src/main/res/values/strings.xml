@@ -59,9 +59,16 @@
     <string name="exactTimeNotife">Notife time</string>
     <string name="notifyTimeExactSummary">Notify Sumary</string>
     <string name="delete">Delete</string>
+    <string name="donationsListRemoved">removed from list!</string>
+    <string name="title_activity_post">title_activity_post</string>
+    <string name="emptyListTextView">Register your donations for notifications and your own statistics by tapping on \"+\"</string>
+    <string name="notification7DaysTitle">Donation time reminder</string>
+    <string name="notification7DaysContent">Possible donation time coming in 7 days</string>
+    <string name="notification1DaysTitle">Donation time reminder</string>
+    <string name="notification1DaysContent">Possible donation time coming in 1 day</string>
 
     <string-array name="pref_lang_list_array_entries">
-        <item>Slovensky</item>
+        <item>Slovencina</item>
         <item>English</item>
     </string-array>
 
@@ -69,4 +76,5 @@
         <item>0</item>
         <item>1</item>
     </string-array>
+    <string name="menu_statistics">Statistics</string>
 </resources>

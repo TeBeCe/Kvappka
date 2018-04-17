@@ -3,11 +3,14 @@ package com.example.martin.login;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -40,19 +43,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import android.preference.PreferenceActivity;
 
 public class SettingsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
-    TextView nameView, emailView;
+        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
     Button btn;
-    ArrayList<HashMap<String, String>> contactList;
     String Json;
-    private String nameSurname,email;
     ListView list;
-
     String myJSON;
+    TextFieldsClass textFieldsClass;
 
     private static final String TAG_RESULTS="users";
     private static final String TAG_ID = "id";
@@ -60,19 +61,17 @@ public class SettingsActivity extends AppCompatActivity
     private static final String TAG_LNAME = "last_name";
     private static final String TAG_ADD ="email";
 
-    JSONArray peoples = null;
-
-    ArrayList<HashMap<String, String>> personList;
-
-
-
+    static Context context;
+    static   Intent refresh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        refresh = new Intent(this, SettingsActivity.class);
 
+        context = getBaseContext();
         Fragment fragment = new SettingsScreen();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         if (savedInstanceState==null){
@@ -95,136 +94,68 @@ public class SettingsActivity extends AppCompatActivity
         navigationView
                 .setNavigationItemSelectedListener(this);
 
-        navigationView
-                .getMenu()
-                .getItem(4)
-                .setChecked(true);
-
         View header=navigationView
                 .getHeaderView(0);
 
+        textFieldsClass = new TextFieldsClass();
+        textFieldsClass.setNames(header, context, 4, navigationView);
        // findViewById(R.id.button4).setOnClickListener(this);
-       personList = new ArrayList<HashMap<String,String>>();
-        getData();
+      // personList = new ArrayList<HashMap<String,String>>();
+       // getData();
     }
-    public static class SettingsScreen extends PreferenceFragment {
+
+
+
+
+
+    public static class SettingsScreen extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_screen);
         }
-    }
-    protected void showList(){
-        try {
-            JSONObject jsonObj = new JSONObject(myJSON);
-            peoples = jsonObj.getJSONArray(TAG_RESULTS);
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+            //Toast toast = Toast.makeText(context, s, Toast.LENGTH_SHORT);
+           // toast.show();
 
-            for(int i=0;i<peoples.length();i++){
-                JSONObject c = peoples.getJSONObject(i);
-                String id = c.getString(TAG_ID);
-                String name = c.getString(TAG_FNAME)+" "+c.getString(TAG_LNAME);
-                String address = c.getString(TAG_ADD);
-
-                HashMap<String,String> persons = new HashMap<String,String>();
-
-                persons.put(TAG_ID,id);
-                persons.put(TAG_FNAME,name);
-                persons.put(TAG_ADD,address);
-
-                personList.add(persons);
+            if(s.equals("languagePref")) {
+                String langPref = sharedPreferences.getString("languagePref", "xxx");
+                if (langPref.equals("0")) {
+                    changeLang("sk");
+                } else {
+                    changeLang("en");
+                }
             }
 
-            ListAdapter adapter = new SimpleAdapter(
-                    SettingsActivity.this, personList, R.layout.friends_list_item,
-                    new String[]{TAG_ID,TAG_FNAME,TAG_ADD},
-                    new int[]{R.id.id, R.id.name, R.id.address}
-            );
+        }
+        public void changeLang(String lang) {
+            if (lang.equalsIgnoreCase(""))
+                return;
 
-            list.setAdapter(adapter);
+            Locale myLocale = new Locale(lang);
+            Locale.setDefault(myLocale);
+            android.content.res.Configuration config = new android.content.res.Configuration();
+            config.locale = myLocale;
+            context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+            refresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(refresh);
 
-            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                    personList.get(position);
-                    Intent myintent = new Intent(SettingsActivity.this,
-                            MainDrawerActivity.class);
+        }
+        @Override
+        public void onResume() {
+            super.onResume();
+            getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-                    myintent.putExtra("user",personList.get(position));
-
-                    startActivity(myintent);
-                }
-            });
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
 
-    }
-
-    public void getData(){
-
-
-
-
-        class GetDataJSON extends AsyncTask<String, Void, String> {
-
-            @Override
-            protected String doInBackground(String... params) {
-                DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
-                HttpPost httppost = new HttpPost("http://147.175.105.140:8013/~xbachratym/friends.php");
-
-                // Depends on your web service
-                httppost.setHeader("Content-type", "application/json");
-
-                InputStream inputStream = null;
-                String result = null;
-                try {
-                    HttpResponse response = httpclient.execute(httppost);
-                    HttpEntity entity = response.getEntity();
-
-                    inputStream = entity.getContent();
-                    // json is UTF-8 by default
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
-                    StringBuilder sb = new StringBuilder();
-
-                    String line = null;
-                    while ((line = reader.readLine()) != null)
-                    {
-                        sb.append(line + "\n");
-                    }
-                    result = sb.toString();
-                } catch (Exception e) {
-                    // Oops
-                }
-                finally {
-                    try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
-                }
-                return result;
-            }
-
-            @Override
-            protected void onPostExecute(String result){
-                myJSON=result;
-               // showList();
-
-                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                View header=navigationView
-                        .getHeaderView(0);
-
-                contactList = new ArrayList<>();
-
-                contactList = decodeJson(result);
-                nameView = (TextView)header.findViewById(R.id.nameDrawer1);
-                emailView = (TextView)header.findViewById(R.id.emailDrawer1);
-                nameView.setText(contactList.get(0).get("first_name")+" "+contactList.get(0).get("last_name"));
-                emailView.setText(contactList.get(0).get("email"));
-            }
+        @Override
+        public void onPause() {
+            getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+            super.onPause();
         }
-        GetDataJSON g = new GetDataJSON();
-        g.execute();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -264,53 +195,6 @@ public class SettingsActivity extends AppCompatActivity
         System.out.println(parent.getItemAtPosition(position));
         // DO SOMETHING or in your case
         //startActivity(new Intent(<the correct intent>);
-    }
-    public ArrayList<HashMap<String, String>> decodeJson(String Json) {
-        if (Json != null) {
-            try {
-                JSONObject jsonObj = new JSONObject(Json);
-
-                // Getting JSON Array node
-                JSONArray contacts = jsonObj.getJSONArray("users");
-
-                // looping through All Contacts
-                for (int i = 0; i < contacts.length(); i++) {
-                    JSONObject c = contacts.getJSONObject(i);
-
-                    String id = c.getString("id");
-                    String username = c.getString("username");
-                    String first_name = c.getString("first_name");
-                    String last_name = c.getString("last_name");
-                    String email = c.getString("email");
-
-                    // tmp hash map for single contact
-                    HashMap<String, String> contact = new HashMap<>();
-
-                    // adding each child node to HashMap key => value
-                    contact.put("id", id);
-                    contact.put("username", username);
-                    contact.put("first_name", first_name);
-                    contact.put("last_name", last_name);
-                    contact.put("email", email);
-
-                    // adding contact to contact list
-                    contactList.add(contact);
-                }
-            } catch (final JSONException e) {
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(),
-                                "Json parsing error: " + e.getMessage(),
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }
-                });
-
-            }
-        }
-        return contactList;
     }
 
 

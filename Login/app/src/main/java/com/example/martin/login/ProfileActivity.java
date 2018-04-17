@@ -42,21 +42,38 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private ArrayList<HashMap<String, String>> contactList;
     String Json;
-
+    private PopulateMedals populateMedals;
     private TextView nameView, emailView, profileName, profileBornView, profileBloodView, profileEmailView;
+    TextView badgeLvl1Num,badgeLvl2Num,badgeLvl3Num,badgeLvl4Num,badgeLvl5Num;
+    TextView badgeLvl1Date,badgeLvl2Date,badgeLvl3Date,badgeLvl4Date,badgeLvl5Date;
     private ImageView headerImg;
+    private int[] manBadges;
+    private int[] womanBadges;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_drawer);
 
+
+        badgeLvl1Num = (TextView) findViewById(R.id.badgeLvl1Number);
+        badgeLvl2Num = (TextView) findViewById(R.id.badgeLvl2Number);
+        badgeLvl3Num = (TextView) findViewById(R.id.badgeLvl3Number);
+        badgeLvl4Num = (TextView) findViewById(R.id.badgeLvl4Number);
+        badgeLvl5Num = (TextView) findViewById(R.id.badgeLvl5Number);
+
+        badgeLvl1Date = (TextView) findViewById(R.id.badgeLvl1Date);
+        badgeLvl2Date = (TextView) findViewById(R.id.badgeLvl2Date);
+        badgeLvl3Date = (TextView) findViewById(R.id.badgeLvl3Date);
+        badgeLvl4Date = (TextView) findViewById(R.id.badgeLvl4Date);
+        badgeLvl5Date = (TextView) findViewById(R.id.badgeLvl5Date);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -89,8 +106,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profileEmailView.setText(contactList.get(0).get("email"));
         profileBornView.setText(contactList.get(0).get("birth_day"));
         profileBloodView.setText(contactList.get(0).get("blood_group"));
-
         Context context = getApplicationContext();
+        populateMedals = new PopulateMedals(context);
+        populateMedals.populateMedals(badgeLvl1Num,badgeLvl2Num,badgeLvl3Num,badgeLvl4Num
+                ,badgeLvl5Num,badgeLvl1Date,badgeLvl2Date,badgeLvl3Date,badgeLvl4Date,badgeLvl5Date);
+
         try {
             Bitmap bitmap = BitmapFactory.decodeStream(context.openFileInput("myProfile"));
             headerImg.setImageBitmap(bitmap);
@@ -131,7 +151,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -143,13 +163,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(myintent);
 
         } else if (id == R.id.nav_posts) {
-
+            Intent myintent = new Intent(this,
+                    PostsActivity.class);
+            startActivity(myintent);
         } else if (id == R.id.nav_friends) {
             // Handle the profile action
             Intent myintent = new Intent(this,
                     FriendsActivity.class);
             startActivity(myintent);
-
         } else if (id == R.id.nav_donations) {
             Intent myintent = new Intent(this,
                     DonationsActivity.class);
@@ -158,14 +179,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             Intent myintent = new Intent(this,
                     SettingsActivity.class);
             startActivity(myintent);
+        } else if (id == R.id.nav_places){
+            System.out.println("places");
+            Intent myintent = new Intent(this,
+                    PlacesActivity.class);
+            startActivity(myintent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
-        }else if (id == R.id.nav_places){
-            System.out.println("places");
-            Intent myintent = new Intent(this,PlacesActivity.class);
-            startActivity(myintent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

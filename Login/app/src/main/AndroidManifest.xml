@@ -3,7 +3,7 @@
     package="com.example.martin.login">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.SET_ALARM"/>
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -88,7 +88,12 @@
             android:name=".DrawerActivity"
             android:label="@string/title_activity_drawer"
             android:theme="@style/AppTheme" />
-        <activity android:name=".DonationsActivity"></activity>
+        <activity android:name=".DonationsActivity" />
+        <activity android:name=".PostsActivity" />
+
+        <receiver android:name=".AlarmReceiver"></receiver>
+
+        <activity android:name=".OnBoardingActivity"></activity>
     </application>
 
 </manifest>

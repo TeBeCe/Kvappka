@@ -37,6 +37,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.util.Arrays;
+
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "LoginActivity";
@@ -72,9 +74,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
 
         loginButton = (LoginButton) findViewById(R.id.fb_login_id) ;
-        loginButton.setReadPermissions("email");
-        loginButton.setReadPermissions("public_profile");
-        loginButton.setReadPermissions("user_friends");
+        loginButton.setReadPermissions(Arrays.asList(
+                "public_profile", "email", "user_birthday", "user_friends"));
 
         callbackManager = CallbackManager.Factory.create();
 

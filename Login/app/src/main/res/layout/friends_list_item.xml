@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginStart="16dp"
     android:layout_marginLeft="16dp">
@@ -11,17 +11,13 @@
         android:id="@+id/circularImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_centerVertical="true"
         android:src="@drawable/profile"
         app:civ_border_color="#e10202"
         app:civ_border_width="0dp"
         app:civ_shadow="false"
-        app:civ_shadow_radius="5"
         app:civ_shadow_color="#8BC34A"
-
-        android:layout_alignParentTop="true"
-
-        android:layout_marginTop="12dp"/>
-
+        app:civ_shadow_radius="5" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,21 +27,21 @@
         android:layout_marginLeft="60dp">
 
         <TextView
-            android:id="@+id/id"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="2dip"
-            android:paddingTop="6dip"
-            android:text="text1"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="2dip"
+            android:paddingTop="4dip"
             android:text="text2"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dip"
+            android:text="text1"
+            android:textStyle="" />
 
         <TextView
             android:id="@+id/address"
@@ -53,8 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:paddingBottom="2dip"
-
             android:text="text3"
-            android:textStyle="bold" />
+            android:textStyle="" />
     </LinearLayout>
 </RelativeLayout>

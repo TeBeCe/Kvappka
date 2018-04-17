@@ -2,6 +2,7 @@ package com.example.martin.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -32,6 +33,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,7 +50,12 @@ public class TextFieldsClass extends AppCompatActivity {
     String Json;
     Context context;
 
-    public void setNames(View header,Context context, int idMenu, NavigationView navigationView){
+    public List<Calendar> getCalendarList(){
+
+        return  new ArrayList<>();
+    }
+
+    public void setNames(View header, Context context, int idMenu, NavigationView navigationView) {
 
         contactList = new ArrayList<>();
         Json = postData("");
@@ -56,7 +64,6 @@ public class TextFieldsClass extends AppCompatActivity {
         navigationView.getMenu()
                 .getItem(idMenu)
                 .setChecked(true);
-
 
         nameView = (TextView) header.findViewById(R.id.nameDrawer1);
         emailView = (TextView) header.findViewById(R.id.emailDrawer1);
@@ -72,6 +79,7 @@ public class TextFieldsClass extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     public String postData(String nameTxt) {
         // Create a new HttpClient and Post Header
         //noinspection deprecation
@@ -115,6 +123,7 @@ public class TextFieldsClass extends AppCompatActivity {
         }
         return Json;
     }
+
     public ArrayList<HashMap<String, String>> decodeJson(String Json) {
         if (Json != null) {
             try {
@@ -164,11 +173,59 @@ public class TextFieldsClass extends AppCompatActivity {
                                 .show();
                     }
                 });
-
             }
         }
         return contactList;
     }
 
+    public  List<String> getDonationsDates (List<Calendar> calendarList){
+        Calendar birthdate = new GregorianCalendar().getInstance();
+        birthdate.set(1994,Calendar.MARCH,28);
+        birthdate.set(Calendar.YEAR,2012);
 
+        Calendar today = new GregorianCalendar().getInstance();
+        int diffYear = today.get(Calendar.YEAR) - birthdate.get(Calendar.YEAR);
+        int diffMonth = diffYear * 12 + today.get(Calendar.MONTH) - birthdate.get(Calendar.MONTH);
+        int timesPossible = diffMonth/3;
+        float averageDonationPerYear = calendarList.size()/(float)(timesPossible/4);
+        //Toast.makeText(getApplicationContext(),"time"+ calendarList.size() + "possible" + timesPossible/4 + "averagePerYr" + averageDonationPerYear ,Toast.LENGTH_LONG).show();
+        List<String> populateDonationStatistic  = new ArrayList<>();
+        populateDonationStatistic.add(""+averageDonationPerYear);
+        populateDonationStatistic.add(calendarList.size()+"");
+
+        return  populateDonationStatistic;
+
+    }
+
+    public Calendar getClosestPossibleDonation(Calendar lastDonation){
+
+        lastDonation.add(Calendar.MONTH,3);
+        lastDonation.add(Calendar.DATE,23);
+        lastDonation.set(Calendar.HOUR,8);
+
+        return lastDonation;
+    }
+
+    public List<String> getStats(List<Calendar> calendarList){
+        SharedPreferences sharedPreferences = getSharedPreferences("donationDatesPref",MODE_PRIVATE);
+        SharedPreferences.Editor mEditor = sharedPreferences.edit();
+
+        mEditor.putLong("lastDonationDate",calendarList.get(0).getTimeInMillis());
+        mEditor.apply();
+        Calendar birthdate = new GregorianCalendar().getInstance();
+        birthdate.set(1994,Calendar.MARCH,28);
+        birthdate.set(Calendar.YEAR,2012);
+
+        Calendar today = new GregorianCalendar().getInstance();
+        int diffYear = today.get(Calendar.YEAR) - birthdate.get(Calendar.YEAR);
+        int diffMonth = diffYear * 12 + today.get(Calendar.MONTH) - birthdate.get(Calendar.MONTH);
+        int timesPossible = diffMonth/3;
+        float averageDonationPerYear = calendarList.size()/(float)(timesPossible/4);
+        //Toast.makeText(getApplicationContext(),"time"+ calendarList.size() + "possible" + timesPossible/4 + "averagePerYr" + averageDonationPerYear ,Toast.LENGTH_LONG).show();
+        List<String> populateDonationStatistic  = new ArrayList<>();
+        populateDonationStatistic.add(""+averageDonationPerYear);
+        populateDonationStatistic.add(calendarList.size()+"");
+
+        return  populateDonationStatistic;
+    }
 }

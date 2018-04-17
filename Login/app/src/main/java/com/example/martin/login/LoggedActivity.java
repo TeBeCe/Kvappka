@@ -116,7 +116,7 @@ public class LoggedActivity extends AppCompatActivity implements GoogleApiClient
             params.putBoolean("redirect", false);
             new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
-                    "/me?fields=id,name,email,picture.type(large)",
+                    "/me?fields=id,name,email,birthday,picture.type(large)",
                     params,
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
@@ -126,6 +126,8 @@ public class LoggedActivity extends AppCompatActivity implements GoogleApiClient
                             try {
                                 picUrlString = (String) response.getJSONObject().getJSONObject("picture").getJSONObject("data").get("url");
                                 nameSurname = (String ) response.getJSONObject().get("name");
+                                String birthday = (String) response.getJSONObject().get("birthday");
+                                email = (String) response.getJSONObject().get("email");
                               //  System.out.println("sss");
                             } catch (JSONException e) {
                                 e.printStackTrace();

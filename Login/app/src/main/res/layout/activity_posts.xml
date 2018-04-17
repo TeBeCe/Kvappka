@@ -10,10 +10,9 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/app_bar_friends"
+        layout="@layout/app_bar_posts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"/>
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -24,6 +23,4 @@
         app:menu="@menu/menu_list_for_drawer"
         app:itemTextColor="@drawable/drawer_color"
         app:itemIconTint="@drawable/drawer_color"/>
-
-
 </android.support.v4.widget.DrawerLayout>

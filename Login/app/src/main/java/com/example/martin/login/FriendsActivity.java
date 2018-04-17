@@ -67,7 +67,7 @@ public class FriendsActivity extends AppCompatActivity
         setContentView(R.layout.activity_friends);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        list = (ListView) findViewById(R.id.listView);
+        list = (ListView) findViewById(R.id.friendsListView);
 
         Context context = getApplicationContext();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -301,7 +301,9 @@ public class FriendsActivity extends AppCompatActivity
             startActivity(myintent);
 
         } else if (id == R.id.nav_posts) {
-
+            Intent myintent = new Intent(this,
+                    PostsActivity.class);
+            startActivity(myintent);
         } else if (id == R.id.nav_friends) {
             // Handle the profile action
             Intent myintent = new Intent(this,
@@ -309,7 +311,9 @@ public class FriendsActivity extends AppCompatActivity
             startActivity(myintent);
 
         } else if (id == R.id.nav_donations) {
-
+            Intent myintent = new Intent(this,
+                    DonationsActivity.class);
+            startActivity(myintent);
         } else if (id == R.id.nav_settings) {
             Intent myintent = new Intent(this,
                     SettingsActivity.class);
@@ -320,7 +324,8 @@ public class FriendsActivity extends AppCompatActivity
 
         }else if (id == R.id.nav_places){
             System.out.println("places");
-            Intent myintent = new Intent(this,PlacesActivity.class);
+            Intent myintent = new Intent(this,
+                    PlacesActivity.class);
             startActivity(myintent);
         }
 
