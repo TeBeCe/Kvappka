@@ -50,9 +50,9 @@ public class TextFieldsClass extends AppCompatActivity {
     String Json;
     Context context;
 
-    public List<Calendar> getCalendarList(){
+    public List<Calendar> getCalendarList() {
 
-        return  new ArrayList<>();
+        return new ArrayList<>();
     }
 
     public void setNames(View header, Context context, int idMenu, NavigationView navigationView) {
@@ -178,54 +178,54 @@ public class TextFieldsClass extends AppCompatActivity {
         return contactList;
     }
 
-    public  List<String> getDonationsDates (List<Calendar> calendarList){
+    public List<String> getDonationsDates(List<Calendar> calendarList) {
         Calendar birthdate = new GregorianCalendar().getInstance();
-        birthdate.set(1994,Calendar.MARCH,28);
-        birthdate.set(Calendar.YEAR,2012);
+        birthdate.set(1994, Calendar.MARCH, 28);
+        birthdate.set(Calendar.YEAR, 2012);
 
         Calendar today = new GregorianCalendar().getInstance();
         int diffYear = today.get(Calendar.YEAR) - birthdate.get(Calendar.YEAR);
         int diffMonth = diffYear * 12 + today.get(Calendar.MONTH) - birthdate.get(Calendar.MONTH);
-        int timesPossible = diffMonth/3;
-        float averageDonationPerYear = calendarList.size()/(float)(timesPossible/4);
+        int timesPossible = diffMonth / 3;
+        float averageDonationPerYear = calendarList.size() / (float) (timesPossible / 4);
         //Toast.makeText(getApplicationContext(),"time"+ calendarList.size() + "possible" + timesPossible/4 + "averagePerYr" + averageDonationPerYear ,Toast.LENGTH_LONG).show();
-        List<String> populateDonationStatistic  = new ArrayList<>();
-        populateDonationStatistic.add(""+averageDonationPerYear);
-        populateDonationStatistic.add(calendarList.size()+"");
+        List<String> populateDonationStatistic = new ArrayList<>();
+        populateDonationStatistic.add("" + averageDonationPerYear);
+        populateDonationStatistic.add(calendarList.size() + "");
 
-        return  populateDonationStatistic;
+        return populateDonationStatistic;
 
     }
 
-    public Calendar getClosestPossibleDonation(Calendar lastDonation){
+    public Calendar getClosestPossibleDonation(Calendar lastDonation) {
 
-        lastDonation.add(Calendar.MONTH,3);
-        lastDonation.add(Calendar.DATE,23);
-        lastDonation.set(Calendar.HOUR,8);
+        lastDonation.add(Calendar.MONTH, 3);
+        lastDonation.add(Calendar.DATE, 23);
+        lastDonation.set(Calendar.HOUR, 8);
 
         return lastDonation;
     }
 
-    public List<String> getStats(List<Calendar> calendarList){
-        SharedPreferences sharedPreferences = getSharedPreferences("donationDatesPref",MODE_PRIVATE);
+    public List<String> getStats(List<Calendar> calendarList) {
+        SharedPreferences sharedPreferences = getSharedPreferences("donationDatesPref", MODE_PRIVATE);
         SharedPreferences.Editor mEditor = sharedPreferences.edit();
 
-        mEditor.putLong("lastDonationDate",calendarList.get(0).getTimeInMillis());
+        mEditor.putLong("lastDonationDate", calendarList.get(0).getTimeInMillis());
         mEditor.apply();
         Calendar birthdate = new GregorianCalendar().getInstance();
-        birthdate.set(1994,Calendar.MARCH,28);
-        birthdate.set(Calendar.YEAR,2012);
+        birthdate.set(1994, Calendar.MARCH, 28);
+        birthdate.set(Calendar.YEAR, 2012);
 
         Calendar today = new GregorianCalendar().getInstance();
         int diffYear = today.get(Calendar.YEAR) - birthdate.get(Calendar.YEAR);
         int diffMonth = diffYear * 12 + today.get(Calendar.MONTH) - birthdate.get(Calendar.MONTH);
-        int timesPossible = diffMonth/3;
-        float averageDonationPerYear = calendarList.size()/(float)(timesPossible/4);
+        int timesPossible = diffMonth / 3;
+        float averageDonationPerYear = calendarList.size() / (float) (timesPossible / 4);
         //Toast.makeText(getApplicationContext(),"time"+ calendarList.size() + "possible" + timesPossible/4 + "averagePerYr" + averageDonationPerYear ,Toast.LENGTH_LONG).show();
-        List<String> populateDonationStatistic  = new ArrayList<>();
-        populateDonationStatistic.add(""+averageDonationPerYear);
-        populateDonationStatistic.add(calendarList.size()+"");
+        List<String> populateDonationStatistic = new ArrayList<>();
+        populateDonationStatistic.add("" + averageDonationPerYear);
+        populateDonationStatistic.add(calendarList.size() + "");
 
-        return  populateDonationStatistic;
+        return populateDonationStatistic;
     }
 }

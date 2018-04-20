@@ -77,4 +77,7 @@
         <item>1</item>
     </string-array>
     <string name="menu_statistics">Statistics</string>
+    <string name="numberOfDonationsProfile">num of donations</string>
+    <string name="lastDateOfDonationsProfile">last donation</string>
+    <string name="numberOfDaysToDanateProfile">days to donate</string>
 </resources>

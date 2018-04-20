@@ -40,7 +40,8 @@ public class SplashActivity extends AppCompatActivity {
         mEditor.apply();
         sharedPreferences = getSharedPreferences("onBoardBoolean",MODE_PRIVATE);
         if(!sharedPreferences.getBoolean("alreadyOnBoarded",false)){
-            Toast toast = Toast.makeText(getApplicationContext(), sharedPreferences.getBoolean("alreadyOnBoarded",false)+"", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    sharedPreferences.getBoolean("alreadyOnBoarded",false)+"", Toast.LENGTH_SHORT);
             toast.show();
 
             Intent intent1 = new Intent(this, OnBoardingActivity.class);
@@ -62,7 +63,8 @@ public class SplashActivity extends AppCompatActivity {
         Locale.setDefault(myLocale);
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = myLocale;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
     }
 
     public void setNotificationReminderDonate(){

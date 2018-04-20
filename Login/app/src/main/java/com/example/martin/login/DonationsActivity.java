@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -65,6 +66,7 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         Toolbar toolbar = findViewById(R.id.toolbar_donate);
         emptyView = findViewById(R.id.emptyView);
         setSupportActionBar(toolbar);
+
         mCalendar = Calendar.getInstance();
         donationsText = (TextView)findViewById(R.id.noOfDonations);
         avarageDonationsText = (TextView)findViewById(R.id.averageDonations);
@@ -144,8 +146,7 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
 
         // adding item touch helper
         // only ItemTouchHelper.LEFT added to detect Right to Left swipe
-        // if you want both Right -> Left and Left -> Right
-        // add pass ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT as param
+
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         List<String> statsList = new ArrayList<>();
@@ -155,10 +156,12 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
 
     }
     public List<String> getStats(List<Calendar> calendarList){
-        SharedPreferences sharedPreferences = getSharedPreferences("donationDatesPref",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor mEditor = sharedPreferences.edit();
 
         mEditor.putLong("lastDonationDate",calendarList.get(0).getTimeInMillis());
+        mEditor.putInt("numberOfDonations",calendarList.size());
+
         mEditor.apply();
             Calendar birthdate = new GregorianCalendar().getInstance();
             birthdate.set(1994,Calendar.MARCH,28);
@@ -201,7 +204,7 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
             }
         },year,month,day);
         Toast.makeText(getApplicationContext(),"xxx",Toast.LENGTH_LONG).show();
-        datePickerDialog.setTitle("AddDate");
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.getWindow();
         datePickerDialog.show();
     }

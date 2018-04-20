@@ -69,8 +69,6 @@ public class LoggedActivity extends AppCompatActivity implements GoogleApiClient
 
     public void changeLang(Context context, String lang) {
         Locale myLocale;
-        Toast toast = Toast.makeText(context, lang, Toast.LENGTH_SHORT);
-        toast.show();
         myLocale = new Locale(lang);
         Locale.setDefault(myLocale);
         android.content.res.Configuration config = new android.content.res.Configuration();
@@ -267,25 +265,23 @@ public class LoggedActivity extends AppCompatActivity implements GoogleApiClient
                 break;
 
             case R.id.button2:
-
                 Intent myintent = new Intent(this,
                         ProfileActivity.class);
                 myintent.putExtra("image",picUrlString);
                 startActivity(myintent);
                 break;
+
             case R.id.btnen:
                 changeLang(this,"en");
                 super.recreate();
                 break;
+
             case R.id.btnsk:
                 changeLang(this,"sk");
                 super.recreate();
                 break;
 
         }
-
-
-
     }
 
     @Override

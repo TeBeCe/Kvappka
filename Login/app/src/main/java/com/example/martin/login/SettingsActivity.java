@@ -246,7 +246,7 @@ public class SettingsActivity extends AppCompatActivity
     public void onClick(View view) {
         switch (view.getId()){
             /*case R.id.button4:
-            Intent intent = new Intent(this,ServiceActivity.class);
+
                 startActivity(intent);*/
         }
     }

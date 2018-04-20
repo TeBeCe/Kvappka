@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,17 +28,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class PostsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class PostsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
     private ListView postsListView;
     private TextFieldsClass textFieldsClass;
     ArrayList<HashMap<String, String>> postsList;
     HashMap<String, String> post;
+    ImageButton btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_posts);
         setSupportActionBar(toolbar);
+        btn = (ImageButton)findViewById(R.id.toolbar_button_add);
+        btn.setOnClickListener(this);
         postsListView = (ListView) findViewById(R.id.postsListView);
 
         Context context = getApplicationContext();
@@ -79,7 +84,7 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-// notificationId is a unique int for each notification that you must define
+        // notificationId is a unique int for each notification that you must define
         //notificationManager.notify(70, mBuilder.build());
 
 
@@ -99,7 +104,18 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
 
 
     }
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.toolbar_button_add:
+                Toast toast = Toast.makeText(getApplicationContext(), "Post", Toast.LENGTH_SHORT);
+                toast.show();
 
+
+        }
+
+
+    }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.martin.login">
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"/>
+
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SET_ALARM"/>
@@ -63,11 +68,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".FriendsActivity" />
-        <activity android:name=".ServiceActivity" />
 
-        <service
-            android:name=".TimerService"
-            android:exported="false" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -92,7 +93,6 @@
         <activity android:name=".PostsActivity" />
 
         <receiver android:name=".AlarmReceiver"></receiver>
-
         <activity android:name=".OnBoardingActivity"></activity>
     </application>
 
