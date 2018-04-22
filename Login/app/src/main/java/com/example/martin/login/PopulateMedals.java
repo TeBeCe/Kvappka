@@ -84,8 +84,7 @@ public class PopulateMedals extends ProfileActivity{
         SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(context);
         Long lastDonate = getPreference.getLong("lastDonationDate", 0);
         int numberOfDonations = getPreference.getInt("numberOfDonations",0);
-
-        boolean gender = true;
+        String gender = getPreference.getString("gender","null");
         Collections.sort(calendarList,Collections.reverseOrder());
         Calendar calendar = new GregorianCalendar().getInstance();
         calendar.setTimeInMillis(lastDonate);
@@ -102,7 +101,7 @@ public class PopulateMedals extends ProfileActivity{
 
 
 
-        if(gender) {
+        if(gender.equals("male")) {
             if (numberOfDonations >= manBadges[0]) {
                 badgeLvl1Date.setText(format1.format(calendarList.get(9).getTime()));
             } else {
@@ -159,7 +158,7 @@ public class PopulateMedals extends ProfileActivity{
             badgeLvl5Num.setText(String.valueOf(manBadges[4]));
         }
 
-        else if(!gender) {
+        else if(gender.equals("female")) {
             if (donations >= womanBadges[0]) {
                 badgeLvl1Date.setText(format1.format(calendarList.get(9).getTime()));
             } else {

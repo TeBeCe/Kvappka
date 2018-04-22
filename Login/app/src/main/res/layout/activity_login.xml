@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -14,85 +13,122 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="215dp"
-        android:layout_height="215dp"
+        android:layout_width="204dp"
+        android:layout_height="214dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:cropToPadding="false"
+        android:layout_marginEnd="8dp"
 
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="logo"
+        android:cropToPadding="false"
         android:scaleType="fitXY"
         android:src="@drawable/logo"
-        tools:ignore="HardcodedText"
-        android:contentDescription="logo" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/fb_login_id"
+        android:layout_width="172dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/usr"
+        android:layout_alignLeft="@+id/usr"
+        android:layout_alignStart="@+id/usr"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Kvappka"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/usr"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_above="@+id/psd"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border_style"
+        android:ems="10"
+        android:hint="@string/login_name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fb_login_id" />
+
+    <EditText
+        android:id="@+id/psd"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_above="@+id/btn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border_style"
+        android:ems="10"
+        android:hint="@string/login_password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usr" />
 
     <Button
         android:id="@+id/btn"
         android:layout_width="140dp"
-        android:layout_height="55dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="17dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/border_style"
         android:text="@string/login"
-        android:textColor="#e61610" />
+        android:textColor="@color/black"
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/fb_login_id"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_above="@+id/usr"
-        android:layout_alignLeft="@+id/usr"
-        android:layout_alignStart="@+id/usr"
-        android:layout_marginBottom="16dp"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp" />
+        app:layout_constraintEnd_toStartOf="@+id/textView8"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/psd"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="16dp" />
 
     <TextView
+        android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kvappka"
-        android:textColor="#000000"
-        android:textSize="36sp"
-        android:textAlignment="center"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/register_now"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/psd"
+        android:layout_marginRight="16dp" />
 
-    <EditText
-        android:id="@+id/psd"
-        android:layout_width="400dp"
-        android:layout_height="55dp"
-        android:layout_above="@+id/btn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/border_style"
-        android:ems="10"
-        android:hint="@string/login_password"
-        android:inputType="textPassword" />
-
-    <EditText
-        android:id="@+id/usr"
-        android:layout_width="400dp"
-        android:layout_height="55dp"
-        android:layout_above="@+id/psd"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/border_style"
-        android:ems="10"
-        android:hint="@string/login_name"
-        android:inputType="textPersonName" />
-
-
-    <!--  <Button
-          android:text="Revoke"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:id="@+id/disconnect_button"
-          android:layout_alignBottom="@+id/btn"
-          android:layout_alignLeft="@+id/textView2"
-          android:layout_alignStart="@+id/textView2" />-->
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

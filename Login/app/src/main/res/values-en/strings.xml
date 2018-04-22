@@ -60,4 +60,8 @@
     <string name="donationsListRemoved">removed from list!</string>
     <string name="title_activity_post">title_activity_post</string>
     <string name="emptyListTextView">Register your donations for notifications and your own statistics by tapping on +</string>
+    <string name="wrong_birth_date">Wrong birth date</string>
+    <string name="explanation_new_user">Please verify or update following values...  Actual data are essential for the application to function properly</string>
+    <string name="save">Save</string>
+    <string name="register_now">Register now!</string>
 </resources>

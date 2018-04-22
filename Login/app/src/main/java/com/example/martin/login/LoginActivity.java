@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
         if(AccessToken.getCurrentAccessToken()!=null){
-          Intent intent = new Intent(  LoginActivity.this,LoggedActivity.class);
+          Intent intent = new Intent(  LoginActivity.this,ProfileActivity.class);
             intent.putExtra("loginType","Facebook");
             startActivity(intent);
         }
@@ -134,7 +134,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             if (object.has("gender"))
                                 gender = object.getString("gender");
                             SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                            SharedPreferences.Editor mEditor = getPreference.edit();
+                            mEditor.putString("userId","null");
+                            mEditor.apply();
+                            if(getPreference.getString("userId","null").equals("null")){
 
+                                mEditor.putString("userId",userId);
+                                mEditor.putString("userName",firstName+" " + lastName);
+                                mEditor.putString("email",email);
+                                mEditor.putString("gender",gender);
+                                mEditor.putString("birthDate",birthday);
+                                mEditor.apply();
+                                Toast.makeText(getApplicationContext(),firstName + lastName
+                                        + email + birthday + gender , Toast.LENGTH_LONG).show();
+                                newUserActivity("Facebook");
+                                finish();
+                            }
+                            else {
+                                oldUserActivity("Facebook");
+                                finish();
+                            }
                             //Intent main = new Intent(LoginActivity.this,MainActivity.class);
                             //main.putExtra("name",firstName);
                             //main.putExtra("surname",lastName);
@@ -143,7 +162,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             //finish();
                             Toast.makeText(getApplicationContext(),firstName + lastName
                                     + email + birthday + gender , Toast.LENGTH_LONG).show();
-                            Nextacc();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (MalformedURLException e) {
@@ -171,9 +190,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
         });
-
-        // [START customize_button]
-        // Set the dimensions of the sign-in button.
 
 // basic login begin
         usr = (EditText) findViewById(R.id.usr);
@@ -205,10 +221,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         accessTokenTracker.stopTracking();
         //LoginManager.getInstance().logOut();
     }
-    public void Nextacc(){
+    public void oldUserActivity(String loginType){
         Intent myintent = new Intent(this,
-                LoggedActivity.class);
-        myintent.putExtra("loginType","Facebook");
+                ProfileActivity.class);
+        myintent.putExtra("loginType",loginType);
+        startActivity(myintent);
+    }
+    public void newUserActivity(String loginType){
+        Intent myintent = new Intent(this,
+                NewUserActivity.class);
+        myintent.putExtra("loginType",loginType);
         startActivity(myintent);
     }
     // [START signIn]
@@ -257,7 +279,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             updateUI(true);
 
-            //System.out.println("si");
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);

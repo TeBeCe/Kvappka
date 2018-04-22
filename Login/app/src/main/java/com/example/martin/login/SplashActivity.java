@@ -20,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //setContentView(R.layout.activity_splash);
         SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
 
@@ -71,7 +71,6 @@ public class SplashActivity extends AppCompatActivity {
         textFieldsClass = new TextFieldsClass();
 
         //textFieldsClass.getClosestPossibleDonation();
-
 
     }
 }

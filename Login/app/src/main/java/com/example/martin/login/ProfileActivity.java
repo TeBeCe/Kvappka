@@ -2,8 +2,10 @@ package com.example.martin.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -54,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_drawer);
-
+        SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         badgeLvl1Num = (TextView) findViewById(R.id.badgeLvl1Number);
         badgeLvl2Num = (TextView) findViewById(R.id.badgeLvl2Number);
@@ -86,26 +88,25 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 .getHeaderView(0);
 
         contactList = new ArrayList<>();
-        Json = postData("");
-        contactList = decodeJson(Json);
+        //Json = postData("");
+        //contactList = decodeJson(Json);
         nameView = (TextView) header.findViewById(R.id.nameDrawer1);
         emailView = (TextView) header.findViewById(R.id.emailDrawer1);
         headerImg = (ImageView) header.findViewById(R.id.circularImage);
 
-        nameView.setText(contactList.get(0).get("first_name") + " " + contactList.get(0).get("last_name"));
-        emailView.setText(contactList.get(0).get("email"));
+        nameView.setText(getPreference.getString("userName","error_no_name"));
+        emailView.setText(getPreference.getString("email","error_no_mail"));
         Intent intent = getIntent();
-
-        profileName = (TextView) findViewById(R.id.profileFullName);
-        profileName.setText(contactList.get(0).get("first_name") + " " + contactList.get(0).get("last_name"));
-
         profileEmailView = (TextView) findViewById(R.id.profileEmail);
         profileBornView = (TextView) findViewById(R.id.profileBornDate);
         profileBloodView = (TextView) findViewById(R.id.profileBloodType);
+        profileName = (TextView) findViewById(R.id.profileFullName);
 
-        profileEmailView.setText(contactList.get(0).get("email"));
-        profileBornView.setText(contactList.get(0).get("birth_day"));
-        profileBloodView.setText(contactList.get(0).get("blood_group"));
+        profileName.setText(getPreference.getString("userName","error_no_name"));
+        profileEmailView.setText(getPreference.getString("email","error_no_mail"));
+        profileBornView.setText(getPreference.getString("birthDate","error_no_birthday"));
+        profileBloodView.setText(getPreference.getString("bloodGroup","error_no_blood_group"));
+
         Context context = getApplicationContext();
         populateMedals = new PopulateMedals(context);
         populateMedals.populateMedals(badgeLvl1Num,badgeLvl2Num,badgeLvl3Num,badgeLvl4Num
