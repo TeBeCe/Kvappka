@@ -74,20 +74,19 @@ public class SettingsActivity extends AppCompatActivity
         context = getBaseContext();
         Fragment fragment = new SettingsScreen();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+
         if (savedInstanceState==null){
             fragmentTransaction.add(R.id.setting_activity_content,fragment,"settings_fragment");
             fragmentTransaction.commit();
-
         }
-        else
+        else{
             fragment = getFragmentManager().findFragmentByTag("settings_fragment");
-        //list = (ListView) findViewById(R.id.listView);
-
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -98,15 +97,11 @@ public class SettingsActivity extends AppCompatActivity
                 .getHeaderView(0);
 
         textFieldsClass = new TextFieldsClass();
-        textFieldsClass.setNames(header, context, 4, navigationView);
+        textFieldsClass.setNames(header, context, 5, navigationView);
        // findViewById(R.id.button4).setOnClickListener(this);
       // personList = new ArrayList<HashMap<String,String>>();
        // getData();
     }
-
-
-
-
 
     public static class SettingsScreen extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -128,7 +123,6 @@ public class SettingsActivity extends AppCompatActivity
                     changeLang("en");
                 }
             }
-
         }
         public void changeLang(String lang) {
             if (lang.equalsIgnoreCase(""))
@@ -141,13 +135,12 @@ public class SettingsActivity extends AppCompatActivity
             context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
             refresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(refresh);
-
         }
+
         @Override
         public void onResume() {
             super.onResume();
             getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-
         }
 
         @Override
@@ -212,7 +205,9 @@ public class SettingsActivity extends AppCompatActivity
             startActivity(myintent);
 
         } else if (id == R.id.nav_posts) {
-
+            Intent myintent = new Intent(this,
+                    PostsActivity.class);
+            startActivity(myintent);
         } else if (id == R.id.nav_friends) {
             // Handle the profile action
             Intent myintent = new Intent(this,

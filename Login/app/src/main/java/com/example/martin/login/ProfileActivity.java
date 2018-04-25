@@ -48,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private TextView nameView, emailView, profileName, profileBornView, profileBloodView, profileEmailView;
     TextView badgeLvl1Num,badgeLvl2Num,badgeLvl3Num,badgeLvl4Num,badgeLvl5Num;
     TextView badgeLvl1Date,badgeLvl2Date,badgeLvl3Date,badgeLvl4Date,badgeLvl5Date;
+    TextView countDonations,lastDonation,daysToDonate;
     private ImageView headerImg;
     private int[] manBadges;
     private int[] womanBadges;
@@ -69,6 +70,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         badgeLvl3Date = (TextView) findViewById(R.id.badgeLvl3Date);
         badgeLvl4Date = (TextView) findViewById(R.id.badgeLvl4Date);
         badgeLvl5Date = (TextView) findViewById(R.id.badgeLvl5Date);
+
+        countDonations =(TextView) findViewById(R.id.cardViewTxtLeftUp);
+        lastDonation = (TextView)findViewById(R.id.cardViewTxtMiddleUp);
+        daysToDonate = (TextView)findViewById(R.id.cardViewTxtRightUp);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -110,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Context context = getApplicationContext();
         populateMedals = new PopulateMedals(context);
         populateMedals.populateMedals(badgeLvl1Num,badgeLvl2Num,badgeLvl3Num,badgeLvl4Num
-                ,badgeLvl5Num,badgeLvl1Date,badgeLvl2Date,badgeLvl3Date,badgeLvl4Date,badgeLvl5Date);
+                ,badgeLvl5Num,badgeLvl1Date,badgeLvl2Date,badgeLvl3Date,badgeLvl4Date,badgeLvl5Date,daysToDonate,lastDonation,countDonations);
 
         try {
             Bitmap bitmap = BitmapFactory.decodeStream(context.openFileInput("myProfile"));

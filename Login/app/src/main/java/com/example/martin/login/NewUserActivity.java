@@ -27,6 +27,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
     private RadioButton maleRadio,femaleRadio;
     SharedPreferences getPreference;
     private Button validateButton;
+    Calendar date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
 
         String birthday = getPreference.getString("birthday", "null");
 
-        Calendar date = new GregorianCalendar();
+        date = new GregorianCalendar();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.YYYY");
 
@@ -67,7 +68,8 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
                 date.setTime(sdf.parse(birthday));
                 //newUserBirthday.setText(date.getTime().toString());
                 int year =  date.get(Calendar.DAY_OF_MONTH);
-
+                Toast toast = Toast.makeText(getApplicationContext(), date.getTime().toString(),Toast.LENGTH_LONG);
+                toast.show();
                 newUserBirthday.setText(format1.format(date.getTime()));
             } catch(ParseException e){
             // Handle the exception
@@ -84,7 +86,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
         SharedPreferences.Editor mEditor = getPreference.edit();
         if(genderRadioGroups.getCheckedRadioButtonId()==-1){
             Toast toast = Toast.makeText(getApplicationContext(),"Choose Gender",Toast.LENGTH_LONG);
-            toast.show();
+            //toast.show();
             isAllOk = false;
         }
         else {
@@ -92,7 +94,11 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
 
             RadioButton selectedRadioButton = (RadioButton) findViewById(indexRadio);
             String selectedRadioButtonText = selectedRadioButton.getText().toString();
-            mEditor.putString("gender", selectedRadioButtonText.toLowerCase());
+            if(selectedRadioButtonText.equals("Male") || selectedRadioButtonText.equals("Muž"))
+                mEditor.putString("gender", "male");
+            else
+                mEditor.putString("gender", "female");
+
             mEditor.apply();
         }
         if(newUserBirthday.getText().length()!=10){
@@ -103,7 +109,12 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
         else
         {
             mEditor.putString("birthDate", newUserBirthday.getText().toString());
-            mEditor.apply();
+
+            SimpleDateFormat format1 = new SimpleDateFormat("mm.DD.YYYY");
+                mEditor.putLong("birthDateLong",date.getTimeInMillis());
+                Toast toast = Toast.makeText(getApplicationContext(), date.getTime().toString(),Toast.LENGTH_LONG);
+                //toast.show();
+                mEditor.apply();
         }
 
 

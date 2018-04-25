@@ -68,7 +68,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                 .getHeaderView(0);
 
         textFieldsClass = new TextFieldsClass();
-        textFieldsClass.setNames(header, context, 5, navigationView);
+        textFieldsClass.setNames(header, context, 4, navigationView);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -77,7 +77,6 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
 
         Calendar calendar = Calendar.getInstance();
         day = calendar.get(Calendar.DAY_OF_WEEK);
-        System.out.println("dayis" + day);
         if (day < 6 && day > 1) {
             dayOfWeek = (TextView) findViewById(getResources().getIdentifier("openedTimeTableDay" + String.valueOf(day - 1), "id", getPackageName()));
             dayOfWeek.setTextColor(getResources().getColor(R.color.mainRed));
@@ -133,8 +132,6 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
             mMap.addMarker(new MarkerOptions().position(marker));
         }
 
-
-
         mMap.addMarker(new MarkerOptions().position(ba).title("Marker in Bratislava"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.744545, 19.116564), 7.0f));
 
@@ -156,7 +153,6 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                 requestPermissions(permissions,123);
             }
 
-          
             return;
         }
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
@@ -195,7 +191,6 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                 public void onProviderEnabled(String s) {
 
                 }
-
                 @Override
                 public void onProviderDisabled(String s) {
 
@@ -251,14 +246,12 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
 
         }
         mMap.setMyLocationEnabled(true);
-
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode==123)
             for (int res:grantResults){
-
 
             }
     }
@@ -311,6 +304,9 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
             startActivity(myintent);
 
         } else if (id == R.id.nav_posts) {
+            Intent myintent = new Intent(this,
+                    PostsActivity.class);
+            startActivity(myintent);
 
         } else if (id == R.id.nav_friends) {
             // Handle the profile action
@@ -321,10 +317,12 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         } else if (id == R.id.nav_donations) {
             Intent myintent = new Intent(this, DonationsActivity.class);
             startActivity(myintent);
+
         } else if (id == R.id.nav_settings) {
             Intent myintent = new Intent(this,
                     SettingsActivity.class);
             startActivity(myintent);
+
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

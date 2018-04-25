@@ -1,62 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="200dp">
 
     <ImageView
         android:scaleType="fitCenter"
         android:id="@+id/logo_post"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:src="@drawable/logo"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginRight="16dp"/>
 
     <TextView
-        android:layout_width="38dp"
+        android:id="@+id/textView10"
+        android:layout_width="32dp"
         android:layout_height="30dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:text="0"
-        android:textColor="@color/black"
+        android:layout_marginTop="17dp"
+        android:text="AB"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="25sp" />
 
     <ImageButton
-        android:layout_marginTop="16dp"
+        android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/three_dots"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_alignEnd="@+id/contentPost"
+        android:layout_alignRight="@+id/contentPost"
+        android:layout_alignTop="@+id/namePost"
         android:background="@android:color/transparent"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:src="@drawable/three_dots" />
 
     <TextView
-        android:id="@+id/name_post"
+        android:id="@+id/namePost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_toRightOf="@+id/logo_post"
+        android:layout_alignTop="@+id/textView10"
         android:layout_toEndOf="@+id/logo_post"
-        android:textStyle="bold"
-        android:text="NameSurename"
-        android:textSize="16sp" />
+        android:layout_toRightOf="@+id/logo_post"
+        android:text="Name Surename"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/datePost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_toRightOf="@+id/logo_post"
+        android:layout_below="@+id/namePost"
+        android:text="Posted: 24.12.2019"
+        android:layout_toEndOf="@+id/logo_post" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/contentPost"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/name_post"
-        android:layout_toEndOf="@+id/logo_post"
-        android:layout_toRightOf="@+id/logo_post"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quisnostrud exercitation ullamco laboris nisi ut aliquip exea commodo consequat. Duis aute irure dolor inreprehenderit in voluptate velit esse cillum dolore eufugiat nulla pariatur. Excepteur sint occaecat cupidatatnon proident, sunt in culpa qui officia deserunt mollitanim id est laborum...."/>
-
+        android:layout_marginTop="6dp"
+        android:layout_below="@+id/datePost"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quisnostrud exercitation ullamco laboris nisi ut aliquip exea commodo consequat. Duis aute irure dolor inreprehenderit in voluptate velit esse cillum dolore eufugiat nulla pariatur. Excepteur sint occaecat cupidatatnon proident, sunt in culpa qui officia deserunt mollitanim id est laborum...."
+        android:layout_marginBottom="4dp"/>
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -56,7 +57,7 @@ public class TextFieldsClass extends AppCompatActivity {
     }
 
     public void setNames(View header, Context context, int idMenu, NavigationView navigationView) {
-
+        SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(context);
         contactList = new ArrayList<>();
         Json = postData("");
         contactList = decodeJson(Json);
@@ -69,8 +70,8 @@ public class TextFieldsClass extends AppCompatActivity {
         emailView = (TextView) header.findViewById(R.id.emailDrawer1);
         headerImg = (ImageView) header.findViewById(R.id.circularImage);
 
-        nameView.setText(contactList.get(0).get("first_name") + " " + contactList.get(0).get("last_name"));
-        emailView.setText(contactList.get(0).get("email"));
+        nameView.setText(getPreference.getString("userName","error_no_name"));
+        emailView.setText(getPreference.getString("email","error_no_mail"));
 
         try {
             Bitmap bitmap = BitmapFactory.decodeStream(context.openFileInput("myProfile"));

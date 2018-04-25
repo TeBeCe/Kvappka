@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -46,18 +47,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DonationsActivity extends AppCompatActivity implements View.OnClickListener,RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, NavigationView.OnNavigationItemSelectedListener{
-    Calendar mCalendar;
-    int year,month,day;
-    ImageButton btn;
+public class DonationsActivity extends AppCompatActivity implements View.OnClickListener, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, NavigationView.OnNavigationItemSelectedListener {
+    private Calendar mCalendar;
+    private int year, month, day;
+    private ImageButton btn;
     private RecyclerView recyclerView;
-    private List<Calendar> calendarList;
     private DonationsListAdapter mAdapter;
     private CoordinatorLayout coordinatorLayout;
     private TextFieldsClass textFieldsClass;
-    private TextView emptyView,donationsText,avarageDonationsText;
+    private TextView emptyView, donationsText, avarageDonationsText;
     private Context contextApp;
-
+    private String[] listItems;
+    private List<DonationsEntity> donationsEntityList;
+    private SimpleDateFormat format1= new SimpleDateFormat("dd.MM.yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,25 +69,30 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         emptyView = findViewById(R.id.emptyView);
         setSupportActionBar(toolbar);
 
+        listItems = getResources().getStringArray(R.array.donationPlacesArray);
         mCalendar = Calendar.getInstance();
-        donationsText = (TextView)findViewById(R.id.noOfDonations);
-        avarageDonationsText = (TextView)findViewById(R.id.averageDonations);
-        btn = (ImageButton)findViewById(R.id.toolbar_button_add);
+
+        donationsText = (TextView) findViewById(R.id.noOfDonations);
+        avarageDonationsText = (TextView) findViewById(R.id.averageDonations);
+        btn = (ImageButton) findViewById(R.id.toolbar_button_add);
         btn.setOnClickListener(this);
+
         Context context = getApplicationContext();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         contextApp = getApplicationContext();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView
                 .setNavigationItemSelectedListener(this);
         View header = navigationView
                 .getHeaderView(0);
         textFieldsClass = new TextFieldsClass();
-        textFieldsClass.setNames(header,context,3,navigationView);
+        textFieldsClass.setNames(header, context, 3, navigationView);
 
         year = mCalendar.get(Calendar.YEAR);
         month = mCalendar.get(Calendar.MONTH);
@@ -94,7 +101,6 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
 
         recyclerView = findViewById(R.id.recycler_view);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
-        calendarList = new ArrayList<>();
         Calendar c1 = GregorianCalendar.getInstance();
         Calendar c2 = GregorianCalendar.getInstance();
         Calendar c3 = GregorianCalendar.getInstance();
@@ -104,28 +110,59 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         Calendar c7 = GregorianCalendar.getInstance();
         Calendar c8 = GregorianCalendar.getInstance();
         Calendar c9 = GregorianCalendar.getInstance();
-        c1.set(2018,Calendar.JANUARY,15);
-        c2.set(2019,Calendar.JANUARY,15);
-        c3.set(2012,Calendar.MARCH,28);
-        c4.set(2013,Calendar.MARCH,28);
-        c5.set(2015,Calendar.MARCH,28);
-        c6.set(2014,Calendar.MARCH,28);
-        c7.set(2016,Calendar.MARCH,28);
-        c8.set(2017,Calendar.MARCH,28);
-        c9.set(2012,Calendar.DECEMBER,28);
-        calendarList.add(c1);
-        calendarList.add(c2);
-        calendarList.add(c3);
-        calendarList.add(c4);
-        calendarList.add(c5);
-        calendarList.add(c6);
-        calendarList.add(c7);
-        calendarList.add(c8);
-        calendarList.add(c9);
+        c3.set(2013, Calendar.JANUARY, 25);
+        c2.set(2012, Calendar.OCTOBER, 24);
+        c1.set(2012, Calendar.MARCH, 28);
+        c4.set(2013, Calendar.AUGUST, 26);
+        c5.set(2015, Calendar.MARCH, 2);
+        c6.set(2016, Calendar.JULY, 21);
+        c7.set(2016, Calendar.NOVEMBER, 3);
+        c8.set(2017, Calendar.AUGUST, 7);
+        c9.set(2017, Calendar.NOVEMBER, 6);
 
-        Collections.sort(calendarList,Collections.reverseOrder());
-       // calendarList = new ArrayList<>();
-        mAdapter = new DonationsListAdapter(this, calendarList);
+        DonationsEntity dE1 = new DonationsEntity();
+        DonationsEntity dE2 = new DonationsEntity();
+        DonationsEntity dE3 = new DonationsEntity();
+        DonationsEntity dE4 = new DonationsEntity();
+        DonationsEntity dE5 = new DonationsEntity();
+        DonationsEntity dE6 = new DonationsEntity();
+        DonationsEntity dE7 = new DonationsEntity();
+        DonationsEntity dE8 = new DonationsEntity();
+        DonationsEntity dE9 = new DonationsEntity();
+
+        dE1.setCalendar(c1);
+        dE1.setPlace("Trnava");
+        dE2.setCalendar(c2);
+        dE2.setPlace("Trnava");
+        dE3.setCalendar(c3);
+        dE3.setPlace("Trnava");
+        dE4.setCalendar(c4);
+        dE4.setPlace("Trnava");
+        dE5.setCalendar(c5);
+        dE5.setPlace("Trnava");
+        dE6.setCalendar(c6);
+        dE6.setPlace("Trnava");
+        dE7.setCalendar(c7);
+        dE7.setPlace("Trnava");
+        dE8.setCalendar(c8);
+        dE8.setPlace("Trnava");
+        dE9.setCalendar(c9);
+        dE9.setPlace("Trnava");
+
+        donationsEntityList = new ArrayList<>();
+        donationsEntityList.add(dE1);
+        donationsEntityList.add(dE2);
+        donationsEntityList.add(dE3);
+        donationsEntityList.add(dE4);
+        donationsEntityList.add(dE5);
+        donationsEntityList.add(dE6);
+        donationsEntityList.add(dE7);
+        donationsEntityList.add(dE8);
+        donationsEntityList.add(dE9);
+
+        Collections.sort(donationsEntityList,Collections.reverseOrder());
+
+        mAdapter = new DonationsListAdapter(this, donationsEntityList);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -133,16 +170,13 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 
-        if (calendarList.isEmpty()) {
+        if (donationsEntityList.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
-
-
 
         // adding item touch helper
         // only ItemTouchHelper.LEFT added to detect Right to Left swipe
@@ -150,60 +184,83 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         List<String> statsList = new ArrayList<>();
-        statsList = getStats(calendarList);
-        donationsText.setText(statsList.get(1));
-        avarageDonationsText.setText(statsList.get(0));
+        statsList = getStats(donationsEntityList);
+        //donationsText.setText(statsList.get(1));
+        //avarageDonationsText.setText(statsList.get(0));
 
     }
-    public List<String> getStats(List<Calendar> calendarList){
+
+    public List<String> getStats(List<DonationsEntity> donationsEntityList) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor mEditor = sharedPreferences.edit();
-
-        mEditor.putLong("lastDonationDate",calendarList.get(0).getTimeInMillis());
-        mEditor.putInt("numberOfDonations",calendarList.size());
-
+        if (donationsEntityList.size() == 0) {
+            mEditor.putLong("lastDonationDate", sharedPreferences.getLong("birthDateLong", 0));
+        } else {
+            mEditor.putLong("lastDonationDate", donationsEntityList.get(0).getCalendar().getTimeInMillis());
+        }
+        mEditor.putInt("numberOfDonations", donationsEntityList.size());
         mEditor.apply();
-            Calendar birthdate = new GregorianCalendar().getInstance();
-            birthdate.set(1994,Calendar.MARCH,28);
-            birthdate.set(Calendar.YEAR,2012);
 
-            Calendar today = new GregorianCalendar().getInstance();
-            int diffYear = today.get(Calendar.YEAR) - birthdate.get(Calendar.YEAR);
-            int diffMonth = diffYear * 12 + today.get(Calendar.MONTH) - birthdate.get(Calendar.MONTH);
-            int timesPossible = diffMonth/3;
-            float averageDonationPerYear = calendarList.size()/(float)(timesPossible/4);
-            //Toast.makeText(getApplicationContext(),"time"+ calendarList.size() + "possible" + timesPossible/4 + "averagePerYr" + averageDonationPerYear ,Toast.LENGTH_LONG).show();
-            List<String> populateDonationStatistic  = new ArrayList<>();
-            populateDonationStatistic.add(""+averageDonationPerYear);
-            populateDonationStatistic.add(calendarList.size()+"");
-
-        return  populateDonationStatistic;
+        Calendar birthDate = new GregorianCalendar().getInstance();
+        birthDate.setTimeInMillis(sharedPreferences.getLong("birthDateLong", 0));
+        Toast toast = Toast.makeText(getApplicationContext(), birthDate.getTime().toString(), Toast.LENGTH_LONG);
+        toast.show();
+        birthDate.add(Calendar.YEAR, 18);
+        toast = Toast.makeText(getApplicationContext(), birthDate.getTime().toString(), Toast.LENGTH_LONG);
+        toast.show();
+        Calendar today = new GregorianCalendar().getInstance();
+        int diffYear = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
+        int diffMonth = diffYear * 12 + today.get(Calendar.MONTH) - birthDate.get(Calendar.MONTH);
+        int timesPossible = diffMonth / 3;
+        float averageDonationPerYear = donationsEntityList.size() / (float) (timesPossible / 4);
+        List<String> populateDonationStatistic = new ArrayList<>();
+        populateDonationStatistic.add("" + averageDonationPerYear);
+        populateDonationStatistic.add(donationsEntityList.size() + "");
+        donationsText.setText(String.valueOf(averageDonationPerYear));
+        avarageDonationsText.setText(String.valueOf(donationsEntityList.size()));
+        return populateDonationStatistic;
     }
+
     @Override
     public void onClick(View view) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(DonationsActivity.this,
-                                                                    new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                monthOfYear=monthOfYear+1;
-                Calendar calendarik = new GregorianCalendar();
-                calendarik.set(Calendar.YEAR,year);
-                calendarik.set(Calendar.MONTH,monthOfYear);
-                calendarik.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        final Calendar calendarik = new GregorianCalendar();
+                        calendarik.set(Calendar.YEAR, year);
+                        calendarik.set(Calendar.MONTH, monthOfYear);
+                        calendarik.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                mAdapter.addItem(calendarik);
-                calendarList =  mAdapter.returnList();
-                if (calendarList.isEmpty()) {
-                    recyclerView.setVisibility(View.GONE);
-                    emptyView.setVisibility(View.VISIBLE);
-                }
-                else {
-                    recyclerView.setVisibility(View.VISIBLE);
-                    emptyView.setVisibility(View.GONE);
-                }
-            }
-        },year,month,day);
-        Toast.makeText(getApplicationContext(),"xxx",Toast.LENGTH_LONG).show();
+
+                        if (donationsEntityList.isEmpty()) {
+                            recyclerView.setVisibility(View.GONE);
+                            emptyView.setVisibility(View.VISIBLE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            emptyView.setVisibility(View.GONE);
+                        }
+
+                        AlertDialog.Builder mBuilder = new AlertDialog
+                                .Builder(DonationsActivity.this);
+                        mBuilder.setTitle(R.string.dialogTitleDonationPlace);
+                        mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(getApplicationContext(), listItems[i],
+                                        Toast.LENGTH_LONG).show();
+                        DonationsEntity tempDe = new DonationsEntity();
+                        tempDe.setCalendar(calendarik);
+                        tempDe.setPlace(listItems[i]);
+                        mAdapter.addItem(tempDe);
+                        donationsEntityList = mAdapter.returnList();
+                        getStats(donationsEntityList);
+                        dialogInterface.dismiss();
+                            }
+                        });
+                        mBuilder.show();
+                    }
+                }, year, month, day);
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.getWindow();
         datePickerDialog.show();
@@ -218,11 +275,13 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof DonationsListAdapter.MyViewHolder) {
             // get the removed item name to display it in snack bar
-            //String name = calendarList.get(viewHolder.getAdapterPosition()).get;
-            String name = "testTODO";
+            String name = format1.format(donationsEntityList.get(viewHolder.getAdapterPosition())
+                    .getCalendar().getTime());
+            //String name = "testTODO";
 
             // backup of removed item for undo purpose
-            final Calendar deletedItem = calendarList.get(viewHolder.getAdapterPosition());
+            final DonationsEntity deletedItem = donationsEntityList.get(viewHolder
+                    .getAdapterPosition());
             final int deletedIndex = viewHolder.getAdapterPosition();
 
             // remove the item from recycler view
@@ -234,7 +293,6 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
             snackbar.setAction("UNDO", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     // undo is selected, restore the deleted item
                     mAdapter.restoreItem(deletedItem, deletedIndex);
                 }
@@ -242,6 +300,16 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
             snackbar.setActionTextColor(Color.RED);
             snackbar.setDuration(10000);
             snackbar.show();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -254,38 +322,29 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
             Intent myintent = new Intent(this,
                     ProfileActivity.class);
             startActivity(myintent);
-
-        }
-        else if (id == R.id.nav_posts) {
+        } else if (id == R.id.nav_posts) {
             Intent myintent = new Intent(this,
                     PostsActivity.class);
             startActivity(myintent);
-        }
-        else if (id == R.id.nav_friends) {
+        } else if (id == R.id.nav_friends) {
             // Handle the profile action
             Intent myintent = new Intent(this,
                     FriendsActivity.class);
             startActivity(myintent);
-
-        }
-        else if (id == R.id.nav_donations) {
-            Intent myintent = new Intent(this,DonationsActivity.class);
+        } else if (id == R.id.nav_donations) {
+            Intent myintent = new Intent(this, DonationsActivity.class);
             startActivity(myintent);
-        }
-        else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
             Intent myintent = new Intent(this,
                     SettingsActivity.class);
             startActivity(myintent);
-        }
-        else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share) {
 
-        }
-        else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_send) {
 
-        }
-        else if (id == R.id.nav_places){
+        } else if (id == R.id.nav_places) {
             System.out.println("places");
-            Intent myintent = new Intent(this,PlacesActivity.class);
+            Intent myintent = new Intent(this, PlacesActivity.class);
             startActivity(myintent);
         }
 

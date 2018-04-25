@@ -8,8 +8,10 @@ import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.widget.Toast;
@@ -26,12 +28,15 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent notificationIntent = new Intent(context, DonationsActivity.class);
-      //  Toast toast = Toast.makeText(getApplicationContext(), "xxxx", Toast.LENGTH_SHORT);
-      //  toast.show();
+        Intent notificationIntent = new Intent(context, ProfileActivity.class);
+
+        SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Boolean langPref = getPreference.getBoolean("allowNotifyPref", false);
+          Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(langPref), Toast.LENGTH_SHORT);
+          toast.show();
         if (android.os.Build.VERSION.SDK_INT > 16) {
             TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
-            taskStackBuilder.addParentStack(LoginActivity.class);
+            taskStackBuilder.addParentStack(SplashActivity.class);
             taskStackBuilder.addNextIntent(notificationIntent);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -46,6 +51,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
                 notificationManager.createNotificationChannel(mChannel);
             }
+
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "ididid")
                     .setSmallIcon(R.drawable.logoplus)
                     .setContentTitle(getApplicationContext().getResources().getString(R.string.notification7DaysTitle))
@@ -55,7 +61,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             mBuilder.setAutoCancel(true);
             PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(69,PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-           // mBuilder.setContentIntent(pendingIntent);
+            mBuilder.setContentIntent(pendingIntent);
             /*Notification.Builder builder = new Notification.Builder(context);
             Notification notification = builder.setAutoCancel(true)
                     .setContentTitle("DEMO")

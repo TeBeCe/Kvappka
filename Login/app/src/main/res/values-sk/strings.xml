@@ -59,5 +59,25 @@
     <string name="donationsListRemoved">removed from list!</string>
     <string name="title_activity_post">title_activity_post</string>
     <string name="emptyListTextView">Register your donations for notifications and your own statistics by tapping on +</string>
+    <string name="gender">Pohlavie</string>
+    <string name="birthDate">Dátum narodenia</string>
+    <string name="wrong_birth_date">Nesprávny formát dátumu narodenia</string>
+    <string name="explanation_new_user">Prosím overete správnosť nasledovných údajov.Správne dáta sú dôležité pre chod aplikácie</string>
+    <string name="save">Ulož</string>
+    <string name="register_now">Zaregistruj sa!</string>
+    <string name="notifications_category">Notifikácie</string>
+    <string name="notificationSettingPostNotify">Dostávajte upozornenia o príspevkoch</string>
+    <string name="notificationSettingDonationsNotify">Dostávajte upozornenia na možnosť odberu</string>
+    <string name="language_category">Jazyk</string>
+    <string name="bloodGroup">Krvná skupina</string>
+    <string name="numberOfDonationsProfile">Počet darovaní</string>
+    <string name="lastDateOfDonationsProfile">Posledné darovanie</string>
+    <string name="numberOfDaysToDanateProfile">Dní do darovania</string>
+    <string name="female">Žena</string>
+    <string name="male">Muž</string>
+    <string name="dialogTitleDonationPlace">Miesto odberu</string>
+    <string name="welcomeNewUser">Ahoj darca!</string>
+    <string name="emailFromat">email@email.sk</string>
+    <string name="register">Registruj</string>
 
 </resources>

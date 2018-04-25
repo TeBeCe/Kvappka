@@ -9,12 +9,13 @@
         android:id="@+id/view_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginBottom="2dp">
 
         <ImageView
             android:id="@+id/delete_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
@@ -32,7 +33,7 @@
             android:layout_toStartOf="@+id/delete_icon"
             android:text="@string/delete"
             android:textColor="#fff"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
     </RelativeLayout>
 
@@ -41,12 +42,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:layout_marginBottom="2dp">
 
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/thumbnail"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
             android:scaleType="centerCrop"
@@ -55,7 +58,6 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/thumbnail"
@@ -63,9 +65,21 @@
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:layout_toEndOf="@id/thumbnail"
+            android:layout_marginBottom="4dp"
+            android:text="00.00.0000"
             tools:targetApi="jelly_bean" />
+
+        <TextView
+            android:id="@+id/locationName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/thumbnail"
+            android:layout_toRightOf="@+id/thumbnail"
+            android:layout_below="@+id/name"
+            android:textSize="16sp"
+            android:text="TextView" />
 
     </RelativeLayout>
 </FrameLayout>

@@ -23,9 +23,8 @@ public class SplashActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_splash);
         SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-
         String langPref = getPreference.getString("languagePref", "xxx");
-       // Toast toast = Toast.makeText(getApplicationContext(), langPref, Toast.LENGTH_SHORT);
+        // Toast toast = Toast.makeText(getApplicationContext(), langPref, Toast.LENGTH_SHORT);
         //toast.show();
 
         if (langPref.equals("0")) {

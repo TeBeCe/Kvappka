@@ -38,7 +38,7 @@ public class PopulateMedals extends ProfileActivity{
     }
     public void populateMedals(TextView badgeLvl1Num,TextView badgeLvl2Num, TextView badgeLvl3Num,TextView badgeLvl4Num
             , TextView badgeLvl5Num,TextView badgeLvl1Date, TextView badgeLvl2Date,TextView badgeLvl3Date
-            , TextView badgeLvl4Date,TextView badgeLvl5Date){
+            , TextView badgeLvl4Date,TextView badgeLvl5Date,TextView daysToDonate,TextView lastDonation,TextView countDonations){
         calendarList = new ArrayList<>();
         Calendar c1 = GregorianCalendar.getInstance();
         Calendar c2 = GregorianCalendar.getInstance();
@@ -89,11 +89,14 @@ public class PopulateMedals extends ProfileActivity{
         Calendar calendar = new GregorianCalendar().getInstance();
         calendar.setTimeInMillis(lastDonate);
         SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat formatShort = new SimpleDateFormat("dd.MM.yy");
         int donations = 21;
         Toast toast = Toast.makeText(context,String.valueOf(numberOfDonations),Toast.LENGTH_LONG);
-        toast.show();
+        //toast.show();
 
-
+        countDonations.setText(String.valueOf(numberOfDonations));
+        lastDonation.setText(formatShort.format(calendar.getTime()));
+        daysToDonate.setText("xxx");
         manBadges = new int[]{10,20,40,80,100};
         womanBadges = new int[]{10,20,30,60,80};
 
@@ -107,9 +110,9 @@ public class PopulateMedals extends ProfileActivity{
             } else {
                 int monthsToAdd = (manBadges[0] - numberOfDonations) * 3;
                 months = manBadges[0] - numberOfDonations;
-                Calendar closestWithOffset = calendarList.get(0);
+                Calendar closestWithOffset = calendar;
                 closestWithOffset.add(Calendar.MONTH,monthsToAdd);
-                badgeLvl1Date.setText(format1.format(closestWithOffset.getTime()));
+                badgeLvl1Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
             if (numberOfDonations >= manBadges[1]) {
                 badgeLvl2Date.setText(format1.format(calendarList.get(19).getTime()));
@@ -119,7 +122,7 @@ public class PopulateMedals extends ProfileActivity{
                 months = manBadges[1] - numberOfDonations;
                 Calendar closestWithOffset = calendarList.get(0);
                 closestWithOffset.add(Calendar.MONTH,monthsToAdd);
-                badgeLvl2Date.setText(format1.format(closestWithOffset.getTime()));
+                badgeLvl2Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
             if (numberOfDonations >= manBadges[2]) {
                 badgeLvl3Date.setText(format1.format(calendarList.get(39).getTime()));
@@ -129,7 +132,7 @@ public class PopulateMedals extends ProfileActivity{
                 months = manBadges[2] - numberOfDonations;
                 Calendar closestWithOffset = calendarList.get(0);
                 closestWithOffset.add(Calendar.MONTH,monthsToAdd);
-                badgeLvl3Date.setText(format1.format(closestWithOffset.getTime()));
+                badgeLvl3Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
             if (numberOfDonations >= manBadges[3]) {
                 badgeLvl4Date.setText(format1.format(calendarList.get(79).getTime()));
@@ -139,7 +142,7 @@ public class PopulateMedals extends ProfileActivity{
                 months = manBadges[3] - numberOfDonations;
                 Calendar closestWithOffset = calendarList.get(0);
                 closestWithOffset.add(Calendar.MONTH,monthsToAdd);
-                badgeLvl4Date.setText(format1.format(closestWithOffset.getTime()));
+                badgeLvl4Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
             if (numberOfDonations >= manBadges[4]) {
                 badgeLvl5Date.setText(format1.format(calendarList.get(99).getTime()));
@@ -148,7 +151,7 @@ public class PopulateMedals extends ProfileActivity{
                 int monthsToAdd = (manBadges[4] - numberOfDonations - months) * 3;
                 Calendar closestWithOffset = calendarList.get(0);
                 closestWithOffset.add(Calendar.MONTH,monthsToAdd);
-                badgeLvl5Date.setText(format1.format(closestWithOffset.getTime()));
+                badgeLvl5Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
 
             badgeLvl1Num.setText(String.valueOf(manBadges[0]));
@@ -159,46 +162,46 @@ public class PopulateMedals extends ProfileActivity{
         }
 
         else if(gender.equals("female")) {
-            if (donations >= womanBadges[0]) {
+            if (numberOfDonations >= womanBadges[0]) {
                 badgeLvl1Date.setText(format1.format(calendarList.get(9).getTime()));
             } else {
                 int monthsToAdd = (womanBadges[0] - numberOfDonations) * 4;
-                months = manBadges[0] - numberOfDonations;
+                months = womanBadges[0] - numberOfDonations;
                 Calendar closestWithOffset = calendarList.get(0);
                 closestWithOffset.add(Calendar.MONTH,monthsToAdd);
-                badgeLvl1Date.setText(format1.format(closestWithOffset.getTime()));
+                badgeLvl1Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
-            if (donations >= womanBadges[1]) {
+            if (numberOfDonations >= womanBadges[1]) {
                 badgeLvl2Date.setText(format1.format(calendarList.get(19).getTime()));
             }
             else {
                 int monthsToAdd = (womanBadges[1] - numberOfDonations - months) * 4;
-                months = manBadges[0] - numberOfDonations;
+                months = womanBadges[1] - numberOfDonations;
                 Calendar closestWithOffset = calendarList.get(0);
                 closestWithOffset.add(Calendar.MONTH,monthsToAdd);
-                badgeLvl2Date.setText(format1.format(closestWithOffset.getTime()));
+                badgeLvl2Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
-            if (donations >= womanBadges[2]) {
+            if (numberOfDonations >= womanBadges[2]) {
                 badgeLvl3Date.setText(format1.format(calendarList.get(29).getTime()));
             }
             else {
                 int monthsToAdd = (womanBadges[2] - numberOfDonations - months) * 4;
-                months = manBadges[0] - numberOfDonations;
+                months = womanBadges[2] - numberOfDonations;
                 Calendar closestWithOffset = calendarList.get(0);
                 closestWithOffset.add(Calendar.MONTH,monthsToAdd);
-                badgeLvl3Date.setText(format1.format(closestWithOffset.getTime()));
+                badgeLvl3Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
-            if (donations >= womanBadges[3]) {
+            if (numberOfDonations >= womanBadges[3]) {
                 badgeLvl4Date.setText(format1.format(calendarList.get(59).getTime()));
             }
             else {
                 int monthsToAdd = (womanBadges[3] - numberOfDonations - months) * 4;
-                months = manBadges[0] - numberOfDonations;
+                months = womanBadges[3] - numberOfDonations;
                 Calendar closestWithOffset = calendarList.get(0);
                 closestWithOffset.add(Calendar.MONTH,monthsToAdd);
-                badgeLvl4Date.setText(format1.format(closestWithOffset.getTime()));
+                badgeLvl4Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
-            if (donations >= womanBadges[4]) {
+            if (numberOfDonations >= womanBadges[4]) {
                 badgeLvl5Date.setText(format1.format(calendarList.get(79).getTime()));
             }
             else {
@@ -206,7 +209,7 @@ public class PopulateMedals extends ProfileActivity{
 
                 Calendar closestWithOffset = calendarList.get(0);
                 closestWithOffset.add(Calendar.MONTH,monthsToAdd);
-                badgeLvl5Date.setText(format1.format(closestWithOffset.getTime()));
+                badgeLvl5Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
 
             badgeLvl1Num.setText(String.valueOf(womanBadges[0]));

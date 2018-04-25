@@ -57,10 +57,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private GoogleSignInAccount account;
-    Animation shake;
+    private Animation shake;
     AccessTokenTracker accessTokenTracker;
     private URL profilePicture;
-
+    private TextView registerText;
     LoginButton loginButton;
     TextView textViewFb;
     CallbackManager callbackManager;
@@ -70,20 +70,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
-        if (android.os.Build.VERSION.SDK_INT > 15) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         if(AccessToken.getCurrentAccessToken()!=null){
-          Intent intent = new Intent(  LoginActivity.this,ProfileActivity.class);
+            Intent intent = new Intent(  LoginActivity.this,ProfileActivity.class);
             intent.putExtra("loginType","Facebook");
             startActivity(intent);
         }
 
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
-
         loginButton = (LoginButton) findViewById(R.id.fb_login_id) ;
         loginButton.setReadPermissions(Arrays.asList(
                 "public_profile", "email", "user_birthday", "user_friends"));
@@ -101,7 +98,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         };
         // If the access token is available already assign it.
         //accessToken = AccessToken.getCurrentAccessToken();
-
+        registerText = (TextView) findViewById(R.id.textViewRegister);
+        registerText.setOnClickListener(this);
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -238,8 +236,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-    // [END signIn]
-
 
     // [START revokeAccess]
     private void revokeAccess() {
@@ -253,7 +249,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     }
                 });
     }
-    // [END revokeAccess]
 
     // [START onActivityResult]
     @Override
@@ -266,7 +261,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             handleSignInResult(result);
         }
     }
-    // [END onActivityResult]
 
     // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result) {
@@ -309,6 +303,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.textViewRegister:
+                Intent newUserIntent = new Intent(LoginActivity.this,NewUserRegisterActivity.class);
+                startActivity(newUserIntent);
            /* case R.id.sign_in_button:
                 signIn();
                 break;

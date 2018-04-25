@@ -77,18 +77,22 @@
         <item>1</item>
     </string-array>
     <string name="menu_statistics">Statistics</string>
-    <string name="numberOfDonationsProfile">num of donations</string>
-    <string name="lastDateOfDonationsProfile">last donation</string>
-    <string name="numberOfDaysToDanateProfile">days to donate</string>
+    <string name="numberOfDonationsProfile">No. of donations</string>
+    <string name="lastDateOfDonationsProfile">Last donation</string>
+    <string name="numberOfDaysToDanateProfile">Days to donate</string>
     <string name="female">Female</string>
     <string name="male">Male</string>
     <string name="bloodGroup">Blood Group</string>
     <string name="gender">Gender</string>
     <string name="birthDate">Birth date</string>
     <string name="wrong_birth_date">Wrong birth date</string>
-    <string name="explanation_new_user">Please verify or update following values...  Actual data are essential for the application to function properly</string>
+    <string name="explanation_new_user">Please verify or update following values. Actual data are essential for the application to function properly</string>
     <string name="save">Save</string>
     <string name="register_now">Register now!</string>
+    <string name="notifications_category">Notifications</string>
+    <string name="notificationSettingPostNotify">Get notified about new posts</string>
+    <string name="notificationSettingDonationsNotify">Get notified when donation time incoming</string>
+    <string name="language_category">Language</string>
 
 
     <string-array name="bloodGroupsArray">
@@ -97,4 +101,17 @@
         <item>AB</item>
         <item>0</item>
     </string-array>
+    <string-array name="donationPlacesArray">
+        <item>Bratislava</item>
+        <item>Bratislava2</item>
+        <item>Trnava</item>
+        <item>BB</item>
+        <item>Kosice</item>
+        <item>XX</item>
+        <item>XX1</item>
+    </string-array>
+    <string name="dialogTitleDonationPlace">Donation Place</string>
+    <string name="register">Register</string>
+    <string name="emailFromat">email@email.com</string>
+    <string name="welcomeNewUser">Hello donator!</string>
 </resources>
