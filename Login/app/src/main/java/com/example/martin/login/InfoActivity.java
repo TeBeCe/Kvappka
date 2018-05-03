@@ -1,50 +1,43 @@
 package com.example.martin.login;
 
+import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
 
-public class MainDrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-    private String nameSurname, email;
-    private TextView nameView, emailView, idView;
+import com.facebook.login.LoginManager;
 
-
+public class InfoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    TextFieldsClass textFieldsClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_drawer);
+        setContentView(R.layout.activity_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Context context = getApplicationContext();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-       //drawer.setDrawerListener(toggle);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View header = navigationView.getHeaderView(0);
-        navigationView.setNavigationItemSelectedListener(this);
-        /*HashMap<String, String> personList1 = (HashMap<String, String>) getIntent().getExtras().get("user");
 
-        nameView = (TextView) findViewById(R.id.textViewName);
-        emailView = (TextView) findViewById(R.id.textViewMail);
-        idView = (TextView) findViewById(R.id.textViewID);
-        // assert personList1 != null;
-        personList1.get("first_name");
-        nameView.setText(personList1.get("first_name"));
-        emailView.setText(personList1.get("email"));
-        idView.setText(personList1.get("id"));*/
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView
+                .setNavigationItemSelectedListener(this);
+        View header = navigationView
+                .getHeaderView(0);
+
+        textFieldsClass = new TextFieldsClass();
+        textFieldsClass.setNames(header, context, 6, navigationView);
     }
 
     @Override
@@ -56,33 +49,8 @@ public class MainDrawerActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add_donation_day, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
@@ -90,28 +58,38 @@ public class MainDrawerActivity extends AppCompatActivity
             Intent myintent = new Intent(this,
                     ProfileActivity.class);
             startActivity(myintent);
-
         } else if (id == R.id.nav_posts) {
-
+            Intent myintent = new Intent(this,
+                    PostsActivity.class);
+            startActivity(myintent);
         } else if (id == R.id.nav_friends) {
             // Handle the profile action
             Intent myintent = new Intent(this,
                     FriendsActivity.class);
             startActivity(myintent);
-
         } else if (id == R.id.nav_donations) {
-
+            Intent myintent = new Intent(this,
+                    DonationsActivity.class);
+            startActivity(myintent);
         } else if (id == R.id.nav_settings) {
             Intent myintent = new Intent(this,
                     SettingsActivity.class);
             startActivity(myintent);
         } else if (id == R.id.nav_logout) {
-
+            LoginManager.getInstance().logOut();
+            Intent logOut = new Intent(this,
+                    LoginActivity.class);
+            logOut.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(logOut);
+            finish();
         } else if (id == R.id.nav_info) {
+            Intent myIntent = new Intent(this,
+                    InfoActivity.class);
+            startActivity(myIntent);
 
-        }else if (id == R.id.nav_places){
-            System.out.println("places");
-            Intent myintent = new Intent(this,PlacesActivity.class);
+        } else if (id == R.id.nav_places) {
+            Intent myintent = new Intent(this,
+                    PlacesActivity.class);
             startActivity(myintent);
         }
 

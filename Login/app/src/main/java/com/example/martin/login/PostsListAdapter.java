@@ -1,10 +1,14 @@
 package com.example.martin.login;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +27,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.MyPo
 
     public class MyPostViewHolder extends RecyclerView.ViewHolder{
         public ImageView thumbnail;
-        public TextView name,date,content,bloodgroup;
+        public TextView name,date,content,bloodGroup;
         public ImageButton menuDotsButton;
 
         public MyPostViewHolder(View itemView) {
@@ -31,7 +35,9 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.MyPo
             name = itemView.findViewById(R.id.namePost);
             date = itemView.findViewById(R.id.datePost);
             content = itemView.findViewById(R.id.contentPost);
+            Linkify.addLinks(content,Linkify.WEB_URLS);
             menuDotsButton = itemView.findViewById(R.id.imageButton);
+            bloodGroup = itemView.findViewById(R.id.logoBloodGroup);
         }
     }
 
@@ -60,8 +66,33 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostsListAdapter.MyPo
             public void onClick(View view) {
                 Toast toast = Toast.makeText(context,"position" + position,Toast.LENGTH_SHORT);
                 toast.show();
+                final EditText reportEditText = new EditText(context);
+                reportEditText.setLines(2);
+                AlertDialog dialog = new AlertDialog.Builder(context)
+                        .setTitle("Add a report")
+                        .setMessage("Write your report here")
+                        .setView(reportEditText)
+                        .setPositiveButton("Report", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String task = String.valueOf(reportEditText.getText());
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .create();
+                dialog.show();
+
             }
         });
+    }
+
+    public void addItem(PostEntity postEntity){
+        postList.add(postEntity);
+        notifyDataSetChanged();
+    }
+
+    public List<PostEntity> returnList(){
+        return postList;
     }
 
     @Override

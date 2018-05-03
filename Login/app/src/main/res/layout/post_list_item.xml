@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:scaleType="fitCenter"
@@ -16,7 +16,7 @@
         android:layout_marginRight="16dp"/>
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/logoBloodGroup"
         android:layout_width="32dp"
         android:layout_height="30dp"
         android:layout_marginTop="17dp"
@@ -39,7 +39,7 @@
         android:id="@+id/namePost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView10"
+        android:layout_alignTop="@+id/logoBloodGroup"
         android:layout_toEndOf="@+id/logo_post"
         android:layout_toRightOf="@+id/logo_post"
         android:text="Name Surename"

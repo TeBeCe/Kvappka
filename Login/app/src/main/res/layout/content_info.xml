@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:showIn="@layout/app_bar_info"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Prečo darovať krv"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Potreba krvi je veľká. Približne 180 000 transfúznych jednotiek červených krviniek sa každoročne spotrebuje iba na Slovensku. Obete úrazov a nehôd, ľudia podstupujúci operácie, pacienti liečiaci sa na leukémiu, nádorové ochorenia, ochorenia krvných buniek, tí všetci potrebujú krv. Celosvetovo je za jeden rok pacientom podaných viac ako 26,5 milióna jednotiek krvných zložiek.\n
+            \nDarovanie krvi je skutočným „darom života“, ktorý zdravý jedinec môže poskytnúť ľuďom chorým a po úrazoch. Je to veľmi prospešný, bezpečný a jednoduchý humánny krok.\n
+            \nInterval darovania je pre mužov každé 3 mesiace a pre ženy každé 4 mesiace. Celý proces darovania krvi trvá, od registrácie až po odchod domov, približne hodinu a samotný odber len 5 - 15 minút, počas ktorých daruje darca 450 ml krvi. Krv je ďalej spracovaná (rozdeľovaná) na jednotlivé zložky, ktoré môžu pomôcť zachrániť ľudské životy. Červené krvinky, prenášače kyslíka, zachraňujú životy pacientov počas operácií a po úrazoch. Plazma, tekutá zložka krvi, je určená pre pacientov trpiacich poruchami zrážania krvi. Tretia zložka, krvné doštičky, zastavuje krvácanie pri rezných poraneniach a pri otvorených krvácaniach. Často sa podávajú pacientom liečiacich sa na nádorové ochorenia a aj pacientom po transplantácii."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Predtým ako darujete svoju krv"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Pokiaľ ste sa rozhodli darovať krv, musíte spĺňať všeobecné základné kritériá:\n\n
+    &#8226; Musíte mať vek od 18 do 60 rokov. Pokiaľ ste pravidelným darcom, môžete darovať krv až do svojich 65 rokov. Frekvencia darovania je pre mužov 3 mesiace a pre ženy 4 mesiace od posledného odberu.\n
+    &#8226; Musíte mať telesnú hmotnosť minimálne 50 kg.\n
+    &#8226; Nesmiete byť nosičom vírusu HIV (mať AIDS).\n
+    &#8226; Nemôžete byť po prekonaní hepatitídy (žltačky) typu B a C.\n
+    &#8226; Nemôžete trpieť na iné závažné a chronické ochorenia.\n
+"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Krv nedarujte v prípade (resp. trvalo nemôžete darovať krv):
+
+    &#8226; Užívania drog vnútrožilovo či vnútrosvalovo teraz alebo v minulosti.\n
+    &#8226; Poskytovaní alebo prijímaní platených sexuálnych služieb.\n
+    &#8226; Pohlavného styku medzi mužmi.\n
+    &#8226; Promiskuitného spôsobu života s častým striedaním sexuálnych partnerov.\n
+    &#8226; Užívania anabolických steroidov, ktoré nie sú predpísané lekárom.\n
+    &#8226; Liečby poruchy zrážania krvi krvnými prípravkami.\n\n
+
+Darovanie krvi nie je spôsobom otestovania sa na nosičstvo krvou prenosných chorôb! Pamätajte na to ešte predtým, než sa rozhodnete stať sa darcom krvi.\n\n
+
+Pre ženy nie je vhodné ísť darovať krv počas menštruácie, resp. tesne pred ňou alebo po nej.\n\n
+
+V prípade, že si nie ste istí, či ste vhodným kandidátom na darovanie krvi, vopred zavolajte do transfúziologického pracoviska a vašu situáciu skonzultujte s lekárom."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

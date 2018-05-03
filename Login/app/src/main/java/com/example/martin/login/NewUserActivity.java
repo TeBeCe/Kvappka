@@ -7,6 +7,8 @@ import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -27,6 +29,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
     private RadioButton maleRadio,femaleRadio;
     SharedPreferences getPreference;
     private Button validateButton;
+    private Animation shake;
     Calendar date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
         newUserMail = (EditText) findViewById(R.id.newEmailEditText);
         validateButton = (Button)findViewById(R.id.newUserUpdateButton);
         validateButton.setOnClickListener(this);
+        shake = AnimationUtils.loadAnimation(this,R.anim.shake);
 
         //initialize data
         newUserName.setText(getPreference.getString("userName", "null"));
@@ -88,6 +92,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
             Toast toast = Toast.makeText(getApplicationContext(),"Choose Gender",Toast.LENGTH_LONG);
             //toast.show();
             isAllOk = false;
+            genderRadioGroups.startAnimation(shake);
         }
         else {
             int indexRadio = genderRadioGroups.getCheckedRadioButtonId();
@@ -104,6 +109,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
         if(newUserBirthday.getText().length()!=10){
             Toast toast = Toast.makeText(getApplicationContext(), R.string.wrong_birth_date,Toast.LENGTH_LONG);
             toast.show();
+            newUserBirthday.startAnimation(shake);
             isAllOk = false;
         }
         else

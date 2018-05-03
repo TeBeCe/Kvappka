@@ -47,6 +47,8 @@ import java.util.Locale;
 
 import android.preference.PreferenceActivity;
 
+import com.facebook.login.LoginManager;
+
 public class SettingsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
     Button btn;
@@ -222,9 +224,17 @@ public class SettingsActivity extends AppCompatActivity
             Intent myintent = new Intent(this,
                     SettingsActivity.class);
             startActivity(myintent);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
+            LoginManager.getInstance().logOut();
+            Intent logOut = new Intent(this,
+                    LoginActivity.class);
+            logOut.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(logOut);
+            finish();
+        } else if (id == R.id.nav_info) {
+            Intent myIntent = new Intent(this,
+                    InfoActivity.class);
+            startActivity(myIntent);
 
         }else if (id == R.id.nav_places){
             Intent myintent = new Intent(this,

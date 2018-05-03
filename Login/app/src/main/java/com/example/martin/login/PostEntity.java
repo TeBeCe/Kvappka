@@ -9,12 +9,22 @@ import java.util.Calendar;
 public class PostEntity {
     private String name;
     private Calendar date;
-    private int id;
+    private String id;
     private String content;
+    private String bloodGroup;
 
     public PostEntity(){
 
     }
+
+    public String getBloodGroup() {
+        return bloodGroup;
+    }
+
+    public void setBloodGroup(String bloodGroup) {
+        this.bloodGroup = bloodGroup;
+    }
+
     public String getName() {
         return name;
     }
@@ -31,11 +41,11 @@ public class PostEntity {
         this.date = date;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

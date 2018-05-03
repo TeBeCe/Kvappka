@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -22,12 +23,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -47,6 +51,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.*;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.facebook.login.LoginManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class DonationsActivity extends AppCompatActivity implements View.OnClickListener, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, NavigationView.OnNavigationItemSelectedListener {
     private Calendar mCalendar;
     private int year, month, day;
@@ -55,10 +71,10 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
     private DonationsListAdapter mAdapter;
     private CoordinatorLayout coordinatorLayout;
     private TextFieldsClass textFieldsClass;
-    private TextView emptyView, donationsText, avarageDonationsText;
+    private TextView emptyView, donationsText, averageDonationsText;
     private Context contextApp;
     private String[] listItems;
-    private List<DonationsEntity> donationsEntityList;
+    private List<DonationsEntity> donationsEntityList = new ArrayList<>();;
     private SimpleDateFormat format1= new SimpleDateFormat("dd.MM.yyyy");
 
     @Override
@@ -73,7 +89,7 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         mCalendar = Calendar.getInstance();
 
         donationsText = (TextView) findViewById(R.id.noOfDonations);
-        avarageDonationsText = (TextView) findViewById(R.id.averageDonations);
+        averageDonationsText = (TextView) findViewById(R.id.averageDonations);
         btn = (ImageButton) findViewById(R.id.toolbar_button_add);
         btn.setOnClickListener(this);
 
@@ -149,8 +165,9 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         dE9.setCalendar(c9);
         dE9.setPlace("Trnava");
 
-        donationsEntityList = new ArrayList<>();
-        donationsEntityList.add(dE1);
+
+        volleyGetDonations("1");
+       /* donationsEntityList.add(dE1);
         donationsEntityList.add(dE2);
         donationsEntityList.add(dE3);
         donationsEntityList.add(dE4);
@@ -158,7 +175,7 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         donationsEntityList.add(dE6);
         donationsEntityList.add(dE7);
         donationsEntityList.add(dE8);
-        donationsEntityList.add(dE9);
+        donationsEntityList.add(dE9);*/
 
         Collections.sort(donationsEntityList,Collections.reverseOrder());
 
@@ -170,13 +187,13 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 
-        if (donationsEntityList.isEmpty()) {
+       /* if (donationsEntityList.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
-        } else {
+        } else {*/
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
-        }
+        //}
 
         // adding item touch helper
         // only ItemTouchHelper.LEFT added to detect Right to Left swipe
@@ -216,8 +233,8 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         List<String> populateDonationStatistic = new ArrayList<>();
         populateDonationStatistic.add("" + averageDonationPerYear);
         populateDonationStatistic.add(donationsEntityList.size() + "");
-        donationsText.setText(String.valueOf(averageDonationPerYear));
-        avarageDonationsText.setText(String.valueOf(donationsEntityList.size()));
+        averageDonationsText.setText(String.valueOf(averageDonationPerYear));
+        donationsText.setText(String.valueOf(donationsEntityList.size()));
         return populateDonationStatistic;
     }
 
@@ -255,6 +272,7 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
                         mAdapter.addItem(tempDe);
                         donationsEntityList = mAdapter.returnList();
                         getStats(donationsEntityList);
+                        volleyAddDonation(listItems[i],"1",String.valueOf(calendarik.getTimeInMillis()));
                         dialogInterface.dismiss();
                             }
                         });
@@ -303,6 +321,88 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    public  void  volleyAddDonation(final String location,final String id,final String datex) {
+        String url = "http://147.175.105.140:8013/~xbachratym/public/index.php/api/donation/add";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("Response", response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("id","1");
+                params.put("location", location);
+                params.put("date", datex);
+
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(postRequest);
+    }
+
+    public  void  volleyGetDonations(final String id) {
+        String url = "http://147.175.105.140:8013/~xbachratym/public/index.php/api/donations/"+id;
+        StringRequest postRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        try {
+                            response = "{donations:" + response + "}";
+                            JSONObject jObject = new JSONObject(response);
+                            JSONArray jArray = jObject.getJSONArray("donations");
+                            for (int i=0; i < jArray.length(); i++)
+                            {
+                                try {
+                                    JSONObject oneObject = jArray.getJSONObject(i);
+                                    // Pulling items from the array
+                                    String oneObjectsItem = oneObject.getString("location");
+                                    String oneObjectsItem2 = oneObject.getString("date");
+                                    Calendar cal = Calendar.getInstance();
+                                    DonationsEntity de = new DonationsEntity();
+                                    de.setPlace(oneObjectsItem);
+                                    cal.setTimeInMillis(Long.valueOf(oneObjectsItem2));
+                                    de.setCalendar(cal);
+                                    mAdapter.addItem(de);
+                                    donationsEntityList = mAdapter.returnList();
+
+                                } catch (JSONException e) {
+                                    // Oops
+                                }
+                            }
+                            getStats(donationsEntityList);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("Response", response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(postRequest);
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -332,19 +432,28 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
                     FriendsActivity.class);
             startActivity(myintent);
         } else if (id == R.id.nav_donations) {
-            Intent myintent = new Intent(this, DonationsActivity.class);
+            Intent myintent = new Intent(this,
+                    DonationsActivity.class);
             startActivity(myintent);
         } else if (id == R.id.nav_settings) {
             Intent myintent = new Intent(this,
                     SettingsActivity.class);
             startActivity(myintent);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
+            LoginManager.getInstance().logOut();
+            Intent logOut = new Intent(this,
+                    LoginActivity.class);
+            logOut.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(logOut);
+            finish();
+        } else if (id == R.id.nav_info) {
+            Intent myIntent = new Intent(this,
+                    InfoActivity.class);
+            startActivity(myIntent);
 
         } else if (id == R.id.nav_places) {
-            System.out.println("places");
-            Intent myintent = new Intent(this, PlacesActivity.class);
+            Intent myintent = new Intent(this,
+                    PlacesActivity.class);
             startActivity(myintent);
         }
 

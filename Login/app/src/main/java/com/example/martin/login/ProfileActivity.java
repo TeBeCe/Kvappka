@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -190,10 +192,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             Intent myintent = new Intent(this,
                     PlacesActivity.class);
             startActivity(myintent);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_info) {
+            Intent myIntent = new Intent(this,
+                    InfoActivity.class);
+            startActivity(myIntent);
+        } else if (id == R.id.nav_logout) {
+            LoginManager.getInstance().logOut();
+            Intent logOut = new Intent(this,
+                    LoginActivity.class);
+            logOut.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(logOut);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -114,4 +114,7 @@
     <string name="register">Register</string>
     <string name="emailFromat">email@email.com</string>
     <string name="welcomeNewUser">Hello donator!</string>
+    <string name="title_activity_info">About donation</string>
+    <string name="repeatPassword">Repeat passworfd</string>
+    <string name="setPassword">Set password</string>
 </resources>

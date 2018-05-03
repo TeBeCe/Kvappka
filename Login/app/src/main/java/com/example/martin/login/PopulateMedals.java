@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.Calendar.YEAR;
 
@@ -31,6 +32,7 @@ public class PopulateMedals extends ProfileActivity{
     int[] manBadges,womanBadges;
     List<Calendar> calendarList;
     Context context;
+    private final String LASTDONATIONDATE = "lastDonationDate";
 
     public  PopulateMedals(Context context){
 
@@ -67,32 +69,20 @@ public class PopulateMedals extends ProfileActivity{
         calendarList.add(c7);
         calendarList.add(c8);
         calendarList.add(c9);
-        calendarList.add(c5);
-        calendarList.add(c5);
-        calendarList.add(c5);
-        calendarList.add(c5);
-        calendarList.add(c5);
-        calendarList.add(c5);
-        calendarList.add(c5);
-        calendarList.add(c5);
-        calendarList.add(c5);
         calendarList.add(c9);
-        calendarList.add(c5);
-        calendarList.add(c5);
-        calendarList.add(c5);
 
         SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(context);
-        Long lastDonate = getPreference.getLong("lastDonationDate", 0);
+        Long lastDonate = getPreference.getLong(LASTDONATIONDATE, 0);
         int numberOfDonations = getPreference.getInt("numberOfDonations",0);
+
         String gender = getPreference.getString("gender","null");
         Collections.sort(calendarList,Collections.reverseOrder());
         Calendar calendar = new GregorianCalendar().getInstance();
         calendar.setTimeInMillis(lastDonate);
         SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
         SimpleDateFormat formatShort = new SimpleDateFormat("dd.MM.yy");
-        int donations = 21;
-        Toast toast = Toast.makeText(context,String.valueOf(numberOfDonations),Toast.LENGTH_LONG);
-        //toast.show();
+        int donations = 9;
+
 
         countDonations.setText(String.valueOf(numberOfDonations));
         lastDonation.setText(formatShort.format(calendar.getTime()));
@@ -102,13 +92,34 @@ public class PopulateMedals extends ProfileActivity{
 
         int months=0 ;
 
-
-
         if(gender.equals("male")) {
+
+            Calendar lastDonationDateOffset =  new GregorianCalendar().getInstance();
+            lastDonationDateOffset.setTimeInMillis(getPreference.getLong(LASTDONATIONDATE,0));
+            //lastDonationDateOffset.setTimeInMillis(calendarList.get(0).getTimeInMillis());
+
+
+                if(Calendar.getInstance().before(lastDonationDateOffset)){
+                    lastDonationDateOffset.add(Calendar.MONTH,3);
+                    lastDonationDateOffset.set(Calendar.HOUR,8);
+
+                    Calendar today = Calendar.getInstance();
+                    calendar.set(Calendar.HOUR,8);
+                    long diff =  lastDonationDateOffset.getTimeInMillis() - today.getTimeInMillis();
+                    daysToDonate.setText(String.valueOf(TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS)));
+                    //toast.show();
+                }
+                else    {
+                    daysToDonate.setText("0");
+                }
+                numberOfDonations = 9;
             if (numberOfDonations >= manBadges[0]) {
                 badgeLvl1Date.setText(format1.format(calendarList.get(9).getTime()));
             } else {
                 int monthsToAdd = (manBadges[0] - numberOfDonations) * 3;
+                Toast toast = Toast.makeText(context,String.valueOf(numberOfDonations)
+                        ,Toast.LENGTH_LONG);
+                toast.show();
                 months = manBadges[0] - numberOfDonations;
                 Calendar closestWithOffset = calendar;
                 closestWithOffset.add(Calendar.MONTH,monthsToAdd);
@@ -162,6 +173,24 @@ public class PopulateMedals extends ProfileActivity{
         }
 
         else if(gender.equals("female")) {
+
+            Calendar lastDonationDateOffset =  new GregorianCalendar().getInstance();
+            lastDonationDateOffset.setTimeInMillis(getPreference.getLong(LASTDONATIONDATE,0));
+            //lastDonationDateOffset.setTimeInMillis(calendarList.get(0).getTimeInMillis());
+
+            if(Calendar.getInstance().before(lastDonationDateOffset)){
+                lastDonationDateOffset.add(Calendar.MONTH,3);
+                lastDonationDateOffset.set(Calendar.HOUR,8);
+                Calendar today = Calendar.getInstance();
+                calendar.set(Calendar.HOUR,8);
+                long diff =  lastDonationDateOffset.getTimeInMillis() - today.getTimeInMillis();
+                daysToDonate.setText(String.valueOf(TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS)));
+                //toast.show();
+            }
+            else    {
+                daysToDonate.setText("0");
+            }
+
             if (numberOfDonations >= womanBadges[0]) {
                 badgeLvl1Date.setText(format1.format(calendarList.get(9).getTime()));
             } else {

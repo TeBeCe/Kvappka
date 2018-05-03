@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -77,7 +78,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
 
         Calendar calendar = Calendar.getInstance();
         day = calendar.get(Calendar.DAY_OF_WEEK);
-        if (day < 6 && day > 1) {
+        if (day < 7 && day > 1) {
             dayOfWeek = (TextView) findViewById(getResources().getIdentifier("openedTimeTableDay" + String.valueOf(day - 1), "id", getPackageName()));
             dayOfWeek.setTextColor(getResources().getColor(R.color.mainRed));
         }
@@ -323,10 +324,16 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                     SettingsActivity.class);
             startActivity(myintent);
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_logout) {
+            LoginManager.getInstance().logOut();
+            Intent logOut = new Intent(PlacesActivity.this,LoginActivity.class);
+            logOut.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(logOut);
+            finish();
+        } else if (id == R.id.nav_info) {
+            Intent myIntent = new Intent(this,
+                    InfoActivity.class);
+            startActivity(myIntent);
         } else if (id == R.id.nav_places) {
             System.out.println("places");
             Intent myintent = new Intent(this, PlacesActivity.class);

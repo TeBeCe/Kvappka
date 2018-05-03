@@ -55,9 +55,9 @@
     <string name="title_activity_donations">Zoznam odberov</string>
     <string name="exactTimeNotife">Notife time</string>
     <string name="notifyTimeExactSummary">Notify Sumary</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Zmazat</string>
     <string name="donationsListRemoved">removed from list!</string>
-    <string name="title_activity_post">title_activity_post</string>
+    <string name="title_activity_post">Prispevky</string>
     <string name="emptyListTextView">Register your donations for notifications and your own statistics by tapping on +</string>
     <string name="gender">Pohlavie</string>
     <string name="birthDate">Dátum narodenia</string>
@@ -70,9 +70,9 @@
     <string name="notificationSettingDonationsNotify">Dostávajte upozornenia na možnosť odberu</string>
     <string name="language_category">Jazyk</string>
     <string name="bloodGroup">Krvná skupina</string>
-    <string name="numberOfDonationsProfile">Počet darovaní</string>
-    <string name="lastDateOfDonationsProfile">Posledné darovanie</string>
-    <string name="numberOfDaysToDanateProfile">Dní do darovania</string>
+    <string name="numberOfDonationsProfile">Počet\n darovaní</string>
+    <string name="lastDateOfDonationsProfile">Posledné\n darovanie</string>
+    <string name="numberOfDaysToDanateProfile">Dní\n do darovania</string>
     <string name="female">Žena</string>
     <string name="male">Muž</string>
     <string name="dialogTitleDonationPlace">Miesto odberu</string>
