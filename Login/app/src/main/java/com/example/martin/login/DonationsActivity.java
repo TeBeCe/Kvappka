@@ -117,65 +117,8 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
 
         recyclerView = findViewById(R.id.recycler_view);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
-        Calendar c1 = GregorianCalendar.getInstance();
-        Calendar c2 = GregorianCalendar.getInstance();
-        Calendar c3 = GregorianCalendar.getInstance();
-        Calendar c4 = GregorianCalendar.getInstance();
-        Calendar c5 = GregorianCalendar.getInstance();
-        Calendar c6 = GregorianCalendar.getInstance();
-        Calendar c7 = GregorianCalendar.getInstance();
-        Calendar c8 = GregorianCalendar.getInstance();
-        Calendar c9 = GregorianCalendar.getInstance();
-        c3.set(2013, Calendar.JANUARY, 25);
-        c2.set(2012, Calendar.OCTOBER, 24);
-        c1.set(2012, Calendar.MARCH, 28);
-        c4.set(2013, Calendar.AUGUST, 26);
-        c5.set(2015, Calendar.MARCH, 2);
-        c6.set(2016, Calendar.JULY, 21);
-        c7.set(2016, Calendar.NOVEMBER, 3);
-        c8.set(2017, Calendar.AUGUST, 7);
-        c9.set(2017, Calendar.NOVEMBER, 6);
-
-        DonationsEntity dE1 = new DonationsEntity();
-        DonationsEntity dE2 = new DonationsEntity();
-        DonationsEntity dE3 = new DonationsEntity();
-        DonationsEntity dE4 = new DonationsEntity();
-        DonationsEntity dE5 = new DonationsEntity();
-        DonationsEntity dE6 = new DonationsEntity();
-        DonationsEntity dE7 = new DonationsEntity();
-        DonationsEntity dE8 = new DonationsEntity();
-        DonationsEntity dE9 = new DonationsEntity();
-
-        dE1.setCalendar(c1);
-        dE1.setPlace("Trnava");
-        dE2.setCalendar(c2);
-        dE2.setPlace("Trnava");
-        dE3.setCalendar(c3);
-        dE3.setPlace("Trnava");
-        dE4.setCalendar(c4);
-        dE4.setPlace("Trnava");
-        dE5.setCalendar(c5);
-        dE5.setPlace("Trnava");
-        dE6.setCalendar(c6);
-        dE6.setPlace("Trnava");
-        dE7.setCalendar(c7);
-        dE7.setPlace("Trnava");
-        dE8.setCalendar(c8);
-        dE8.setPlace("Trnava");
-        dE9.setCalendar(c9);
-        dE9.setPlace("Trnava");
-
 
         volleyGetDonations("1");
-       /* donationsEntityList.add(dE1);
-        donationsEntityList.add(dE2);
-        donationsEntityList.add(dE3);
-        donationsEntityList.add(dE4);
-        donationsEntityList.add(dE5);
-        donationsEntityList.add(dE6);
-        donationsEntityList.add(dE7);
-        donationsEntityList.add(dE8);
-        donationsEntityList.add(dE9);*/
 
         Collections.sort(donationsEntityList,Collections.reverseOrder());
 
@@ -304,21 +247,62 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
 
             // remove the item from recycler view
             mAdapter.removeItem(viewHolder.getAdapterPosition());
-
+            //final String dateDeleted = String.valueOf(donationsEntityList.get(deletedIndex).getCalendar().getTimeInMillis());
             // showing snack bar with Undo option
+           final String dateDeleted = String.valueOf(deletedItem.getCalendar().getTimeInMillis());
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, name + getString(R.string.donationsListRemoved), Snackbar.LENGTH_LONG);
-            snackbar.setAction("UNDO", new View.OnClickListener() {
+                    .make(coordinatorLayout, name + " " + getString(R.string.donationsListRemoved), Snackbar.LENGTH_LONG);
+            snackbar.setAction(R.string.undo_snackbar, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     // undo is selected, restore the deleted item
                     mAdapter.restoreItem(deletedItem, deletedIndex);
                 }
             });
+            snackbar.addCallback(new Snackbar.Callback(){
+                @Override
+                public void onDismissed(Snackbar transientBottomBar, int event) {
+                    if(event == DISMISS_EVENT_TIMEOUT){
+                        volleyDeleteDonation(dateDeleted);
+                    }
+                    super.onDismissed(transientBottomBar, event);
+                }
+            });
             snackbar.setActionTextColor(Color.RED);
-            snackbar.setDuration(10000);
+            snackbar.setDuration(5000);
             snackbar.show();
         }
+    }
+
+    public  void  volleyDeleteDonation(final String dateDeleted) {
+        String url = "http://147.175.105.140:8013/~xbachratym/public/index.php/api/donations/delete";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("Response", response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("date",dateDeleted);
+
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(postRequest);
     }
 
     public  void  volleyAddDonation(final String location,final String id,final String datex) {

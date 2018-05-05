@@ -83,4 +83,13 @@
     <string name="title_activity_info">About donation</string>
     <string name="repeatPassword">Repeat passworfd</string>
     <string name="setPassword">Set password</string>
+    <string name="undo_snackbar">UNDO</string>
+    <string name="post_new_dialog_title">Add a new post</string>
+    <string name="post_new_dialog_message">Write your request here</string>
+    <string name="notification1DaysContent">Possible donation time coming in 1 day</string>
+    <string name="notification1DaysTitle">Donation time reminder</string>
+    <string name="notification7DaysContent">Possible donation time coming in 7 days</string>
+    <string name="notification7DaysTitle">Donation time reminder</string>
+    <string name="post_dialog_add">Add</string>
+    <string name="post_dialog_cancel">Cancel</string>
 </resources>

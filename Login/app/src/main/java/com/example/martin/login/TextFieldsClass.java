@@ -59,8 +59,8 @@ public class TextFieldsClass extends AppCompatActivity {
     public void setNames(View header, Context context, int idMenu, NavigationView navigationView) {
         SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(context);
         contactList = new ArrayList<>();
-        Json = postData("");
-        contactList = decodeJson(Json);
+        //Json = postData("");
+        //contactList = decodeJson(Json);
 
         navigationView.getMenu()
                 .getItem(idMenu)

@@ -97,12 +97,12 @@
                         android:text="@string/monday" />
 
                     <TextView
-                        android:id="@+id/openedTimeTableTimeFrom1"
+                        android:id="@+id/openedTimeFrom1"
                         android:layout_column="2"
                         android:text="od 07:00" />
 
                     <TextView
-                        android:id="@+id/openedTimeTableTimeTo1"
+                        android:id="@+id/openedTimeTo1"
                         android:layout_column="3"
                         android:text="do 14:00" />
                 </TableRow>
@@ -115,12 +115,12 @@
                         android:text="@string/tuesday" />
 
                     <TextView
-                        android:id="@+id/openedTimeTableTimeFrom2"
+                        android:id="@+id/openedTimeFrom2"
                         android:layout_column="2"
                         android:text="od 07:00" />
 
                     <TextView
-                        android:id="@+id/openedTimeTableTimeTo2"
+                        android:id="@+id/openedTimeTo2"
                         android:layout_column="3"
                         android:text="do 14:00" />
                 </TableRow>
@@ -133,12 +133,12 @@
                         android:text="@string/wednesday" />
 
                     <TextView
-                        android:id="@+id/openedTimeTableTimeFrom3"
+                        android:id="@+id/openedTimeFrom3"
                         android:layout_column="2"
                         android:text="od 07:00" />
 
                     <TextView
-                        android:id="@+id/openedTimeTableTimeTo3"
+                        android:id="@+id/openedTimeTo3"
                         android:layout_column="3"
                         android:text="do 14:00" />
                 </TableRow>
@@ -151,12 +151,12 @@
                         android:text="@string/thursday" />
 
                     <TextView
-                        android:id="@+id/openedTimeTableTimeFrom4"
+                        android:id="@+id/openedTimeFrom4"
                         android:layout_column="2"
                         android:text="od 07:00" />
 
                     <TextView
-                        android:id="@+id/openedTimeTableTimeTo4"
+                        android:id="@+id/openedTimeTo4"
                         android:layout_column="3"
                         android:text="do 14:00" />
                 </TableRow>
@@ -169,12 +169,12 @@
                         android:text="@string/friday" />
 
                     <TextView
-                        android:id="@+id/openedTimeTableTimeFrom5"
+                        android:id="@+id/openedTimeFrom5"
                         android:layout_column="2"
                         android:text="od 07:00" />
 
                     <TextView
-                        android:id="@+id/openedTimeTableTimeTo5"
+                        android:id="@+id/openedTimeTo5"
                         android:layout_column="3"
                         android:text="do 14:00" />
                 </TableRow>

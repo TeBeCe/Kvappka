@@ -95,36 +95,19 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
         textFieldsClass = new TextFieldsClass();
         textFieldsClass.setNames(header, context, 1, navigationView);
 
-        /*PostEntity pE = new PostEntity();
-        PostEntity pE2 = new PostEntity();
-        pE.setContent("Lorem Ipsum Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem "
-                + "IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem "
-                + "IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem "
-                + "IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem "
-                + " https://android-developers.googleblog.com/2008/03/linkify-your-text.html Ipsum");
-        pE.setDate(Calendar.getInstance());
-        pE.setName("Martin Bachraty");
-        pE.setId(0);
-        postList.add(pE);
-        pE2.setDate(Calendar.getInstance());
-        pE2.setName("John Deer");
-        pE2.setContent("Kratky content");
-        pE2.setId(1);
-        postList.add(pE2);*/
-        volleyGetDonations();
+        volleyGetPosts();
         mAdapter = new PostsListAdapter(this,postList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
             CharSequence name = "Remind to donate ";
             String description = "Channel to remind to donate";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel mChannel = new NotificationChannel("ididid", name, importance);
+            NotificationChannel mChannel = new NotificationChannel("donateTime", name, importance);
             mChannel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
@@ -133,7 +116,7 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
             notificationManager.createNotificationChannel(mChannel);
         }
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "ididid")
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "donateTime")
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle("titel")
                 .setContentText("context")
@@ -162,10 +145,10 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
 
         taskEditText.setLines(2);
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Add a new post")
-                .setMessage("Write your request here")
+                .setTitle(R.string.post_new_dialog_title)
+                .setMessage(R.string.post_new_dialog_message)
                 .setView(taskEditText)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.post_dialog_add, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         PostEntity pE = new PostEntity();
@@ -174,11 +157,12 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
                         pE.setContent(content);
                         pE.setName(nameUser);
                         pE.setDate(addPostCal);
+                        pE.setBloodGroup(bloodGroupUser);
                         mAdapter.addItem(pE);
                         postList = mAdapter.returnList();
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.post_dialog_cancel, null)
                 .create();
         dialog.show();
     }
@@ -216,7 +200,7 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(postRequest);
     }
-    public  void  volleyGetDonations() {
+    public  void  volleyGetPosts() {
         String url = "http://147.175.105.140:8013/~xbachratym/public/index.php/api/posts";
         StringRequest postRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {

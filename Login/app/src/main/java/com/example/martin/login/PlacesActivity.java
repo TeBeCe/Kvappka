@@ -19,12 +19,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,6 +40,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,6 +57,11 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
     private GoogleMap mMap;
     private int day;
     TextFieldsClass textFieldsClass;
+    JSONArray jsonArray;
+    ArrayList<LatLng> markersArrayList = new ArrayList<>();
+    JSONObject tappedMarker;
+    TextView fromD1, fromD2, fromD3, fromD4, fromD5;
+    TextView toD1, toD2, toD3, toD4, toD5, toD6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +69,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         setContentView(R.layout.activity_places);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        volleyGetPlaces();
         Context context = getApplicationContext();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -86,13 +102,23 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         address = (TextView) findViewById(R.id.placesTxtAddress);
         mail = (TextView) findViewById(R.id.placesTxtEmail);
         webLink = (TextView) findViewById(R.id.placesTxtWebSite);
+        fromD1 = (TextView) findViewById(R.id.openedTimeFrom1);
+        fromD2 = (TextView) findViewById(R.id.openedTimeFrom2);
+        fromD3 = (TextView) findViewById(R.id.openedTimeFrom3);
+        fromD4 = (TextView) findViewById(R.id.openedTimeFrom4);
+        fromD5 = (TextView) findViewById(R.id.openedTimeFrom5);
+        toD1 = (TextView) findViewById(R.id.openedTimeTo1);
+        toD2 = (TextView) findViewById(R.id.openedTimeTo2);
+        toD3 = (TextView) findViewById(R.id.openedTimeTo3);
+        toD4 = (TextView) findViewById(R.id.openedTimeTo4);
+        toD5 = (TextView) findViewById(R.id.openedTimeTo5);
     }
 
     @Override
     protected void onStop() {
-    super.onStop();
+        super.onStop();
     }
-        //Color.parseColor("#bdbdbd");
+    //Color.parseColor("#bdbdbd");
 
     /**
      * Manipulates the map once available.
@@ -129,11 +155,11 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         markers.add(za);
         LatLng ke = new LatLng(48.722368, 21.237848);
         markers.add(ke);
-        for (LatLng marker : markers) {
+        for (LatLng marker : markersArrayList) {
             mMap.addMarker(new MarkerOptions().position(marker));
         }
 
-        mMap.addMarker(new MarkerOptions().position(ba).title("Marker in Bratislava"));
+        // mMap.addMarker(new MarkerOptions().position(ba).title("Marker in Bratislava"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.744545, 19.116564), 7.0f));
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -149,9 +175,9 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            String[] permissions = new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION};
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                requestPermissions(permissions,123);
+            String[] permissions = new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION};
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(permissions, 123);
             }
 
             return;
@@ -192,6 +218,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                 public void onProviderEnabled(String s) {
 
                 }
+
                 @Override
                 public void onProviderDisabled(String s) {
 
@@ -216,17 +243,17 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
 
                     //Geocoder geocoder = new Geocoder(getApplicationContext());
 
-                  //  try {
+                    //  try {
                        /* List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
                         String str = addressList.get(0).getLocality() + ",";
                         str += addressList.get(0).getCountryName();
                         mMap.addMarker(new MarkerOptions().position(latlng).title(str));*/
-                        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng,11f));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
-                       // System.out.println(str);
-                //    } catch (IOException e) {
-                //        e.printStackTrace();
-                //    }
+                    //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng,11f));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
+                    // System.out.println(str);
+                    //    } catch (IOException e) {
+                    //        e.printStackTrace();
+                    //    }
                 }
 
                 @Override
@@ -249,22 +276,78 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         mMap.setMyLocationEnabled(true);
     }
 
+    public void volleyGetPlaces() {
+        String url = "http://147.175.105.140:8013/~xbachratym/public/index.php/api/places";
+        StringRequest postRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        try {
+                            JSONObject jObject = new JSONObject(response);
+                            jsonArray = jObject.getJSONArray("places");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                try {
+                                    JSONObject oneObject = jsonArray.getJSONObject(i);
+                                    // Pulling items from the array
+                                    Double latitudeObj = oneObject.getDouble("latitude");
+                                    Double longtitudeObj = oneObject.getDouble("longitude");
+                                    markersArrayList.add(new LatLng(latitudeObj, longtitudeObj));
+
+                                } catch (JSONException e) {
+                                    // Oops
+                                }
+                            }
+                            for (LatLng marker : markersArrayList) {
+                                mMap.addMarker(new MarkerOptions().position(marker));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("Response", response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(postRequest);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode==123)
-            for (int res:grantResults){
+        if (requestCode == 123)
+            for (int res : grantResults) {
 
             }
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        Toast toast = Toast.makeText(getApplicationContext(), marker.getId(), Toast.LENGTH_SHORT);
+        toast.show();
+        int position = Integer.valueOf(marker.getId().substring(1, marker.getId().length()));
+        try {
+            tappedMarker = jsonArray.getJSONObject(position);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        populatePlace(tappedMarker);
 
-        switch (marker.getId()) {
+       /* switch (marker.getId()) {
+
+
+
             case "m7": {
                 name.setText("Bratislava - Kramare");
                 address.setText("Limbová 3, 833 14 Bratislava");
                 mail.setText("kramarents@ntssr.sk");
+
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.167364, 17.091355), 8.0f));
                 break;
             }
@@ -273,18 +356,63 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
                 name.setText("Trnava - Nemocnica");
                 address.setText("Andreja Žarnova 11, 917 02 Trnava");
                 mail.setText("trnavants@ntssr.sk");
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.367908, 17.590564), 8.0f));                break;
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.367908, 17.590564), 8.0f));
+                break;
             }
             default:
                 break;
-        }
+        }*/
         return true;
+    }
+
+
+    public void populatePlace(JSONObject jsonObject) {
+        try {
+            JSONArray openingH = jsonObject.getJSONArray("opening_hours");
+            name.setText(jsonObject.getString("name"));
+            address.setText(jsonObject.getString("address"));
+            mail.setText(jsonObject.getString("web"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude")), 13.0f));
+            JSONObject day = openingH.getJSONObject(0);
+            fromD1.setText(day.getString("open_time"));
+            toD1.setText(day.getString("close_time"));
+            day = openingH.getJSONObject(1);
+            fromD2.setText(day.getString("open_time"));
+            toD2.setText(day.getString("close_time"));
+            day = openingH.getJSONObject(2);
+            fromD3.setText(day.getString("open_time"));
+            toD3.setText(day.getString("close_time"));
+            day = openingH.getJSONObject(3);
+            fromD4.setText(day.getString("open_time"));
+            toD4.setText(day.getString("close_time"));
+            day = openingH.getJSONObject(4);
+            fromD5.setText(day.getString("open_time"));
+            toD5.setText(day.getString("close_time"));
+
+            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.167364, 17.091355), 8.0f));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mMap.setMyLocationEnabled(false);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

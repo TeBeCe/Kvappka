@@ -101,15 +101,22 @@
         <item>AB</item>
         <item>0</item>
     </string-array>
+
     <string-array name="donationPlacesArray">
-        <item>Bratislava</item>
-        <item>Bratislava2</item>
+        <item>Bratislava - Kramáre</item>
+        <item>Bratislava - Ružinov</item>
+        <item>Bánska Bystrica</item>
+        <item>Košice</item>
+        <item>Martin</item>
+        <item>Nitra</item>
+        <item>Nové zámky</item>
+        <item>Poprad</item>
+        <item>Prešov</item>
+        <item>Trenčín</item>
         <item>Trnava</item>
-        <item>BB</item>
-        <item>Kosice</item>
-        <item>XX</item>
-        <item>XX1</item>
+        <item>Žilina</item>
     </string-array>
+
     <string name="dialogTitleDonationPlace">Donation Place</string>
     <string name="register">Register</string>
     <string name="emailFromat">email@email.com</string>
@@ -117,4 +124,9 @@
     <string name="title_activity_info">About donation</string>
     <string name="repeatPassword">Repeat passworfd</string>
     <string name="setPassword">Set password</string>
+    <string name="undo_snackbar">UNDO</string>
+    <string name="post_new_dialog_title">Add a new post</string>
+    <string name="post_new_dialog_message">Write your request here</string>
+    <string name="post_dialog_add">Add</string>
+    <string name="post_dialog_cancel">Cancel</string>
 </resources>

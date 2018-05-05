@@ -79,5 +79,13 @@
     <string name="welcomeNewUser">Ahoj darca!</string>
     <string name="emailFromat">email@email.sk</string>
     <string name="register">Registruj</string>
+    <string name="post_new_dialog_title">Pridaj nový príspevok</string>
+    <string name="post_new_dialog_message">Napíš obsah správy</string>
+    <string name="undo_snackbar">SPÄŤ</string>
+    <string name="setPassword">Zadaj heslo</string>
+    <string name="repeatPassword">Zopakuj heslo</string>
+    <string name="title_activity_info">O darovaní</string>
+    <string name="post_dialog_add">Pridaj</string>
+    <string name="post_dialog_cancel">Zrušiť</string>
 
 </resources>

@@ -44,7 +44,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 CharSequence name = "Channel 1 ";
                 String description = "Channel 1";
                 int importance = NotificationManager.IMPORTANCE_DEFAULT;
-                NotificationChannel mChannel = new NotificationChannel("ididid", name, importance);
+                NotificationChannel mChannel = new NotificationChannel("donateTime", name, importance);
                 mChannel.setDescription(description);
                 // Register the channel with the system; you can't change the importance
                 // or other notification behaviors after this
@@ -52,7 +52,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationManager.createNotificationChannel(mChannel);
             }
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "ididid")
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "donateTime")
                     .setSmallIcon(R.drawable.logoplus)
                     .setContentTitle(getApplicationContext().getResources().getString(R.string.notification7DaysTitle))
                     .setContentText(getApplicationContext().getResources().getString(R.string.notification7DaysContent))
