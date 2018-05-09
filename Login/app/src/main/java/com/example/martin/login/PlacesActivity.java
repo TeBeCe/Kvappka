@@ -139,7 +139,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         ArrayList<LatLng> markers = new ArrayList<>();
         // Add a marker in ba and move the camera
 
-        LatLng ba = new LatLng(48.167364, 17.091355);
+       /* LatLng ba = new LatLng(48.167364, 17.091355);
 
         LatLng tt = new LatLng(48.367908, 17.590564);
         markers.add(tt);
@@ -158,7 +158,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         for (LatLng marker : markersArrayList) {
             mMap.addMarker(new MarkerOptions().position(marker));
         }
-
+        */
         // mMap.addMarker(new MarkerOptions().position(ba).title("Marker in Bratislava"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.744545, 19.116564), 7.0f));
 
@@ -339,29 +339,6 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         }
         populatePlace(tappedMarker);
 
-       /* switch (marker.getId()) {
-
-
-
-            case "m7": {
-                name.setText("Bratislava - Kramare");
-                address.setText("Limbová 3, 833 14 Bratislava");
-                mail.setText("kramarents@ntssr.sk");
-
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.167364, 17.091355), 8.0f));
-                break;
-            }
-            case "m0": {
-
-                name.setText("Trnava - Nemocnica");
-                address.setText("Andreja Žarnova 11, 917 02 Trnava");
-                mail.setText("trnavants@ntssr.sk");
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(48.367908, 17.590564), 8.0f));
-                break;
-            }
-            default:
-                break;
-        }*/
         return true;
     }
 

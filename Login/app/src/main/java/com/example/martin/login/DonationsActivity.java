@@ -130,6 +130,7 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 
+
        /* if (donationsEntityList.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
@@ -149,7 +150,15 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         //avarageDonationsText.setText(statsList.get(0));
 
     }
-
+    public void showHint(){
+        if (donationsEntityList.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+    }
     public List<String> getStats(List<DonationsEntity> donationsEntityList) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor mEditor = sharedPreferences.edit();

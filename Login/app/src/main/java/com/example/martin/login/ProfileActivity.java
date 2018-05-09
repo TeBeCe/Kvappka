@@ -124,7 +124,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         Context context = getApplicationContext();
         populateMedals = new PopulateMedals(context);
-        volleyGetDonationsToPopulate("1");
+        volleyGetDonationsToPopulate(getPreference.getString("id","null"));
 
         try {
             Bitmap bitmap = BitmapFactory.decodeStream(context.openFileInput("myProfile"));

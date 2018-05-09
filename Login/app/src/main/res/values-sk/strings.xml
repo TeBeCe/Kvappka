@@ -5,7 +5,7 @@
     <string name="action_settings">Nastavenia</string>
     <string name="email">E-mail</string>
     <string name="login">Login</string>
-    <string name="login_name">Prihlasovacie meno</string>
+    <string name="login_name">Prihlasovací email</string>
     <string name="login_password">Heslo</string>
     <string name="name">Meno</string>
     <string name="post">Odošli</string>
@@ -87,5 +87,11 @@
     <string name="title_activity_info">O darovaní</string>
     <string name="post_dialog_add">Pridaj</string>
     <string name="post_dialog_cancel">Zrušiť</string>
+    <string name="slide_desc_posts">Pridávanie príspevkov uskutočníte slačením \"+\" v hornej lište akcií</string>
+    <string name="slide_desc_list">Zmazanie záznamu uskutočníte gestom potiahnutia z prava</string>
+    <string name="slide_desc_gelocation">Lokalizačné služby slúžia pre lepšiu navigáciu v záložke odberných miest</string>
+    <string name="slide_head_post">Pridajte príspevok!</string>
+    <string name="slide_head_list">Editujte si svoj zooznam darovaní</string>
+    <string name="slide_head_gelocation">Povoľte lokalizačné služby</string>
 
 </resources>

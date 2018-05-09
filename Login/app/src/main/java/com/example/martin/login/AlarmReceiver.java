@@ -41,15 +41,25 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 // Create the NotificationChannel
-                CharSequence name = "Channel 1 ";
-                String description = "Channel 1";
-                int importance = NotificationManager.IMPORTANCE_DEFAULT;
-                NotificationChannel mChannel = new NotificationChannel("donateTime", name, importance);
-                mChannel.setDescription(description);
+                CharSequence nameReminder = "Remind to donate";
+                String descriptionReminder = "Channel for reminder to donate";
+                int importanceReminder = NotificationManager.IMPORTANCE_DEFAULT;
+                NotificationChannel mChannelReminder = new NotificationChannel("ReminderChannel", nameReminder, importanceReminder);
+                mChannelReminder.setDescription(descriptionReminder);
                 // Register the channel with the system; you can't change the importance
                 // or other notification behaviors after this
-                NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-                notificationManager.createNotificationChannel(mChannel);
+                NotificationManager notificationManagerReminder = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+                notificationManagerReminder.createNotificationChannel(mChannelReminder);
+
+                CharSequence namePosts = "Remind to donate";
+                String description = "Channel for reminder to donate";
+                int importancePosts = NotificationManager.IMPORTANCE_DEFAULT;
+                NotificationChannel mChannelPosts = new NotificationChannel("PostChannel", namePosts, importancePosts);
+                mChannelPosts.setDescription(description);
+                // Register the channel with the system; you can't change the importance
+                // or other notification behaviors after this
+                NotificationManager notificationManagerPosts = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+                notificationManagerPosts.createNotificationChannel(mChannelPosts);
             }
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "donateTime")

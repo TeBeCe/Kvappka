@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("onBoardBoolean",MODE_PRIVATE);
         SharedPreferences.Editor mEditor = sharedPreferences.edit();
-        mEditor.putBoolean("alreadyOnBoarded",true);
+        mEditor.putBoolean("alreadyOnBoarded",false);
         mEditor.apply();
         sharedPreferences = getSharedPreferences("onBoardBoolean",MODE_PRIVATE);
         if(!sharedPreferences.getBoolean("alreadyOnBoarded",false)){

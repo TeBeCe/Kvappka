@@ -5,7 +5,7 @@
     <string name="signing_in" translatable="false">Signing in…</string>
     <string name="signed_out" translatable="false">Signed out</string>
     <string name="signed_in_err" translatable="false">"Error: please check logs."</string>
-    <string name="login_name">Login name</string>
+    <string name="login_name">Login email</string>
     <string name="login_password">Password</string>
     <string name="user_name">User Name</string>
     <string name="login">Login</string>
@@ -129,4 +129,12 @@
     <string name="post_new_dialog_message">Write your request here</string>
     <string name="post_dialog_add">Add</string>
     <string name="post_dialog_cancel">Cancel</string>
+    <string name="previous">Prev</string>
+    <string name="finish">Finish</string>
+    <string name="slide_desc_posts">Add post by tapping on \"+\" in Action bar</string>
+    <string name="slide_desc_list">Deleting list with swipe to left gesture</string>
+    <string name="slide_desc_gelocation">Localization is for better navigation in places</string>
+    <string name="slide_head_gelocation">Allow acces to location</string>
+    <string name="slide_head_list">Manage your list</string>
+    <string name="slide_head_post">Add new post!</string>
 </resources>

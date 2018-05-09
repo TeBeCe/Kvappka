@@ -5,7 +5,7 @@
     <string name="title_activity_profile">Profile</string>
     <string name="email">E-mail</string>
     <string name="login">Login</string>
-    <string name="login_name">Login name</string>
+    <string name="login_name">Login email</string>
     <string name="login_password">Password</string>
     <string name="name">Name</string>
     <string name="post">Post</string>
@@ -92,4 +92,12 @@
     <string name="notification7DaysTitle">Donation time reminder</string>
     <string name="post_dialog_add">Add</string>
     <string name="post_dialog_cancel">Cancel</string>
+    <string name="previous">Prev</string>
+    <string name="finish">Finish</string>
+    <string name="slide_desc_posts">Add post by tapping on \"+\" in Action bar</string>
+    <string name="slide_desc_list">Deleting list with swipe to left gesture</string>
+    <string name="slide_desc_gelocation">Localization is for better navigation in places</string>
+    <string name="slide_head_gelocation">Allow acces to location</string>
+    <string name="slide_head_list">Manage your list</string>
+    <string name="slide_head_post">Add new post!</string>
 </resources>
