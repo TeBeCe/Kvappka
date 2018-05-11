@@ -63,7 +63,7 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
     private ImageButton btn;
     private RecyclerView recyclerView;
     private PostsListAdapter mAdapter;
-    private String nameUser,content,bloodGroupUser;
+    private String nameUser,content,bloodGroupUser,userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,7 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
         SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         nameUser = getPreference.getString("userName","null");
         bloodGroupUser = getPreference.getString("bloodGroup","nul");
+        userId = getPreference.getString("userId","null");
         recyclerView = (RecyclerView)findViewById(R.id.postsListRecycleView);
 
         btn = (ImageButton)findViewById(R.id.toolbar_button_add);
@@ -132,12 +133,11 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
         Calendar notifyCalendar = Calendar.getInstance();
         notifyCalendar.add(Calendar.SECOND, 10);
 
-        PendingIntent pi = PendingIntent.getBroadcast(this, 69, nIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        if (android.os.Build.VERSION.SDK_INT >= 19) {
+        PendingIntent pi = PendingIntent.getBroadcast(this, 69, nIntent
+                , PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, notifyCalendar.getTimeInMillis(), pi);
 
-        }
+
     }
     public void addPost(){
         final Calendar addPostCal = new GregorianCalendar().getInstance();
@@ -153,7 +153,7 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
                     public void onClick(DialogInterface dialog, int which) {
                         PostEntity pE = new PostEntity();
                         content = String.valueOf(taskEditText.getText());
-                        volleyAddPost(content,"1",String.valueOf(addPostCal.getTimeInMillis()));
+                        volleyAddPost(content,userId,String.valueOf(addPostCal.getTimeInMillis()));
                         pE.setContent(content);
                         pE.setName(nameUser);
                         pE.setDate(addPostCal);
@@ -167,7 +167,7 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
         dialog.show();
     }
 
-    public  void  volleyAddPost(final String content,final String id,final String datex) {
+    public  void  volleyAddPost(final String content,final String userId,final String datex) {
         String url = "http://147.175.105.140:8013/~xbachratym/public/index.php/api/posts/add";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -189,7 +189,7 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("id_user","1");
+                params.put("id_user",userId);
                 params.put("content", content);
                 params.put("date", datex);
                 params.put("blood_group", bloodGroupUser);
@@ -304,6 +304,8 @@ public class PostsActivity extends AppCompatActivity implements NavigationView.O
             startActivity(myintent);
         } else if (id == R.id.nav_logout) {
             LoginManager.getInstance().logOut();
+            LogOutDisposeData logD = new LogOutDisposeData(this);
+            logD.makeDispose();
             Intent logOut = new Intent(PostsActivity.this,LoginActivity.class);
             logOut.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(logOut);

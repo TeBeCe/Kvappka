@@ -1,5 +1,7 @@
 package com.example.martin.login;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,14 +31,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.login.LoginManager;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.ByteArrayBuffer;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,29 +40,36 @@ import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-
+    private Calendar lastDon;
     private PopulateMedals populateMedals;
     private TextView nameView, emailView, profileName, profileBornView, profileBloodView, profileEmailView;
     TextView badgeLvl1Num,badgeLvl2Num,badgeLvl3Num,badgeLvl4Num,badgeLvl5Num;
     TextView badgeLvl1Date,badgeLvl2Date,badgeLvl3Date,badgeLvl4Date,badgeLvl5Date;
+    String userId;
     TextView countDonations,lastDonation,daysToDonate;
     private ImageView headerImg;
     private int[] manBadges;
     private int[] womanBadges;
     private List<Calendar> donationList = new ArrayList<>();
+    private ImageView imageViewProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_drawer);
         SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        userId = getPreference.getString("userId","null");
+        imageViewProfile = findViewById(R.id.circularImage);
+
 
         badgeLvl1Num = (TextView) findViewById(R.id.badgeLvl1Number);
         badgeLvl2Num = (TextView) findViewById(R.id.badgeLvl2Number);
@@ -101,8 +103,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 .setChecked(true);
         View header = navigationView
                 .getHeaderView(0);
-
-
+        notificationPosts();
+        SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
         //Json = postData("");
         //contactList = decodeJson(Json);
         nameView = (TextView) header.findViewById(R.id.nameDrawer1);
@@ -119,24 +121,54 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         profileName.setText(getPreference.getString("userName","error_no_name"));
         profileEmailView.setText(getPreference.getString("email","error_no_mail"));
-        profileBornView.setText(getPreference.getString("birthDate","error_no_birthday"));
+        String time = getPreference.getString("birthDate","0");
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(Long.valueOf(time));
+        profileBornView.setText(format1.format(calendar.getTime()));
         profileBloodView.setText(getPreference.getString("bloodGroup","error_no_blood_group"));
 
         Context context = getApplicationContext();
         populateMedals = new PopulateMedals(context);
         volleyGetDonationsToPopulate(getPreference.getString("id","null"));
-
+        //notification();
         try {
             Bitmap bitmap = BitmapFactory.decodeStream(context.openFileInput("myProfile"));
             headerImg.setImageBitmap(bitmap);
+            imageViewProfile.setImageBitmap(bitmap);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
+    public void notificationPosts(){
+        Intent nIntent = new Intent(ProfileActivity.this,AlarmReceiver.class);
+        Calendar calenderPost = Calendar.getInstance();
+        calenderPost.set(Calendar.HOUR_OF_DAY,11);
+        calenderPost.set(Calendar.MINUTE,30);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        PendingIntent pi = PendingIntent.getBroadcast(this, 96, nIntent
+                , PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calenderPost.getTimeInMillis(),1000*60*60*24, pi);
+    }
+
+    public void notification(Calendar notifyCalendar){
+        Intent nIntent = new Intent(ProfileActivity.this,AlarmReceiver.class);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        notifyCalendar = Calendar.getInstance();
+        notifyCalendar.add(Calendar.MONTH,2);
+        notifyCalendar.add(Calendar.DAY_OF_YEAR,23);
+        notifyCalendar.set(Calendar.HOUR_OF_DAY, 9);
+        System.out.println(notifyCalendar.getTime().toString());
+
+        PendingIntent pi = PendingIntent.getBroadcast(this, 69, nIntent
+                , PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, notifyCalendar.getTimeInMillis(), pi);
+    }
+
     public  void  volleyGetDonationsToPopulate(final String id) {
-        String url = "http://147.175.105.140:8013/~xbachratym/public/index.php/api/donations/"+id;
-        StringRequest postRequest = new StringRequest(Request.Method.GET, url,
+        String url = "http://147.175.105.140:8013/~xbachratym/public/index.php/api/donations/"+userId;
+        final StringRequest postRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -168,6 +200,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         populateMedals.populateMedals(badgeLvl1Num,badgeLvl2Num,badgeLvl3Num,badgeLvl4Num
                                 ,badgeLvl5Num,badgeLvl1Date,badgeLvl2Date,badgeLvl3Date,badgeLvl4Date,badgeLvl5Date,
                                 daysToDonate,lastDonation,countDonations,donationList);
+                        notification(populateMedals.getLastDonate());
                     }
                 },
                 new Response.ErrorListener() {
@@ -251,9 +284,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(myIntent);
         } else if (id == R.id.nav_logout) {
             LoginManager.getInstance().logOut();
+            LogOutDisposeData logD = new LogOutDisposeData(this);
+            logD.makeDispose();
             Intent logOut = new Intent(this,
                     LoginActivity.class);
             logOut.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //mEditor.putBoolean("loggedIn",true);
+            //mEditor.apply();
             startActivity(logOut);
             finish();
         }

@@ -29,56 +29,10 @@ public class OnBoardingActivity extends AppCompatActivity implements View.OnClic
     private int mCurrentPage;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_on_boarding);
-        sliderAdapter = new SliderAdapter(this);
-        mSlideViewPager = (ViewPager) findViewById(R.id.slideViewPager);
-        mDotLayout = (LinearLayout) findViewById(R.id.dotsLayout);
-
-        mSlideViewPager.setAdapter(sliderAdapter);
-
-        addDotsIndicator(0);
-        mSlideViewPager.addOnPageChangeListener(viewListener);
-
-        mNextButton = (Button) findViewById(R.id.Next);
-        mNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mSlideViewPager.setCurrentItem(mCurrentPage+1);
-            }
-        });
-
-        mPrevButton = (Button) findViewById(R.id.Prev);
-        mPrevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mSlideViewPager.setCurrentItem(mCurrentPage-1);
-            }
-        });
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mEditor = mSharedPreferences.edit();
-    }
-    public void addDotsIndicator(int position){
-        mDots = new TextView[3];
-        mDotLayout.removeAllViews();
-        for(int i=0; i < mDots.length;i++) {
-            mDots[i] = new TextView(this);
-            mDots[i].setText(Html.fromHtml("&#8226"));
-            mDots[i].setTextSize(50);
-            mDots[i].setTextColor(getResources().getColor(R.color.mainRed));
-            mDotLayout.addView(mDots[i]);
-        }
-        if(mDots.length > 0){
-            mDots[position].setTextColor(getResources().getColor(R.color.black));
-        }
-    }
 
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
         }
 
         @Override
@@ -135,6 +89,53 @@ public class OnBoardingActivity extends AppCompatActivity implements View.OnClic
 
         }
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_on_boarding);
+        sliderAdapter = new SliderAdapter(this);
+        mSlideViewPager = (ViewPager) findViewById(R.id.slideViewPager);
+        mDotLayout = (LinearLayout) findViewById(R.id.dotsLayout);
+
+        mSlideViewPager.setAdapter(sliderAdapter);
+
+        addDotsIndicator(0);
+        mSlideViewPager.addOnPageChangeListener(viewListener);
+
+        mNextButton = (Button) findViewById(R.id.Next);
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSlideViewPager.setCurrentItem(mCurrentPage+1);
+            }
+        });
+
+        mPrevButton = (Button) findViewById(R.id.Prev);
+        mPrevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSlideViewPager.setCurrentItem(mCurrentPage-1);
+            }
+        });
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
+    }
+
+    public void addDotsIndicator(int position){
+        mDots = new TextView[3];
+        mDotLayout.removeAllViews();
+        for(int i=0; i < mDots.length;i++) {
+            mDots[i] = new TextView(this);
+            mDots[i].setText(Html.fromHtml("&#8226"));
+            mDots[i].setTextSize(50);
+            mDots[i].setTextColor(getResources().getColor(R.color.mainRed));
+            mDotLayout.addView(mDots[i]);
+        }
+        if(mDots.length > 0){
+            mDots[position].setTextColor(getResources().getColor(R.color.black));
+        }
+    }
 
     @Override
     public void onClick(View view) {

@@ -97,7 +97,32 @@
     <string name="slide_desc_posts">Add post by tapping on \"+\" in Action bar</string>
     <string name="slide_desc_list">Deleting list with swipe to left gesture</string>
     <string name="slide_desc_gelocation">Localization is for better navigation in places</string>
-    <string name="slide_head_gelocation">Allow acces to location</string>
+    <string name="slide_head_gelocation">Allow access to location</string>
     <string name="slide_head_list">Manage your list</string>
     <string name="slide_head_post">Add new post!</string>
+    <string name="notificationPostTitle">Hello! Check new posts</string>
+    <string name="notificationPostContent">Lets see whats new</string>
+
+    <string-array name="bloodGroupsArray">
+        <item>A</item>
+        <item>B</item>
+        <item>AB</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="donationPlacesArray">
+        <item>Bratislava - Kramáre</item>
+        <item>Bratislava - Ružinov</item>
+        <item>Bánska Bystrica</item>
+        <item>Košice</item>
+        <item>Martin</item>
+        <item>Nitra</item>
+        <item>Nové zámky</item>
+        <item>Poprad</item>
+        <item>Prešov</item>
+        <item>Trenčín</item>
+        <item>Trnava</item>
+        <item>Žilina</item>
+    </string-array>
+
 </resources>

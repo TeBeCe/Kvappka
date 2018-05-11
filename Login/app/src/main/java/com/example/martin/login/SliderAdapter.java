@@ -52,17 +52,14 @@ public class SliderAdapter extends PagerAdapter {
         TextView headingTextView = (TextView) view.findViewById(R.id.slideHeading);
         TextView descTextView = (TextView) view.findViewById(R.id.slideDesc);
         slideImageView.setImageResource(slide_imgs[position]);
-        switch (position){
-            case 0:
-                descTextView.setText(R.string.slide_desc_list);
-                headingTextView.setText(R.string.slide_head_list);
-            case 1:
-                descTextView.setText(R.string.slide_desc_posts);
-                headingTextView.setText(R.string.slide_head_post);
-            case 2:
-                descTextView.setText(R.string.slide_desc_gelocation);
-                headingTextView.setText(R.string.slide_head_gelocation);
-        }
+        int[] slide_headings = {R.string.slide_head_post
+                ,R.string.slide_head_list
+                ,R.string.slide_head_gelocation};
+        int[] slide_desc = {R.string.slide_desc_posts
+                ,R.string.slide_desc_list
+                ,R.string.slide_desc_gelocation};
+        headingTextView.setText(context.getString(slide_headings[position]));
+        descTextView.setText(slide_desc[position]);
         container.addView(view);
         return view;
     }

@@ -66,6 +66,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
         validateButton = (Button)findViewById(R.id.newUserUpdateButton);
         validateButton.setOnClickListener(this);
         shake = AnimationUtils.loadAnimation(this,R.anim.shake);
+        bloodGroupSpinner = (Spinner) findViewById(R.id.spinnerBloodGroups);
 
         //initialize data
         email = getPreference.getString("email","null");
@@ -85,7 +86,6 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         myCalendar = Calendar.getInstance();
-
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -154,7 +154,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 
-            bloodGroupSpinner = (Spinner) findViewById(R.id.spinnerBloodGroups);
+
             mEditor.putString("bloodGroup", bloodGroupSpinner.getSelectedItem().toString());
             mEditor.putString("userName", newUserName.getText().toString());
             mEditor.apply();
@@ -211,6 +211,7 @@ public class NewUserActivity extends AppCompatActivity implements View.OnClickLi
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(postRequest);
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){

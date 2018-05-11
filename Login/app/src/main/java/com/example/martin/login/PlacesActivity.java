@@ -60,7 +60,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
     JSONArray jsonArray;
     ArrayList<LatLng> markersArrayList = new ArrayList<>();
     JSONObject tappedMarker;
-    TextView fromD1, fromD2, fromD3, fromD4, fromD5;
+    TextView fromD1, fromD2, fromD3, fromD4, fromD5,phone;
     TextView toD1, toD2, toD3, toD4, toD5, toD6;
 
     @Override
@@ -101,7 +101,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
         name = (TextView) findViewById(R.id.placesTxtName);
         address = (TextView) findViewById(R.id.placesTxtAddress);
         mail = (TextView) findViewById(R.id.placesTxtEmail);
-        webLink = (TextView) findViewById(R.id.placesTxtWebSite);
+        phone = (TextView) findViewById(R.id.placesTxtPhone);
         fromD1 = (TextView) findViewById(R.id.openedTimeFrom1);
         fromD2 = (TextView) findViewById(R.id.openedTimeFrom2);
         fromD3 = (TextView) findViewById(R.id.openedTimeFrom3);
@@ -329,8 +329,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Toast toast = Toast.makeText(getApplicationContext(), marker.getId(), Toast.LENGTH_SHORT);
-        toast.show();
+
         int position = Integer.valueOf(marker.getId().substring(1, marker.getId().length()));
         try {
             tappedMarker = jsonArray.getJSONObject(position);
@@ -349,6 +348,7 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
             name.setText(jsonObject.getString("name"));
             address.setText(jsonObject.getString("address"));
             mail.setText(jsonObject.getString("web"));
+            phone.setText(jsonObject.getString("phone"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude")), 13.0f));
             JSONObject day = openingH.getJSONObject(0);
             fromD1.setText(day.getString("open_time"));
@@ -431,6 +431,8 @@ public class PlacesActivity extends AppCompatActivity implements OnMapReadyCallb
 
         } else if (id == R.id.nav_logout) {
             LoginManager.getInstance().logOut();
+            LogOutDisposeData logD = new LogOutDisposeData(this);
+            logD.makeDispose();
             Intent logOut = new Intent(PlacesActivity.this,LoginActivity.class);
             logOut.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(logOut);

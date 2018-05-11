@@ -93,5 +93,33 @@
     <string name="slide_head_post">Pridajte príspevok!</string>
     <string name="slide_head_list">Editujte si svoj zooznam darovaní</string>
     <string name="slide_head_gelocation">Povoľte lokalizačné služby</string>
+    <string name="notification7DaysContent">Už o 7 dní môžete ísť darovať krv!</string>
+    <string name="notification7DaysTitle">Pripomienka darovania</string>
+    <string name="notification1DaysTitle">Pripomienka darovania</string>
+    <string name="notificationPostTitle">Ahoj!Pozri nové príspevky</string>
+    <string name="notificationPostContent">Príď sa pozrieť čo je nové</string>
+    <string name="notification1DaysContent">Už o 1 deň môžete ísť darovať krv!</string>
+    <string name="previous">Pred</string>
+    <string name="finish">Dokončiť</string>
+    <string-array name="bloodGroupsArray">
+        <item>A</item>
+        <item>B</item>
+        <item>AB</item>
+        <item>0</item>
+    </string-array>
+    <string-array name="donationPlacesArray">
+        <item>Bratislava - Kramáre</item>
+        <item>Bratislava - Ružinov</item>
+        <item>Bánska Bystrica</item>
+        <item>Košice</item>
+        <item>Martin</item>
+        <item>Nitra</item>
+        <item>Nové zámky</item>
+        <item>Poprad</item>
+        <item>Prešov</item>
+        <item>Trenčín</item>
+        <item>Trnava</item>
+        <item>Žilina</item>
+    </string-array>
 
 </resources>

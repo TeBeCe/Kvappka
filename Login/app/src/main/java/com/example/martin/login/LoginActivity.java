@@ -1,8 +1,12 @@
 package com.example.martin.login;
 
 import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -15,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +56,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -62,20 +70,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "LoginActivity";
     private String userId, firstName,lastName,email, birthday,gender;
-    Button btn;
-    EditText usr, psd;
+    private Button btn;
+    private EditText usr, psd;
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private GoogleSignInAccount account;
     private Animation shake;
-    AccessTokenTracker accessTokenTracker;
-    private URL profilePicture;
+    private AccessTokenTracker accessTokenTracker;
+    private String profilePicture;
     private TextView registerText;
-    LoginButton loginButton;
-    TextView textViewFb;
-    CallbackManager callbackManager;
-    SharedPreferences getPreference;
-    SharedPreferences.Editor mEditor;
+    private LoginButton loginButton;
+    private TextView textViewFb;
+    private CallbackManager callbackManager;
+    private SharedPreferences getPreference;
+    private SharedPreferences.Editor mEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +96,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         getPreference = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         mEditor = getPreference.edit();
+
+        if(getPreference.getBoolean("loggedIn",false)){
+            Intent intent= new Intent(LoginActivity.this,ProfileActivity.class);
+            startActivity(intent);
+            finish();
+        }
         if(AccessToken.getCurrentAccessToken()!=null){
             Intent intent = new Intent(  LoginActivity.this,ProfileActivity.class);
             intent.putExtra("loginType","Facebook");
             startActivity(intent);
+            finish();
         }
 
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
@@ -134,7 +149,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                         try {
                             userId = object.getString("id");
-                            profilePicture = new URL("https://graph.facebook.com/" + userId + "/picture?width=500&height=500");
+                            profilePicture = "https://graph.facebook.com/" + userId + "/picture?width=250&height=250";
                             if(object.has("first_name"))
                                 firstName = object.getString("first_name");
                             if(object.has("last_name"))
@@ -145,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 birthday = object.getString("birthday");
                             if (object.has("gender"))
                                 gender = object.getString("gender");
-
+                            new LoginActivity.DownloadImageTask().execute(profilePicture);
                             mEditor.putString("fbId","null");
                             mEditor.apply();
                             if(getPreference.getString("fbId","null").equals("null")){
@@ -156,26 +171,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 mEditor.putString("gender",gender);
                                 mEditor.putString("birthDate",birthday);
                                 mEditor.apply();
-                                Toast.makeText(getApplicationContext(),userId , Toast.LENGTH_LONG).show();
-                                newUserActivity("Facebook");
-                                finish();
+
+                                volleyGetFacebookAlreadyVerified(userId);
+
                             }
                             else {
                                 oldUserActivity("Facebook");
                                 finish();
                             }
-                            //Intent main = new Intent(LoginActivity.this,MainActivity.class);
-                            //main.putExtra("name",firstName);
-                            //main.putExtra("surname",lastName);
-                            //main.putExtra("imageUrl",profilePicture.toString());
-                            //startActivity(main);
-                            //finish();
-                            Toast.makeText(getApplicationContext(),firstName + lastName
-                                    + email + birthday + gender , Toast.LENGTH_LONG).show();
 
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (MalformedURLException e) {
                             e.printStackTrace();
                         }
                     }
@@ -197,32 +202,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
 
 
-
-
         });
 
-// basic login begin
         usr = (EditText) findViewById(R.id.usr);
         psd = (EditText) findViewById(R.id.psd);
         btn = (Button) findViewById(R.id.btn);
-//basic login end
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoginManager.getInstance().logOut();
                 volleyVerifyCustomLogin(usr.getText().toString(),psd.getText().toString());
-                /*if (usr.getText().toString().equals("Admin") && psd.getText().toString().equals("password")) {
-                    Toast.makeText(getApplicationContext(), "Login Successfull", Toast.LENGTH_SHORT).show();*/
-                    //Intent myintent = new Intent(LoginActivity.this,
-                      //      LoggedActivity.class);
-                    //myintent.putExtra("loginType","sss");
-                    //startActivity(myintent);
-
-
-                /*} else {
-                    findViewById(R.id.usr).startAnimation(shake);
-                    findViewById(R.id.psd).startAnimation(shake);
-                }*/
             }
         });
     }
@@ -245,24 +234,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         startActivity(myintent);
 
     }
-    // [START signIn]
-   /* private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }*/
-
-    // [START revokeAccess]
-   /* private void revokeAccess() {
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        updateUI(false);
-                        // [END_EXCLUDE]
-                    }
-                });
-    }*/
 
     // [START onActivityResult]
     @Override
@@ -294,10 +265,23 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
     // [END handleSignInResult]
 
+    public String createImageFromBitmap(Bitmap bitmap) {
+        String fileName = "myProfile";//no .png or .jpg needed
+        try {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            FileOutputStream fo = openFileOutput(fileName, Context.MODE_PRIVATE);
+            fo.write(bytes.toByteArray());
+            // remember close file output
+            fo.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fileName = null;
+        }
+        return fileName;
+    }
     private void updateUI(boolean signedIn) {
         if (signedIn) {
-            //findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            //findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
             System.out.println("si");
             Intent myintent = new Intent(this,
                     LoggedActivity.class);
@@ -306,11 +290,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             myintent.putExtra("displaymail", account.getEmail());
             myintent.putExtra("displayid", account.getId());
             startActivity(myintent);
-        } else {
-            //mStatusTextView.setText(R.string.signed_out);
-
-            //findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            //findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
     }
     public  void  volleyVerifyCustomLogin(final String email,final String password) {
@@ -320,29 +299,33 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onResponse(String response) {
                         // response
-                        try {
+                            try {
                             JSONArray jsonArray = new JSONArray(response);
                             JSONObject jsonObject = jsonArray.getJSONObject(0);
-                            if(jsonObject.length()==5){
+                            if(jsonObject.length()==6){
                                 mEditor.putBoolean("loggedIn",true);
                                 mEditor.putString("userId",jsonObject.getString("id"));
                                 mEditor.putString("userName",jsonObject.getString("first_name"));
                                 mEditor.putString("email",jsonObject.getString("email"));
                                 mEditor.putString("gender",jsonObject.getString("gender"));
                                 mEditor.putString("birthDate",jsonObject.getString("birth_day"));
+                                mEditor.putString("bloodGroup",jsonObject.getString("blood_group"));
+                                mEditor.apply();
 
                                 Intent myintent = new Intent(LoginActivity.this,
                                               ProfileActivity.class);
                                         startActivity(myintent);
                             }
-                            //Toast.makeText(getApplicationContext(), String.valueOf(jsonObject.length()) , Toast.LENGTH_LONG).show();
+                            else{
+                                findViewById(R.id.usr).startAnimation(shake);
+                                findViewById(R.id.psd).startAnimation(shake);
+                                btn.startAnimation(shake);
 
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         Log.d("Response", response);
-
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -359,7 +342,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("email", email);
                 params.put("password", password);
-
                 return params;
             }
         };
@@ -379,13 +361,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             for (int i=0; i < jArray.length(); i++)
                             {
                                 try {
-                                    JSONObject oneObject = jArray.getJSONObject(i);
+                                    JSONObject oneObject = jArray.getJSONObject(0);
+                                    if(oneObject.has("facebook_id")){
+                                        mEditor.putString("fbId",userId);
+                                        mEditor.putBoolean("loggedIn",true);
+                                        mEditor.putString("userName",oneObject.getString("first_name"));
+                                        mEditor.putString("email",oneObject.getString("email"));
+                                        mEditor.putString("gender",oneObject.getString("gender"));
+                                        mEditor.putString("birthDate",oneObject.getString("birth_day"));
+                                        mEditor.putString("userId",oneObject.getString("id"));
+                                        mEditor.putString("bloodGroup",oneObject.getString("blood_group"));
+                                        mEditor.apply();
+                                        Toast.makeText(getApplicationContext(),"loggedAsOldFBUser" , Toast.LENGTH_LONG).show();
+                                        oldUserActivity("Facebook");
+                                        finish();
+                                    }
+                                    else {newUserActivity("Facebook");
+                                        finish();}
                                     // Pulling items from the array
-                                    String oneObjectsItem = oneObject.getString("location");
-                                    String oneObjectsItem2 = oneObject.getString("date");
-
                                 } catch (JSONException e) {
-                                    // Oops
+                                    e.printStackTrace();
                                 }
 
                             }
@@ -420,5 +415,29 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
 
+        public DownloadImageTask() {
+
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            createImageFromBitmap(result);
+        }
+    }
 }

@@ -53,7 +53,13 @@
                 android:autoLink="email"
                 android:paddingBottom="5dp"
                 android:text="kramarents@ntssr.sk" />
-
+            <TextView
+                android:id="@+id/placesTxtPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:text="+421 2 5910 3026"
+                android:autoLink="phone"/>
             <TextView
                 android:id="@+id/openedTimeTableHead"
                 android:layout_width="match_parent"
@@ -180,13 +186,7 @@
                 </TableRow>
             </TableLayout>
 
-            <TextView
-                android:id="@+id/placesTxtWebSite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:text="http://www.google.com"
-                android:autoLink="web"/>
+
 
         </LinearLayout>
     </ScrollView>

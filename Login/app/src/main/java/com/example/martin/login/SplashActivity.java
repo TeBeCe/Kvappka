@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+
 
 import com.facebook.share.Share;
 
@@ -17,15 +17,15 @@ import java.util.Locale;
 
 public class SplashActivity extends AppCompatActivity {
     private TextFieldsClass textFieldsClass;
+    private SharedPreferences getPreference;
+    private SharedPreferences.Editor mEditor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_splash);
-        SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
+        getPreference = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        mEditor = getPreference.edit();
         String langPref = getPreference.getString("languagePref", "xxx");
-        // Toast toast = Toast.makeText(getApplicationContext(), langPref, Toast.LENGTH_SHORT);
-        //toast.show();
 
         if (langPref.equals("0")) {
             changeLang("sk");
@@ -33,16 +33,7 @@ public class SplashActivity extends AppCompatActivity {
             changeLang("en");
         }
 
-        SharedPreferences sharedPreferences = getSharedPreferences("onBoardBoolean",MODE_PRIVATE);
-        SharedPreferences.Editor mEditor = sharedPreferences.edit();
-        mEditor.putBoolean("alreadyOnBoarded",false);
-        mEditor.apply();
-        sharedPreferences = getSharedPreferences("onBoardBoolean",MODE_PRIVATE);
-        if(!sharedPreferences.getBoolean("alreadyOnBoarded",false)){
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    sharedPreferences.getBoolean("alreadyOnBoarded",false)+"", Toast.LENGTH_SHORT);
-            toast.show();
-
+        if(!getPreference.getBoolean("alreadyOnBoarded",false)){
             Intent intent1 = new Intent(this, OnBoardingActivity.class);
             startActivity(intent1);
             finish();
@@ -54,7 +45,6 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-
     public void changeLang(String lang) {
         if (lang.equalsIgnoreCase(""))
             return;
@@ -64,12 +54,5 @@ public class SplashActivity extends AppCompatActivity {
         config.locale = myLocale;
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
-    }
-
-    public void setNotificationReminderDonate(){
-        textFieldsClass = new TextFieldsClass();
-
-        //textFieldsClass.getClosestPossibleDonation();
-
     }
 }

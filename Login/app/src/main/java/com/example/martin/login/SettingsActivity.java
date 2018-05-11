@@ -226,6 +226,8 @@ public class SettingsActivity extends AppCompatActivity
             startActivity(myintent);
         } else if (id == R.id.nav_logout) {
             LoginManager.getInstance().logOut();
+            LogOutDisposeData logD = new LogOutDisposeData(this);
+            logD.makeDispose();
             Intent logOut = new Intent(this,
                     LoginActivity.class);
             logOut.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

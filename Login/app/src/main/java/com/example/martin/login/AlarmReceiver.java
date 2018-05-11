@@ -31,10 +31,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent notificationIntent = new Intent(context, ProfileActivity.class);
 
         SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Boolean langPref = getPreference.getBoolean("allowNotifyPref", false);
-          Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(langPref), Toast.LENGTH_SHORT);
+        Boolean notifyPref = getPreference.getBoolean("allowNotifyPref", false);
+          Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(notifyPref), Toast.LENGTH_SHORT);
           toast.show();
-        if (android.os.Build.VERSION.SDK_INT > 16) {
+
             TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
             taskStackBuilder.addParentStack(SplashActivity.class);
             taskStackBuilder.addNextIntent(notificationIntent);
@@ -62,7 +62,19 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationManagerPosts.createNotificationChannel(mChannelPosts);
             }
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "donateTime")
+            NotificationCompat.Builder mBuilderPost = new NotificationCompat.Builder(context,"PostChannel")
+                    .setSmallIcon(R.drawable.logo)
+                    .setContentTitle(getApplicationContext().getResources().getString(R.string.notificationPostTitle))
+                    .setContentText(getApplicationContext().getResources().getString(R.string.notificationPostContent))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            mBuilderPost.setAutoCancel(true);
+            PendingIntent pendingIntentPost = taskStackBuilder.getPendingIntent(96,PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationManagerCompat notificationManagerPost = NotificationManagerCompat.from(context);
+            mBuilderPost.setContentIntent(pendingIntentPost);
+            if(notifyPref)
+            notificationManagerPost.notify(96,mBuilderPost.build());
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "ReminderChannel")
                     .setSmallIcon(R.drawable.logoplus)
                     .setContentTitle(getApplicationContext().getResources().getString(R.string.notification7DaysTitle))
                     .setContentText(getApplicationContext().getResources().getString(R.string.notification7DaysContent))
@@ -72,18 +84,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(69,PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
             mBuilder.setContentIntent(pendingIntent);
-            /*Notification.Builder builder = new Notification.Builder(context);
-            Notification notification = builder.setAutoCancel(true)
-                    .setContentTitle("DEMO")
-                    .setContentText("test test test")
-                    .setTicker("DEmo")
-                    .setAutoCancel(true)
-                    .setSmallIcon(R.drawable.logo)
-                    .setContentIntent(pendingIntent).build();
-
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);*/
+            if(notifyPref)
             notificationManager.notify(69,mBuilder.build());
 
-        }
+
     }
 }

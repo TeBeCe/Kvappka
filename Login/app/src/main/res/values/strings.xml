@@ -134,7 +134,9 @@
     <string name="slide_desc_posts">Add post by tapping on \"+\" in Action bar</string>
     <string name="slide_desc_list">Deleting list with swipe to left gesture</string>
     <string name="slide_desc_gelocation">Localization is for better navigation in places</string>
-    <string name="slide_head_gelocation">Allow acces to location</string>
+    <string name="slide_head_gelocation">Allow access to location</string>
     <string name="slide_head_list">Manage your list</string>
     <string name="slide_head_post">Add new post!</string>
+    <string name="notificationPostTitle">Hello! Check new posts</string>
+    <string name="notificationPostContent">Lets see whats new</string>
 </resources>

@@ -1,25 +1,16 @@
 package com.example.martin.login;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,16 +28,16 @@ import static java.util.Calendar.YEAR;
 
 public class PopulateMedals extends ProfileActivity {
 
-    //TextView badgeLvl1Num,badgeLvl2Num,badgeLvl3Num,badgeLvl4Num,badgeLvl5Num;
-    //TextView badgeLvl1Date,badgeLvl2Date,badgeLvl3Date,badgeLvl4Date,badgeLvl5Date;
-    SharedPreferences sharedPreferences;
-    int[] manBadges, womanBadges;
-    List<Calendar> donationList = new ArrayList<>();
-
-    Context context;
-    TextView profileTest;
-    Long lastDonate;
+    private SharedPreferences sharedPreferences;
+    private int[] manBadges, womanBadges;
+    private List<Calendar> donationList = new ArrayList<>();
+    private Context context;
+    private TextView profileTest;
+    private Long lastDonate;
     private final String LASTDONATIONDATE = "lastDonationDate";
+    private String test;
+    private Calendar calendar = new GregorianCalendar().getInstance();
+    private Calendar calendarLast = new GregorianCalendar().getInstance();
 
     public PopulateMedals(Context context) {
         this.context = context;
@@ -62,25 +53,22 @@ public class PopulateMedals extends ProfileActivity {
         SharedPreferences getPreference = PreferenceManager.getDefaultSharedPreferences(context);
         //Long lastDonate = getPreference.getLong(LASTDONATIONDATE, 0);
         if(donationList.size()>0){
-
             lastDonate = donationList.get(donationList.size() - 1).getTimeInMillis();
         }
         else{
             lastDonate = new GregorianCalendar().getInstance().getTimeInMillis();
-
         }
 
         int numberOfDonations = donationList.size();
 
         String gender = getPreference.getString("gender", "null");
         Collections.sort(donationList);
-        Calendar calendar = new GregorianCalendar().getInstance();
         calendar.setTimeInMillis(lastDonate);
+        calendarLast.setTimeInMillis(lastDonate);
         SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
         SimpleDateFormat formatShort = new SimpleDateFormat("dd.MM.yy");
 
 
-        //daysToDonate.setText("xxx");
         manBadges = new int[]{10, 20, 40, 80, 100};
         womanBadges = new int[]{10, 20, 30, 60, 80};
 
@@ -98,9 +86,14 @@ public class PopulateMedals extends ProfileActivity {
             }
             else{
                 lastDonationDateOffset.setTimeInMillis(donationList.get(donationList.size() - 1).getTimeInMillis());
+                countDonations.setText(String.valueOf(numberOfDonations));
+                lastDonation.setText(formatShort.format(calendar.getTime()));
+
             }
+            System.out.println(lastDonationDateOffset.getTime().toString());
             lastDonationDateOffset.add(Calendar.MONTH, 3);
-            lastDonationDateOffset.set(Calendar.HOUR, 8);
+            lastDonationDateOffset.set(Calendar.HOUR_OF_DAY, 8);
+            System.out.println(lastDonationDateOffset.getTime().toString());
             if (Calendar.getInstance().before(lastDonationDateOffset)) {
 
 
@@ -123,16 +116,18 @@ public class PopulateMedals extends ProfileActivity {
                 months = manBadges[0] - numberOfDonations;
                 Calendar closestWithOffset = calendar;
                 closestWithOffset.add(Calendar.MONTH, monthsToAdd);
+                System.out.println("mnths: "+ months+"monthstoadd: "+monthsToAdd + " lastoffset: " +lastDonationDateOffset.getTime().toString());
                 badgeLvl1Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
 
             if (numberOfDonations >= manBadges[1]) {
                 badgeLvl2Date.setText(format1.format(donationList.get(19).getTime()));
             } else {
-                int monthsToAdd = (manBadges[1] - numberOfDonations - months) * 3;
+                int monthsToAdd = (manBadges[1] - numberOfDonations) * 3;
                 months = manBadges[1] - numberOfDonations;
                 Calendar closestWithOffset = donationList.get(donationList.size() - 1);
                 closestWithOffset.add(Calendar.MONTH, monthsToAdd);
+                System.out.println("mnths: "+ months+"monthstoadd: "+monthsToAdd + " lastoffset: " +lastDonationDateOffset.getTime().toString());
                 badgeLvl2Date.setText("> " + format1.format(closestWithOffset.getTime()));
             }
 
@@ -170,13 +165,37 @@ public class PopulateMedals extends ProfileActivity {
             badgeLvl3Num.setText(String.valueOf(manBadges[2]));
             badgeLvl4Num.setText(String.valueOf(manBadges[3]));
             badgeLvl5Num.setText(String.valueOf(manBadges[4]));
-        } else if (gender.equals("female")) {
 
+        } else if (gender.equals("female")) {
             Calendar lastDonationDateOffset = new GregorianCalendar().getInstance();
             //lastDonationDateOffset.setTimeInMillis(getPreference.getLong(LASTDONATIONDATE,0));
-            lastDonationDateOffset.setTimeInMillis(donationList.get(donationList.size() - 1).getTimeInMillis());
-            lastDonationDateOffset.add(Calendar.MONTH, 3);
-            lastDonationDateOffset.set(Calendar.HOUR, 8);
+            if(numberOfDonations == 0){
+                lastDonationDateOffset.setTimeInMillis(lastDonate);
+                countDonations.setText("0");
+                lastDonation.setText("--.--.--");
+                donationList.add(lastDonationDateOffset);
+            }
+            else{
+                lastDonationDateOffset.setTimeInMillis(donationList.get(donationList.size() - 1).getTimeInMillis());
+                countDonations.setText(String.valueOf(numberOfDonations));
+                lastDonation.setText(formatShort.format(calendar.getTime()));
+
+            }
+            System.out.println(lastDonationDateOffset.getTime().toString());
+            lastDonationDateOffset.add(Calendar.MONTH, 4);
+            lastDonationDateOffset.set(Calendar.HOUR_OF_DAY, 8);
+            System.out.println(lastDonationDateOffset.getTime().toString());
+            if (Calendar.getInstance().before(lastDonationDateOffset)) {
+
+
+                Calendar today = Calendar.getInstance();
+                calendar.set(Calendar.HOUR, 8);
+                long diff = lastDonationDateOffset.getTimeInMillis() - today.getTimeInMillis();
+                daysToDonate.setText(String.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)));
+                //toast.show();
+            } else {
+                daysToDonate.setText("0");
+            }
 
             if (Calendar.getInstance().before(lastDonationDateOffset)) {
 
@@ -245,7 +264,11 @@ public class PopulateMedals extends ProfileActivity {
             badgeLvl5Num.setText(String.valueOf(womanBadges[4]));
 
         }
+    }
+    public Calendar getLastDonate(){
 
+
+        return calendarLast;
     }
 
 

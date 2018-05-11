@@ -76,15 +76,18 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
     private String[] listItems;
     private List<DonationsEntity> donationsEntityList = new ArrayList<>();;
     private SimpleDateFormat format1= new SimpleDateFormat("dd.MM.yyyy");
-
+    private SharedPreferences sharedPreferences;
+    private String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donations);
         Toolbar toolbar = findViewById(R.id.toolbar_donate);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         emptyView = findViewById(R.id.emptyView);
         setSupportActionBar(toolbar);
-
+        userId = sharedPreferences.getString("userId","null");
         listItems = getResources().getStringArray(R.array.donationPlacesArray);
         mCalendar = Calendar.getInstance();
 
@@ -118,7 +121,7 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         recyclerView = findViewById(R.id.recycler_view);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
 
-        volleyGetDonations("1");
+        volleyGetDonations(userId);
 
         Collections.sort(donationsEntityList,Collections.reverseOrder());
 
@@ -160,7 +163,7 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
         }
     }
     public List<String> getStats(List<DonationsEntity> donationsEntityList) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         SharedPreferences.Editor mEditor = sharedPreferences.edit();
         if (donationsEntityList.size() == 0) {
             mEditor.putLong("lastDonationDate", sharedPreferences.getLong("birthDateLong", 0));
@@ -336,7 +339,7 @@ public class DonationsActivity extends AppCompatActivity implements View.OnClick
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("id","1");
+                params.put("id",userId);
                 params.put("location", location);
                 params.put("date", datex);
 
